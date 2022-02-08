@@ -1,0 +1,128 @@
+.wrap {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 2%;
+    background-color: #FAFAFA;
+    color: #24292F;
+    overflow: hidden;
+
+    .logo {
+        margin-bottom: 10px;
+        width: 100px;
+    }
+
+    .title {
+        font-size: 22px;
+        font-weight: 400;
+    }
+
+    .Modal {
+        width: 340px;
+        background-color: #FFFFFF;
+        border-radius: 4px;
+        border: 1px solid #DCDFE6;
+        box-shadow: 0px 0px 4px #DCDFE6;
+        margin-bottom: 20px;
+
+        .form {
+            margin: 32px 25px 20px 25px;
+            width: 290px;
+
+            .formItem {
+                margin-bottom: 12px;
+
+                .label {
+                    margin-bottom: 5px;
+                    font-size: 16px;
+
+                    .passwordHref {
+                        color: #409EFF;
+                        float: right;
+                        font-size: 14px;
+                        cursor: pointer;
+                    }
+                }
+
+                .input {
+
+                    input {
+                        width: 100%;
+                        border: 1px solid #DCDFE6;
+                        border-radius: 4px;
+                        background-color: none;
+                        height: 34px;
+                        box-shadow: 0px 0px 2px #DCDFE6;
+                        padding-left: 15px;
+                        font-size: 16px;
+
+                        &:focus {
+                            outline: none;
+                            box-shadow: 0px 0px 4px #409EFF;
+                        }
+                    }
+
+                    .error {
+                        box-shadow: 0px 0px 4px #F56C6C;
+
+                        &:focus {
+                            box-shadow: 0px 0px 4px #F56C6C;
+                        }
+                    }
+                }
+
+                .button {
+                    border-radius: 4px;
+                    margin: auto;
+                    margin-top: 20px;
+                    background-color: #389211;
+                    height: 40px;
+                    color: #FFF;
+                    font-size: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0s;
+
+                    &:hover {
+                        background-color: #30800e;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    .tip {
+        font-size: 16px;
+        width: 340px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 340;
+        border-radius: 4px;
+        border: 1px solid #DCDFE6;
+        box-shadow: 0px 0px 2px #DCDFE6;
+        background-color: #FFFFFF;
+
+        .href {
+            color: #409EFF;
+            font-weight: 380;
+            cursor: pointer;
+        }
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotateZ(0deg);
+    }
+
+    to {
+        transform: rotateZ(360deg);
+    }
+}

@@ -1,0 +1,66 @@
+.wrap {
+    display: flex;
+    min-height: 100vh;
+
+    .codeTips{
+        width: 100px;
+        background-color:#FFFFFF;
+
+        .tipWord{
+            width: 100%;
+            height: 22px;
+            padding-left:5px;
+            line-height: 22px;
+
+            &[data-select="true"]{
+                background-color: #434343;
+                color: #FFFFFF;
+            }
+        }
+    }
+
+    .aside {
+        width: 50%;
+    }
+
+    .codeWrap {
+        width: 50%;
+        background-color: #1f1f1f;
+        color: #61dafb;
+        font-size:16px;
+        padding: 20px;
+        height: 100vh;
+        display: flex;
+        font-weight: 600;
+
+        .codeIndex {
+            width: 5%;
+            height: 100%;
+            color: #f5f5f5;
+
+            .index {
+                width: 100%;
+                height: 24px;
+                text-align: center;
+            }
+        }
+
+        .codeContent {
+            width: 95%;
+            height: 100%;
+
+            .line {
+                width: 100%;
+                height: 27px;
+                padding-left: 8px;
+            }
+
+            input {
+                background-color: #262626;
+                outline: none;
+                border: none;
+                font-weight: 600;
+            }
+        }
+    }
+}
