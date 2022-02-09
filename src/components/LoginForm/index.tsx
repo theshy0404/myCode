@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import styles from './styles.module.css';
 import '../../App.css';
 import { inject, observer } from 'mobx-react';
@@ -19,6 +19,7 @@ type TState = {
 @inject('AuthStore')
 @observer
 class Login extends React.Component<any, TState>{
+  passwordInput = createRef<HTMLInputElement>();
 
   constructor(props: any) {
     super(props);
@@ -28,6 +29,11 @@ class Login extends React.Component<any, TState>{
         password: 'wsyghhz2000',
       },
     }
+    this.passwordInput = React.createRef();
+  }
+
+  componentDidMount() {
+    this.passwordInput.current&&this.passwordInput.current.focus();
   }
 
   handleChangeLoginValue(event: any, key: string): void {
@@ -94,7 +100,7 @@ class Login extends React.Component<any, TState>{
               </div>
             </div>
             <div className={styles.input}>
-              <input autoComplete="off" onChange={e => this.handleChangeLoginValue(e, 'password')} value={loginInfo.password} placeholder="if you forgot,click rightTop..." type="password"></input>
+              <input ref={this.passwordInput} autoComplete="off" onChange={e => this.handleChangeLoginValue(e, 'password')} value={loginInfo.password} placeholder="if you forgot,click rightTop..." type="password"></input>
             </div>
           </div>
           <div className={styles.formItem}>
