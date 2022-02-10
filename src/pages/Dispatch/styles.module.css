@@ -1,0 +1,136 @@
+.wrap {
+  min-height: 100vh;
+  background-color: #F6F8FA;
+}
+.wrap .header {
+  background-color: #FFFFFF;
+  display: flex;
+  padding: 0 120px;
+  font-size: 16px;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 1.5;
+  color: #ffffff;
+  height: 56px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.wrap .header .selection {
+  display: flex;
+  align-items: center;
+}
+.wrap .header .selection .logo {
+  display: flex;
+  align-items: center;
+  color: #24292f;
+  font-weight: 500;
+  font-size: 18px;
+}
+.wrap .header .selection .logo img {
+  height: 28px;
+  margin-right: 5px;
+}
+.wrap .header .nav {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  margin-left: 50px;
+}
+.wrap .header .nav .navtion {
+  padding: 0 18px;
+  height: 56px;
+  line-height: 56px;
+  color: rgba(36, 41, 47, 0.7);
+  transition: all 0.2s;
+}
+.wrap .header .nav .navtion:hover {
+  color: #24292f;
+  cursor: pointer;
+  border-bottom: 2px solid rgba(36, 41, 47, 0.2);
+}
+.wrap .header .nav .navtion[data-active=true] {
+  color: #24292f;
+  border-bottom: 2px solid #24292f;
+}
+.wrap .header .user {
+  display: flex;
+  align-items: center;
+}
+.wrap .header .user > div {
+  margin-right: 20px;
+}
+.wrap .header .user > div:last-child {
+  margin-right: 0px;
+}
+.wrap .header .user .icon {
+  color: #57606a;
+  font-size: 22px;
+}
+.wrap .header .user .icon:hover {
+  color: #24292f;
+}
+.wrap .header .user .user {
+  position: relative;
+}
+.wrap .header .user .user .userModal {
+  position: absolute;
+  background-color: #fff;
+  width: 200px;
+  top: 36px;
+  left: -150px;
+  border-radius: 4px;
+  border: 1px solid #f0f0f0;
+  border-color: transparent;
+  box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017;
+}
+.wrap .header .user .user .userModal .userHeader {
+  background-color: #F6F8FA;
+  border-bottom: 1px solid #e5e7eb;
+  color: #57606a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 12px 12px;
+}
+.wrap .header .user .user .userModal .userHeader .userName {
+  display: flex;
+  align-items: center;
+}
+.wrap .header .user .user .userModal .userHeader .loginButton {
+  width: 70px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.wrap .header .user .user .userModal .userHeader .loginButton:hover {
+  background-color: rgba(36, 41, 47, 0.8);
+  cursor: pointer;
+  color: #fff;
+}
+.wrap .header .user .user .userModal .userContent {
+  color: #24292f;
+}
+.wrap .header .user .user .userModal .userContent .item {
+  padding: 10px 12px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.wrap .header .user .user .userModal .userContent .item svg {
+  font-size: 22px;
+  margin-right: 20px;
+}
+.wrap .header .user .user .userModal .userContent .item:last-child {
+  border-top: 1px solid #e5e7eb;
+}
+.wrap .header .user .user .userModal .userContent .item[data-active=true] {
+  color: #4191ff;
+}
+.wrap .header .user .user .userModal .userContent .item:hover {
+  background-color: #4191ff;
+  color: #fff;
+  cursor: pointer;
+}
