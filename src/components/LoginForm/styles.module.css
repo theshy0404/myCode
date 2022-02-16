@@ -1,0 +1,62 @@
+.Modal {
+  width: 340px;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  border: 1px solid #DCDFE6;
+  box-shadow: 0px 0px 4px #DCDFE6;
+  margin-bottom: 20px;
+}
+.Modal .form {
+  margin: 32px 25px 20px 25px;
+  width: 290px;
+}
+.Modal .form .formItem {
+  margin-bottom: 12px;
+}
+.Modal .form .formItem .label {
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+.Modal .form .formItem .label .passwordHref {
+  color: #409EFF;
+  float: right;
+  font-size: 14px;
+  cursor: pointer;
+}
+.Modal .form .formItem .input input {
+  width: 100%;
+  border: 1px solid #DCDFE6;
+  border-radius: 4px;
+  background-color: none;
+  height: 34px;
+  box-shadow: 0px 0px 2px #DCDFE6;
+  padding-left: 15px;
+  font-size: 16px;
+}
+.Modal .form .formItem .input input:focus {
+  outline: none;
+  box-shadow: 0px 0px 4px #409EFF;
+}
+.Modal .form .formItem .input .error {
+  box-shadow: 0px 0px 4px #F56C6C;
+}
+.Modal .form .formItem .input .error:focus {
+  box-shadow: 0px 0px 4px #F56C6C;
+}
+.Modal .form .formItem .button {
+  border-radius: 4px;
+  margin: auto;
+  margin-top: 20px;
+  background-color: #2DA44E;
+  height: 40px;
+  color: #FFF;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0s;
+}
+.Modal .form .formItem .button:hover {
+  background-color: #2C974B;
+  cursor: pointer;
+}

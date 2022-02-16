@@ -1,0 +1,24 @@
+.count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.count .text[data-rankno=easy] {
+  color: #40a9ff;
+}
+.count .text[data-rankno=mid] {
+  color: #3f8600;
+}
+.count .text[data-rankno=diffcult] {
+  color: #ff4d4f;
+}
+.count .number {
+  color: rgba(36, 41, 47, 0.6);
+}
+.count .number .now {
+  color: #24292f;
+  font-size: 22px;
+}
+:global .ant-card-body {
+  padding: 12px;
+}

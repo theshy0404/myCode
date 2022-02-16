@@ -1,0 +1,91 @@
+.wrap {
+    margin: 20px 200px;
+    display: flex;
+    align-items: flex-start;
+    transition: all 0.2s;
+
+    .content {
+        width: 75%;
+
+        .setList {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+
+            .set {
+                background-color: #ffffff;
+                margin-right: 20px;
+                padding: 8px 16px;
+                border-radius: 2px;
+                border: 1px solid #d9d9d9;
+                box-shadow: 0px 2px 4px #f0f0f0;
+                .pointer();
+                transition: all 0.2s;
+                color: rgba(36, 41, 47, 0.8);
+                display: flex;
+                align-items: center;
+
+                .logo {
+                    width: 22px;
+                    margin-right: 10px;
+                }
+
+                &:hover {
+                    border-color: rgba(36, 41, 47, 0.3);
+                    color: #24292f;
+                }
+
+                &[data-active=true] {
+                    color: #fff;
+                    background-color: rgba(36, 41, 47, 0.9);
+                }
+            }
+        }
+
+        .labelList {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            flex-wrap: wrap;
+
+            .label {
+                .pointer();
+                margin-right: 20px;
+
+                &:hover {
+                    color: #1890ff;
+                }
+
+                &[data-active=true] {
+                    color: #1890ff;
+                }
+            }
+        }
+
+        :global .ant-table-thead>tr>th {
+            background-color: #fff;
+        }
+
+        :global .ant-table-thead>tr>th,
+        :global .ant-table-tbody>tr>td,
+        :global .ant-table tfoot>tr>th,
+        :global .ant-table tfoot>tr>td {
+            padding: 8px;
+            .pointer();
+        }
+
+        :global .ant-btn:hover,
+        :global .ant-btn:focus {
+            border-color: rgba(36, 41, 47, 0.5);
+            color: rgba(36, 41, 47, 0.9);
+        }
+    }
+
+    .aside {
+        width: 25%;
+    }
+}
+
+.pointer {
+    cursor: pointer;
+}
