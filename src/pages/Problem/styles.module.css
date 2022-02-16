@@ -1,0 +1,33 @@
+.wrap {
+  padding-top: 10px;
+  height: calc(100vh - 54px);
+  display: flex;
+  justify-content: space-between;
+}
+.wrap :global .ant-tabs-tab.ant-tabs-tab .ant-tabs-tab-btn {
+  color: #57606a;
+}
+.wrap :global .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #24292f;
+}
+.wrap :global .ant-tabs-top > .ant-tabs-nav,
+.wrap :global .ant-tabs-bottom > .ant-tabs-nav,
+.wrap :global .ant-tabs-top > div > .ant-tabs-nav,
+.wrap :global .ant-tabs-bottom > div > .ant-tabs-nav {
+  margin-bottom: 0px;
+}
+.wrap .tab {
+  background-color: #fff;
+  padding: 10px;
+  overflow: auto;
+  height: calc(100vh - 54px - 50px);
+}
+.wrap .notebook {
+  width: 49%;
+  position: relative;
+}
+.wrap .notebook .console {
+  position: absolute;
+  bottom: 50px;
+  width: 98%;
+}
