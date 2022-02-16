@@ -16,6 +16,7 @@ class AuthStore {
 
     constructor(){
         makeObservable(this);
+        this.isLogin = false;
     }
 
     @action doLogin(user:userInfo):void {
