@@ -1,0 +1,76 @@
+.wrap {
+  margin: 20px 200px;
+  display: flex;
+  align-items: flex-start;
+  transition: all 0.2s;
+}
+.wrap .content {
+  width: 75%;
+}
+.wrap .content .setList {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+.wrap .content .setList .set {
+  background-color: #ffffff;
+  margin-right: 20px;
+  padding: 8px 16px;
+  border-radius: 2px;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0px 2px 4px #f0f0f0;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: rgba(36, 41, 47, 0.8);
+  display: flex;
+  align-items: center;
+}
+.wrap .content .setList .set .logo {
+  width: 22px;
+  margin-right: 10px;
+}
+.wrap .content .setList .set:hover {
+  border-color: rgba(36, 41, 47, 0.3);
+  color: #24292f;
+}
+.wrap .content .setList .set[data-active=true] {
+  color: #fff;
+  background-color: rgba(36, 41, 47, 0.9);
+}
+.wrap .content .labelList {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+.wrap .content .labelList .label {
+  cursor: pointer;
+  margin-right: 20px;
+}
+.wrap .content .labelList .label:hover {
+  color: #1890ff;
+}
+.wrap .content .labelList .label[data-active=true] {
+  color: #1890ff;
+}
+.wrap .content :global .ant-table-thead > tr > th {
+  background-color: #fff;
+}
+.wrap .content :global .ant-table-thead > tr > th,
+.wrap .content :global .ant-table-tbody > tr > td,
+.wrap .content :global .ant-table tfoot > tr > th,
+.wrap .content :global .ant-table tfoot > tr > td {
+  padding: 8px;
+  cursor: pointer;
+}
+.wrap .content :global .ant-btn:hover,
+.wrap .content :global .ant-btn:focus {
+  border-color: rgba(36, 41, 47, 0.5);
+  color: rgba(36, 41, 47, 0.9);
+}
+.wrap .aside {
+  width: 25%;
+}
+.pointer {
+  cursor: pointer;
+}
