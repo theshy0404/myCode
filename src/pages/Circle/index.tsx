@@ -18,7 +18,7 @@ class Circle extends React.Component<any, any>{
         const navLists = [
             { id: 'solution', title: '题解模块', router: '' },
             { id: 'discussion', title: '话题讨论', router: 'discussion' },
-            { id: 'reply', title: '你问我答', router: 'reply' },
+            { id: 'reply', title: '问答', router: 'reply' },
         ];
         const { isExpanded } = this.state;
         return (

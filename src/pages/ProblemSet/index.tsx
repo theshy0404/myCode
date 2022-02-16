@@ -94,7 +94,7 @@ class ProblemSet extends React.Component<any, any>{
       { title: '红黑树', type: 'diffcult', rankno: -1 },
     ]
     const userList = [
-      { title: 'theshy0404', rankno: 1 },
+      { title: 'theshy0404', rankno: 11 },
       { title: 'theshy0404', rankno: -1 },
       { title: 'theshy0404', rankno: 0 },
     ]
