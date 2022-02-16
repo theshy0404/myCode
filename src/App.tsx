@@ -5,7 +5,7 @@ import Dispatch from './pages/Dispatch';
 import Error from './pages/UrlError';
 
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Switch,
   Redirect,
@@ -15,12 +15,12 @@ class App extends React.Component<any, any>{
 
   render() {
     return (
-    <Router>
+      <Router>
         <Switch>
           <Route exact path="/login" component={Login}></Route>
-          <Route exact path="/index" component={Dispatch}></Route>
+          <Route path="/index*" component={Dispatch}></Route>
           <Route exact path="/error" component={Error}></Route>
-          <Route exact path="/"><Redirect from="" to="/login" /></Route>
+          <Route exact path="/"><Redirect from="" to="/index" /></Route>
           <Route path="/*"><Redirect from="" to="/error" /></Route>
         </Switch>
       </Router>

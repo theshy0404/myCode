@@ -30,6 +30,3 @@ begin
 end $$
 delimiter ;
 call doLoginProcedure('1318936142','wsyghhz2000');
-
-select * from users;
-select * from emailtypes;
