@@ -2,20 +2,6 @@ import React from 'react';
 import styles from './Code.module.css';
 import { Button, Space } from 'antd';
 import { CheckOutlined, SendOutlined } from '@ant-design/icons';
-import axios from 'axios';
-
-type TState = {
-  codeLines: Array<{ code: string, isEditable: boolean }>;
-  input: string;
-  output: number | string;
-  word: string;
-  isHasError: boolean;
-  positionTop?: number;
-  positionLeft?: number;
-  words: Array<string>;
-  selectTip?: number;
-  loading: boolean;
-};
 
 const keyWords = ['return', 'const', 'let', 'of', 'for', 'in', 'undefined', 'null'];
 
@@ -23,27 +9,38 @@ const globalWords = ['document', 'console', 'log', 'window'];
 
 const tipWords = [...keyWords, ...globalWords];
 
-class VSCode extends React.Component<any, TState>{
+class VSCode extends React.Component<any, any>{
   constructor(props: any) {
     super(props);
+    console.log(this.props);
     this.state = {
       codeLines: [
-        { code: 'function (nums,target) {', isEditable: false },
+        { code: ``, isEditable: false },
         { code: '\t', isEditable: true },
         { code: '}', isEditable: false },
       ],
-      input: '[1, 2]',
-      output: '',
       word: '',
       isHasError: false,
       words: [],
-      loading: false,
     }
+  }
+
+  componentWillReceiveProps(nextProps: any){
+    this.setState({
+      codeLines: [
+        { code: `function (${nextProps.arguements}) {`, isEditable: false },
+        { code: '\t', isEditable: true },
+        { code: '}', isEditable: false },
+      ],
+      word: '',
+      isHasError: false,
+      words: [],
+    })
   }
 
   componentDidMount() {
     const lines = this.state.codeLines;
-    lines.some((item, index) => {
+    lines.some((item: { isEditable: any; }, index: string) => {
       if (!item.isEditable) return false;
       document.getElementById('line' + index)?.focus();
       return true;
@@ -57,7 +54,7 @@ class VSCode extends React.Component<any, TState>{
   handleChangeEditLine(selectIndex: number): void {
     const lines = this.state.codeLines;
     this.setState({
-      codeLines: lines.map((item, index) => {
+      codeLines: lines.map((item: any, index: number) => {
         if (selectIndex === index) {
           return { ...item, isEditable: true }
         }
@@ -130,28 +127,10 @@ class VSCode extends React.Component<any, TState>{
     return false;
   }
 
-  run(): void {
-    this.setState({ loading: true });
-    let code = '';
-    const func = 'sum';
-    const language = 'javascript';
-    const input = '2,1';
-    for (let line of this.state.codeLines) {
-      code += line.code.replace('\t', '');
-    }
-    axios.post('http://127.0.0.1:5000/problem/runJS', {
-      params: {
-        code, func, language, input
-      }
-    }).then(res => console.log(res))
-      .catch(err => console.log(err))
-      .finally(() => this.setState({ loading: false }));
-  }
-
   render() {
     const lines = this.state.codeLines;
-    const selectIndex = lines.findIndex(item => item.isEditable);
-    const { positionTop, loading, positionLeft, word, words, selectTip } = this.state;
+    const selectIndex = lines.findIndex((item: { isEditable: any; }) => item.isEditable);
+    const { positionTop, positionLeft, word, words, selectTip } = this.state;
     const createMarkup = (code: string): { __html: string } => {
       let innerHTML = '';
       for (let i = 0; i < code.length; i++) {
@@ -163,16 +142,16 @@ class VSCode extends React.Component<any, TState>{
     return (
       <div className={styles.wrap}>
         <div className={styles.codeTips} style={{ position: 'absolute', top: positionTop, left: positionLeft, display: word !== '' && this.include(word) ? 'block' : 'none' }}>
-          {words.map((item, index) =>
+          {words.map((item:any, index:number) =>
             <div data-select={selectTip === index} key={index} className={styles.tipWord}>{item}</div>
           )}
         </div>
         <div className={styles.codeWrap}>
           <div className={styles.codeIndex}>
-            {lines.map((item, index) => <div data-select={index === selectIndex} key={index} className={styles.index}>{index}</div>)}
+            {lines.map((item:any, index:number) => <div data-select={index === selectIndex} key={index} className={styles.index}>{index}</div>)}
           </div>
           <div className={styles.codeContent}>
-            {lines.map((item, index) => {
+            {lines.map((item:any, index:number) => {
               return item.isEditable ?
                 <input autoComplete="off" onChange={event => this.handleChangeLineValue(event, index)} onKeyUp={event => this.handleLineEnter(event, index)} id={'line' + index} key={index} className={styles.line} value={item.code}></input> :
                 <div onClick={() => this.handleChangeEditLine(index)} key={index} className={styles.line} dangerouslySetInnerHTML={createMarkup(item.code)}></div>
@@ -181,8 +160,7 @@ class VSCode extends React.Component<any, TState>{
         </div>
         <div className={styles.footer}>
           <Space size="large">
-            <Button type="primary" onClick={() => this.run()} loading={loading} ghost icon={<SendOutlined />}>执行代码</Button>
-            <Button type="primary" icon={<CheckOutlined />}>完成</Button>
+            <Button type="primary" onClick={() => this.props.doRun(lines)} ghost icon={<SendOutlined />}>执行代码</Button>
           </Space>
         </div>
       </div>

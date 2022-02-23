@@ -63,7 +63,7 @@
   margin-right: 0px;
 }
 .wrap .header .user .icon {
-  color: #57606a;
+  color: rgba(36, 41, 47, 0.7);
   font-size: 22px;
   cursor: pointer;
 }
@@ -89,7 +89,7 @@
 .wrap .header .user .user .userModal .userHeader {
   background-color: #F6F8FA;
   border-bottom: 1px solid #e5e7eb;
-  color: #57606a;
+  color: rgba(36, 41, 47, 0.7);
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -30,27 +30,32 @@ create table problems(
     output1 varchar(20),
     output2 varchar(20),
     rankid int,
-    labels varchar(20),
+    labelid int,
     type int,
     languageid int,
-    createtime date,
+    createtime char(10),
     func varchar(30) null,
-    arguemnts varchar(30),
-    template varchar(30) null
+    arguements varchar(30),
+    template varchar(30) null,
+    replyCount int,
+    solutionCount int
 );
 
 -- 题解表
 drop table if exists solutions;
 create table solutions(
-	solutionid int primary key,
+	solutionid char(10) primary key,
     problemid char(10),
     isofficial int,  
     userid char(10),
+    title varchar(50),
     good int,
-    look int,
     language int,
-    createtime date,
-    code varchar(20) null
+    createtime varchar(20),
+    hasCode int,
+    content varchar(2000),
+    code varchar(2000),
+    labels varchar(20)
 );
 
 -- 题目回复表
@@ -64,20 +69,19 @@ create table replys(
     look int,
     createtime varchar(20),
     isCode int,
-    code varchar(20)
+    code varchar(20),
+    commentCount int
 );
 
 -- 提交记录表
 drop table if exists submitItems;
 create table submitItems(
-	problemid char(20),
+	problemid char(10),
     submitid varchar(20) primary key,
     userid char(10),
-    time varchar(20),
-    ispass int,
-    createtime varchar(10),
-    code varchar(20),
-    language int
+    createtime varchar(20),
+    language int,
+    status int
 );
 
 -- 类别表
@@ -108,12 +112,9 @@ create table replycomments(
 	commentid char(10) primary key,
 	replyid char(10),
     userid char(10),
-    replyuserid char(10),
-    replyusername varchar(10),
-    level int,
-    parentid char(10),
-    solutionid int,
-    createtime varchar(10)
+    replyuserid char(10) null,
+    content varchar(200),
+    createtime varchar(20)
 );
 
 -- 题解评论表 
@@ -126,7 +127,7 @@ create table solutioncomments(
     replyusername varchar(10),
     level int,
     parentid char(10),
-    createtime varchar(10)
+    createtime varchar(20)
 );
 
 -- 语言表
@@ -134,4 +135,13 @@ drop table if exists languages;
 create table languages(
 	languageid int primary key,
     text varchar(10)
+);
+
+-- 题目状态表
+drop table if exists problemstatus;
+create table problemstatus(
+	id int primary key auto_increment,
+	problemid char(10),
+    userid char(10),
+    status int null
 );

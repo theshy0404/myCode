@@ -1,0 +1,81 @@
+:global .ant-modal-body {
+  padding: 12px;
+}
+.wrap .tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.wrap .tags .tagMsg {
+  color: #afb4bd;
+  font-size: 13px;
+  pointer-events: none;
+  user-select: none;
+}
+.wrap .tags .addTag {
+  color: #454d59;
+  flex: 0 0 auto;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: 12px;
+  line-height: 14px;
+  padding: 9px 12px;
+  border-radius: 16px;
+  background: #f7f8fa;
+  border: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.3s ease 0s;
+  margin: 5px 10px 5px 0px;
+}
+.wrap .tags .addTag:hover {
+  background: #d0d4db;
+}
+.wrap .tags .tag {
+  color: #454d59;
+  flex: 0 0 auto;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: 12px;
+  line-height: 14px;
+  padding: 9px 12px;
+  border-radius: 16px;
+  background: #f7f8fa;
+  border: none;
+  user-select: none;
+  margin: 5px 10px 5px 0px;
+}
+.wrap .tags .tagIcon {
+  cursor: pointer;
+  font-size: 12px;
+  margin: 0px 5px;
+}
+.wrap .header {
+  border-bottom: 1px solid rgba(69, 77, 89, 0.1);
+  padding: 0px 0px 12px 0px;
+  margin-bottom: 10px;
+}
+.wrap .footer .item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 14px;
+  padding: 9px 12px;
+  color: #454d59;
+}
+.wrap .footer .item:hover {
+  background: #f7f8fa;
+  cursor: pointer;
+}
+.wrap .footer .item[data-select=true] {
+  background: #f7f8fa;
+}
+.wrap .footer .item .icon {
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
