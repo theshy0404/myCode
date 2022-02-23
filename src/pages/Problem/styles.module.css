@@ -5,7 +5,7 @@
   justify-content: space-between;
 }
 .wrap :global .ant-tabs-tab.ant-tabs-tab .ant-tabs-tab-btn {
-  color: #57606a;
+  color: rgba(36, 41, 47, 0.7);
 }
 .wrap :global .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #24292f;
@@ -18,7 +18,7 @@
 }
 .wrap .tab {
   background-color: #fff;
-  padding: 10px;
+  padding: 20px;
   overflow: auto;
   height: calc(100vh - 54px - 50px);
 }
@@ -30,4 +30,9 @@
   position: absolute;
   bottom: 50px;
   width: 98%;
+}
+.wrap .solutionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

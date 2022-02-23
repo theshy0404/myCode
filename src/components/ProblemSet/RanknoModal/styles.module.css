@@ -10,7 +10,7 @@
   margin-top: 0px;
 }
 .wrap .title {
-  color: #57606a;
+  color: rgba(36, 41, 47, 0.7);
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@
   color: #3f8600;
 }
 .wrap .item .rankno[data-type="0"] {
-  color: #57606a;
+  color: rgba(36, 41, 47, 0.7);
 }
 .wrap .item .rankno[data-type="-1"] {
   color: #ff4d4f;

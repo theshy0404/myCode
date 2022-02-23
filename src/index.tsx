@@ -10,11 +10,9 @@ const stores = {
   AuthStore
 };
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider {...stores}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  <Provider {...stores}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
 
