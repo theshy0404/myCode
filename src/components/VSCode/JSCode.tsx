@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Code.module.css';
 import { Button, Space } from 'antd';
-import { CheckOutlined, SendOutlined } from '@ant-design/icons';
+import { SendOutlined } from '@ant-design/icons';
 
 const keyWords = ['return', 'const', 'let', 'of', 'for', 'in', 'undefined', 'null'];
 

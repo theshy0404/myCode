@@ -1,0 +1,33 @@
+:global .ant-modal-body {
+  padding: 12px;
+}
+.wrap .header {
+  border-bottom: 1px solid rgba(69, 77, 89, 0.1);
+  padding: 0px 0px 12px 0px;
+  margin-bottom: 10px;
+}
+.wrap .textarea {
+  margin: 10px;
+  width: 660px;
+}
+.wrap .footer .item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 14px;
+  padding: 9px 12px;
+  color: #454d59;
+}
+.wrap .footer .item:hover {
+  background: #f7f8fa;
+  cursor: pointer;
+}
+.wrap .footer .item[data-select=true] {
+  background: #f7f8fa;
+}
+.wrap .footer .item .icon {
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

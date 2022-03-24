@@ -3,24 +3,24 @@ import styles from './styles.module.css';
 import '../../App.css'
 import Logo from '../../shared/images/public/code.svg';
 import { Avatar, Badge, Popover, Spin, } from 'antd';
-import { BellOutlined, BookOutlined, ContactsOutlined, FileDoneOutlined, LoginOutlined, SettingOutlined, SolutionOutlined, SoundOutlined, StarOutlined, TranslationOutlined, UserOutlined } from '@ant-design/icons';
+import { BellOutlined, BookOutlined, ContactsOutlined, FileDoneOutlined, LoadingOutlined, LoginOutlined, SettingOutlined, SolutionOutlined, SoundOutlined, StarOutlined, TranslationOutlined, UserOutlined } from '@ant-design/icons';
 import { inject, observer } from 'mobx-react';
 import UserAvatar from '../../shared/images/public/user.png';
 import { Redirect, Route, HashRouter as Router, Switch, withRouter } from 'react-router-dom';
-import asyncComponent from '../../interface/useComponents/asyncComponent';
 
-type TAvtive = 'problemset' | 'test' | 'circle'|'answer';
+type TAvtive = 'problemset' | 'test' | 'circle' | 'answer';
 type TState = {
   showUserMenu: boolean,
   active: TAvtive,
 }
-
-const ProblemSet = asyncComponent(() => import('../ProblemSet'));
-const Problem = asyncComponent(() => import('../Problem'));
-const Circle = asyncComponent(() => import('../Circle'));
-const Solution = asyncComponent(() => import('../Solution'));
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const ProblemSet = React.lazy(() => import('../ProblemSet'));
+const Problem = React.lazy(() => import('../Problem'));
+const Circle = React.lazy(() => import('../Circle'));
+const Solution = React.lazy(() => import('../Solution'));
 const CircleDetails = React.lazy(() => import('../CircleDetails'));
-const Loading = ()=><div className={styles.loading}></div>
+const CircleForums = React.lazy(() => import('../CircleForums'));
+const Loading = () => <Spin indicator={antIcon} />
 
 @inject('AuthStore')
 @observer
@@ -106,19 +106,20 @@ class Main extends React.Component<any, TState> {
           </div>
         </header>
         <React.Suspense fallback={<Spin indicator={<Loading />} />}>
-        <Router>
-          <Switch>
-            <Route exact path="/index/problemset"><ProblemSet /></Route>
-            <Route exact path="/index/problem/:id"><Problem /></Route>
-            <Route exact path="/index/solution/:id"><Solution /></Route>
-            <Route exact path="/index/test"><h1>敬请期待</h1></Route>
-            <Route exact path="/index/circle"><Circle /></Route>
-            <Route exact path="/index/circle/:id"><CircleDetails /></Route>
-            <Route exact path="/index/answer">问答</Route>
-            <Route exact path="/index"><Redirect from="" to="/index/problemset" /></Route>
-            <Route path="/index*"><Redirect from="" to="/error" /></Route>
-          </Switch>
-        </Router>
+          <Router>
+            <Switch>
+              <Route exact path="/index/problemset"><ProblemSet /></Route>
+              <Route exact path="/index/problem/:id"><Problem /></Route>
+              <Route exact path="/index/solution/:id"><Solution /></Route>
+              <Route exact path="/index/test"><h1>敬请期待</h1></Route>
+              <Route exact path="/index/circle"><Circle /></Route>
+              <Route exact path="/index/circle/:id"><CircleDetails /></Route>
+              <Route exact path="/index/forum/:id"><CircleForums /></Route>
+              <Route exact path="/index/answer">问答</Route>
+              <Route exact path="/index"><Redirect from="" to="/index/problemset" /></Route>
+              <Route path="/index*"><Redirect from="" to="/error" /></Route>
+            </Switch>
+          </Router>
         </React.Suspense>
       </div>
     )

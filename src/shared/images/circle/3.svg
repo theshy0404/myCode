@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="284px" height="184px" viewBox="0 0 284 184" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>编组 22</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="资源" transform="translate(-732.000000, -783.000000)">
+            <g id="编组-22" transform="translate(732.000000, 783.000000)">
+                <path d="M2,0 L282,0 C283.104569,-2.02906125e-16 284,0.8954305 284,2 L284,184 L284,184 L0,184 L0,2 C-1.3527075e-16,0.8954305 0.8954305,2.02906125e-16 2,0 Z" id="蒙版备份-6" fill="#69D7FF"></path>
+                <g id="编组-20备份" transform="translate(99.000000, 51.000000)">
+                    <rect id="矩形备份-27" x="0" y="0" width="86.4" height="86.4"></rect>
+                    <g id="编组-11" transform="translate(5.000000, 6.000000)">
+                        <line x1="38.598508" y1="9.10769231" x2="38.598508" y2="64.8923077" id="路径-192" stroke="#17A9DE" stroke-width="1.5"></line>
+                        <rect id="矩形" fill="#00A7E4" x="12.5230769" y="18.2153846" width="50.0923077" height="37.5692308"></rect>
+                        <rect id="矩形" fill="#D9F5FF" x="12.5230769" y="18.2153846" width="50.0923077" height="6.83076923"></rect>
+                        <polygon id="矩形备份-13" fill="#D9F5FF" points="28.3523542 30.2193238 48.8446619 30.2193238 48.8446619 33.6347084 28.3523542 33.6347084"></polygon>
+                        <rect id="矩形备份-19" fill="#46C8F8" x="28.3523542" y="38.1896897" width="27.3230769" height="3.41538462"></rect>
+                        <rect id="矩形备份-20" fill="#46C8F8" x="28.3523542" y="46.3161539" width="27.3230769" height="3.41538462"></rect>
+                        <circle id="椭圆形" fill="#46C8F8" cx="21.6307692" cy="31.8769231" r="2.27692308"></circle>
+                        <circle id="椭圆形备份" fill="#46C8F8" cx="21.6307692" cy="39.8461538" r="2.27692308"></circle>
+                        <circle id="椭圆形备份-2" fill="#46C8F8" cx="21.6307692" cy="47.8153846" r="2.27692308"></circle>
+                        <line x1="9.10769231" y1="69.4461538" x2="72.2923077" y2="70.0153846" id="路径-191" stroke="#17A9DE" stroke-width="1.5"></line>
+                        <line x1="9.10769231" y1="4.26923077" x2="72.2923077" y2="4.83846154" id="路径-191备份" stroke="#17A9DE" stroke-width="1.5"></line>
+                        <rect id="矩形" fill="#067EAA" x="0" y="0" width="9.10769231" height="9.10769231"></rect>
+                        <rect id="矩形备份-16" fill="#00A7E4" x="34.1538462" y="0" width="9.10769231" height="9.10769231"></rect>
+                        <rect id="矩形备份-17" fill="#067EAA" x="66.0307692" y="0" width="9.10769231" height="9.10769231"></rect>
+                        <rect id="矩形备份-21" fill="#00A7E4" x="34.1538462" y="64.8923077" width="9.10769231" height="9.10769231"></rect>
+                        <rect id="矩形备份-5" fill="#067EAA" x="0" y="64.8923077" width="9.10769231" height="9.10769231"></rect>
+                        <polyline id="路径-190" stroke="#17A9DE" stroke-width="1.5" points="4.55384615 9.10769231 4.55384615 34.1538462 12.5230769 34.1538462"></polyline>
+                        <polyline id="路径-190备份" stroke="#17A9DE" stroke-width="1.5" transform="translate(66.600000, 21.630769) scale(-1, 1) translate(-66.600000, -21.630769) " points="62.6153846 9.10769231 62.6153846 34.1538462 70.5846154 34.1538462"></polyline>
+                        <polyline id="路径-190备份-2" stroke="#17A9DE" stroke-width="1.5" transform="translate(8.538462, 52.369231) scale(1, -1) translate(-8.538462, -52.369231) " points="4.55384615 39.8461538 4.55384615 64.8923077 12.5230769 64.8923077"></polyline>
+                        <polyline id="路径-190备份-3" stroke="#17A9DE" stroke-width="1.5" transform="translate(66.600000, 52.369231) scale(-1, -1) translate(-66.600000, -52.369231) " points="62.6153846 39.8461538 62.6153846 64.8923077 70.5846154 64.8923077"></polyline>
+                        <rect id="矩形备份-22" fill="#067EAA" x="66.0307692" y="64.8923077" width="9.10769231" height="9.10769231"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

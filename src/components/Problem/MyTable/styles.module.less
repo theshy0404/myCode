@@ -1,0 +1,29 @@
+.wrap {
+    overflow: auto;
+    height: 380px;
+    width: 700px;
+}
+
+
+:global .ant-table.ant-table-small :global .ant-table-title,
+:global .ant-table.ant-table-small :global .ant-table-footer,
+:global .ant-table.ant-table-small :global .ant-table-thead>tr>th,
+:global .ant-table.ant-table-small :global .ant-table-tbody>tr>td,
+:global .ant-table.ant-table-small :global tfoot>tr>th,
+:global .ant-table.ant-table-small :global tfoot>tr>td {
+    padding: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height:10px;
+    background-color: #f0f0f0;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #bfbfbf;
+    border-radius:4px;
+}

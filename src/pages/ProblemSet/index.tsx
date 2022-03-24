@@ -5,14 +5,12 @@ import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 import { Button, Dropdown, Input, Menu, message, Space, Table, Tag, } from 'antd';
 import { CheckCircleOutlined, ClockCircleOutlined, DownOutlined, MinusCircleOutlined, SearchOutlined } from '@ant-design/icons';
-import CountModal from '../../components/ProblemSet/CountModal';
-import RanknoModal from '../../components/ProblemSet/RanknoModal';
 import doRequest from '../../interface/useRequests';
 import { PROBLEM_RANK, PROBLEM_RANK_MAP, PROBLEM_STATUS, PROBLEM_STATUS_MAP, PROBLEM_TYPE_MAP } from '../../interface/Problem';
 
 type TState = {
   setList: Array<any>,
-  labelList: Array<any>,
+  typeList: Array<any>,
   problemList: Array<any>,
   set: number,
   label?: number,
@@ -36,7 +34,7 @@ class ProblemSet extends React.Component<any, TState>{
         { name: '算法', src: 'func', type: 2 },
         { name: '数据库', src: 'sql', type: 3 },
       ],
-      labelList: [],
+      typeList: [],
       problemList: [],
       set: 0,
     }
@@ -45,28 +43,28 @@ class ProblemSet extends React.Component<any, TState>{
   async componentDidMount() {
     document.title = "MyCode-题库";
     this.init().then(result => {
-      const { labelList, problemList } = result;
-      this.setState({ labelList, problemList }, () => console.log(this.state));
+      const { typeList, problemList } = result;
+      this.setState({ typeList, problemList }, () => console.log(this.state));
     })
   }
 
   async init() {
     let problemList: Array<any> = [];
-    let labelList: Array<any> = [];
-    await doRequest({
-      url: '/problems', type: 'GET',
-    }).then(res => problemList = res.data);
+    let typeList: Array<any> = [];
+    // await doRequest({
+    //   url: '/problems', type: 'GET',
+    // }).then(res => problemList = res.data);
     await doRequest({
       url: '/problems/labels', type: 'GET',
-    }).then(res => labelList = res.data);
-    return Promise.resolve({ problemList, labelList });
+    }).then(res => typeList = res.data);
+    return Promise.resolve({ problemList, typeList });
   }
 
   handleChangeSet(set: number) {
     if (loading) return message.warning('不用太急啦');
     loading = true;
     doRequest({ url: '/problems/labels', params: { typeid: set } })
-      .then(result => this.setState({ set, labelList: result.data }))
+      .then(result => this.setState({ set, typeList: result.data }))
       .catch(error => console.log(error))
       .finally(() => loading = false);
   }
@@ -189,18 +187,18 @@ class ProblemSet extends React.Component<any, TState>{
         ))}
       </Menu>
     );
-    const { setList, labelList, problemList, set, label, } = this.state;
-    const problemRankList = [
-      { title: '快速排序', type: 'easy', rankno: 1 },
-      { title: '翻转字符串', type: 'easy', rankno: 1 },
-      { title: '基数排序', type: 'mid', rankno: -1 },
-      { title: '红黑树', type: 'diffcult', rankno: -1 },
-    ]
-    const userRankList = [
-      { title: 'theshy0404', rankno: 11 },
-      { title: 'theshy0404', rankno: -1 },
-      { title: 'theshy0404', rankno: 0 },
-    ]
+    const { setList, typeList, problemList, set, label, } = this.state;
+    // const problemRankList = [
+    //   { title: '快速排序', type: 'easy', rankno: 1 },
+    //   { title: '翻转字符串', type: 'easy', rankno: 1 },
+    //   { title: '基数排序', type: 'mid', rankno: -1 },
+    //   { title: '红黑树', type: 'diffcult', rankno: -1 },
+    // ]
+    // const userRankList = [
+    //   { title: 'theshy0404', rankno: 11 },
+    //   { title: 'theshy0404', rankno: -1 },
+    //   { title: 'theshy0404', rankno: 0 },
+    // ]
     return (
       <div className={styles.wrap}>
         <div className={styles.content}>
@@ -216,8 +214,8 @@ class ProblemSet extends React.Component<any, TState>{
               }
               )}
             </div>
-            <div className={styles.labelList}>
-              {labelList.map(item => (
+            <div className={styles.typeList}>
+              {typeList.map(item => (
                 <div onClick={() => this.handleChangeLabel(item.labelid)} data-active={item.labelid === label} className={styles.label} key={item.labelid}>
                   <div>{item.text}</div>
                 </div>
@@ -244,9 +242,9 @@ class ProblemSet extends React.Component<any, TState>{
           </Space>
         </div>
         <div className={styles.aside}>
-          <CountModal isLogin={this.props.AuthStore.isLogin} />
+          {/* <CountModal isLogin={this.props.AuthStore.isLogin} />
           <RanknoModal type="problem" listData={problemRankList} />
-          <RanknoModal type="user" listData={userRankList} />
+          <RanknoModal type="user" listData={userRankList} /> */}
         </div>
       </div>
     )

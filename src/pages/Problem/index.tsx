@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './styles.module.css';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
-import { Tabs, Tag, Typography, Comment, Avatar, Input, Button, Table, Menu, Dropdown, Skeleton, Space, Select, message, Modal, } from 'antd';
-import { CheckCircleOutlined, CheckSquareOutlined, ClockCircleOutlined, CloseCircleOutlined, CloseSquareOutlined, DownOutlined, EditOutlined, ExclamationOutlined, MinusCircleOutlined, PlusOutlined, } from '@ant-design/icons';
+import { Tabs, Tag, Typography, Input, Button, Table, Menu, Dropdown, Skeleton, Space, Select, message, Modal, Divider, } from 'antd';
+import { CheckCircleOutlined, ClockCircleOutlined, DownOutlined, EditOutlined, ExclamationOutlined, MinusCircleOutlined, } from '@ant-design/icons';
 import JSCode from '../../components/VSCode/JSCode';
 import PyCode from '../../components/VSCode/PyCode';
 import doRequest from '../../interface/useRequests';
@@ -12,6 +12,7 @@ import ReplyComment from '../../components/Problem/ReplyComments'
 import SQLCode from '../../components/VSCode/SQLCode';
 import SolutionList from '../../components/Problem/SolutionList';
 import SolutionModal from '../../components/Problem/SolutionModal';
+import MyTable from '../../components/Problem/MyTable';
 
 const { Title, Paragraph, } = Typography;
 const { TabPane } = Tabs;
@@ -20,41 +21,42 @@ const { Option, OptGroup } = Select;
 
 let loading = false;
 
-const ExampleComment = (props: any) => {
-  const [isReply, handleChangeIsReply] = useState(false);
-  const [isShow, handleChangeShow] = useState(false);
-  return (
-    <Comment
-      actions={[<span onClick={() => { handleChangeShow(!isShow) }} key="comment-nested-expand-to">Expand</span>,
-      <span onClick={() => { handleChangeIsReply(!isReply) }} key="comment-nested-reply-to">Reply to</span>,
-      <Button type="primary" size="small" style={!isReply ? { display: 'none', float: 'right' } : {}} key="comment-nested-sumbit">Sumbit</Button>]}
-      author={<p >Han Solo</p>}
-      avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-      content={
-        <>
-          <p>
-            We supply a series of design principles, practical patterns and high quality design
-            resources (Sketch and Axure).
-          </p>
-          {isReply && <TextArea style={{ width: '90%' }} rows={2} />}
-        </>
-      }
-    >
-      {isShow && props.children}
-    </Comment>
-  )
-};
+// const ExampleComment = (props: any) => {
+//   const [isReply, handleChangeIsReply] = useState(false);
+//   const [isShow, handleChangeShow] = useState(false);
+//   return (
+//     <Comment
+//       actions={[<span onClick={() => { handleChangeShow(!isShow) }} key="comment-nested-expand-to">Expand</span>,
+//       <span onClick={() => { handleChangeIsReply(!isReply) }} key="comment-nested-reply-to">Reply to</span>,
+//       <Button type="primary" size="small" style={!isReply ? { display: 'none', float: 'right' } : {}} key="comment-nested-sumbit">Sumbit</Button>]}
+//       author={<p >Han Solo</p>}
+//       avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
+//       content={
+//         <>
+//           <p>
+//             We supply a series of design principles, practical patterns and high quality design
+//             resources (Sketch and Axure).
+//           </p>
+//           {isReply && <TextArea style={{ width: '90%' }} rows={2} />}
+//         </>
+//       }
+//     >
+//       {isShow && props.children}
+//     </Comment>
+//   )
+// };
 
-@inject('AuthStore')
+@inject('AuthStore', 'SolutionStore')
 @observer
 class Problem extends React.Component<any, any>{
 
   constructor(props: any) {
     super(props);
-    this.state = { isShowSolutionModal: false, language: LANGUAGE.JAVASCRIPT, answer: '', sumbits: [], solutions: [], solutionLabels: [], selectSolutionLabels: [], };
+    this.state = { isShowSolutionModal: false,example:[], results: [], language: LANGUAGE.JAVASCRIPT, answer: '', sumbits: [], solutions: [], solutionLabels: [], selectSolutionLabels: [], };
     this.doRun = this.doRun.bind(this);
     this.onChangeTab = this.onChangeTab.bind(this);
     this.handleChangeSolutionLabels = this.handleChangeSolutionLabels.bind(this);
+    this.saveSolution = this.saveSolution.bind(this);
   }
 
   componentDidMount() {
@@ -68,28 +70,42 @@ class Problem extends React.Component<any, any>{
     params = { ...params, url: '/problem?problemid=' + this.props.match.params.id };
     loading = true;
     doRequest(params)
-      .then(result => this.setState({ ...result.data[0], language: 3, loading: false }))
+      .then(result => {
+        this.setState({ ...result.data[0], language: result.data[0].typeid === 3 ? 4 : 3, loading: false });
+      })
       .catch(err => console.error(err))
       .finally(() => loading = false);
   }
 
   doRun(lines: Array<any>, isSQL: boolean = false) {
     let code = '';
-    const func = this.state.func;
-    const language = this.state.language;
-    const input = this.state.input1;
-    const output = this.state.output1;
     for (let line of lines) {
       code += line.code.replace('\t', '');
     }
-    let params: any = {
-      url: '/problem/run', needAuth: true, type: 'POST',
-      params: {
-        func, language, input, output, problemid: this.props.match.params.id, code
-      }
-    };
-    doRequest(params).then(res => this.setState({ answer: res.data[0].data }))
-      .catch(err => console.log(err))
+    if (!isSQL) {
+      const func = this.state.func;
+      const language = this.state.language;
+      const input = this.state.input1;
+      const output = this.state.output1;
+      let params: any = {
+        url: '/problem/run', needAuth: true, type: 'POST',
+        params: {
+          func, language, input, output, problemid: this.props.match.params.id, code
+        }
+      };
+      doRequest(params).then(res => this.setState({ answer: res.data[0].data }))
+        .catch(err => console.log(err));
+    }
+    else {
+      let params: any = {
+        url: '/problem/runSQL', needAuth: true, type: 'POST',
+        params: {
+          code
+        }
+      };
+      doRequest(params).then(res => this.setState({ results: res.data }))
+        .catch(err => console.log(err));
+    }
   }
 
   renderCode() {
@@ -114,7 +130,7 @@ class Problem extends React.Component<any, any>{
     }
     if (key === '3') {
       let params = {
-        url: '/problem/solution', type: 'GET', params: { problemid: this.props.match.params.id }
+        url: '/problem/solutions', type: 'GET', params: { problemid: this.props.match.params.id }
       }
       const getSolution = doRequest(params)
       params.url = '/solution/label';
@@ -133,7 +149,7 @@ class Problem extends React.Component<any, any>{
   handleResetSolutionLabels() {
     this.setState({ selectSolutionLabels: [] });
     let params = {
-      url: '/problem/solution', type: 'GET', params: { problemid: this.props.match.params.id }
+      url: '/problem/solutions', type: 'GET', params: { problemid: this.props.match.params.id }
     }
     doRequest(params).then(result => this.setState({ solutions: result.data }))
   }
@@ -156,6 +172,13 @@ class Problem extends React.Component<any, any>{
     this.setState({ isShowSolutionModal: !this.state.isShowSolutionModal });
   }
 
+  saveSolution() {
+    this.props.SolutionStore.addSolution({ userid: this.props.AuthStore.userid, problemid: this.props.match.params.id, language: this.state.language })
+      .then(() => message.success('已进入流程'))
+      .catch(() => message.error('出错了'))
+      .finally(() => this.setState({ isShowSolutionModal: false }));
+  }
+
 
   render() {
     const menu = (
@@ -163,13 +186,13 @@ class Problem extends React.Component<any, any>{
         <Menu.Item key={1} disabled>
           C
         </Menu.Item>
-        <Menu.Item key={2}>
+        <Menu.Item key={2} disabled={this.state.typeid === 3}>
           Python3
         </Menu.Item>
-        <Menu.Item key={3}>
+        <Menu.Item key={3} disabled={this.state.typeid === 3}>
           JavaScript
         </Menu.Item>
-        <Menu.Item key={4}>
+        <Menu.Item key={4} disabled={this.state.typeid !== 3}>
           MySQL
         </Menu.Item>
       </Menu>
@@ -209,7 +232,7 @@ class Problem extends React.Component<any, any>{
       <div className={styles.wrap}>
         <Tabs onChange={this.onChangeTab} type="card" style={{ width: '50%' }}>
           <TabPane tab="题目介绍" key="1">
-            <Space>
+            <Space direction="vertical" style={{ width: '100%', }}>
               {!this.state.loading ?
                 <div className={styles.tab}>
                   <Title level={3} style={{ fontWeight: '500px' }}>
@@ -218,31 +241,51 @@ class Problem extends React.Component<any, any>{
                   <Space>
                     <Tag>{PROBLEM_RANK_MAP[this.state.rankid]}</Tag>
                     <Tag>{this.state.type}</Tag>
-                    <Tag>{this.state.label}</Tag>
+                    {/* <Tag>{this.state.label}</Tag> */}
                   </Space>
-                  <Paragraph >
+                  <Paragraph style={{ marginTop: '10px' }}>
                     {this.state.msg}
                   </Paragraph>
-                  <Space direction="vertical" style={{ width: '50%' }}>
-                    {this.state.answer === '' ? <>
-                      输入<Input disabled value={this.state.input2} />
-                      预期输出<Input disabled value={this.state.output2} />
-                    </> :
-                      <>测试用例<Input disabled value={this.state.input1} />
-                        实际输出<TextArea style={{ color: '#f5222d' }} disabled value={this.state.answer} />
-                        预期输出<Input disabled value={this.state.output1} />
-                      </>}
-                  </Space>
+                  {
+                    this.state.typeid === 3
+                      ?
+                      <Space size="large" direction="vertical" style={{ width: '90%' }}>
+                        预期结果
+                        <MyTable results={JSON.parse(this.state.example)} />
+                        <Divider plain>共{JSON.parse(this.state.example).length}条数据</Divider>
+                        {this.state.results.length > 0 &&
+                          <>
+                            查询结果
+                            <MyTable results={this.state.results} />
+                            <Divider plain></Divider>
+                          </>
+                        }
+                      </Space>
+                      : <Space direction="vertical" style={{ width: '50%' }}>
+                        {
+                          this.state.answer === '' ?
+                            <>
+                              输入<Input disabled value={this.state.input} />
+                              预期输出<Input disabled value={this.state.output} />
+                            </> :
+                            <>
+                              测试用例<Input disabled value={this.state.input} />
+                              实际输出<TextArea style={{ color: '#f5222d' }} disabled value={this.state.answer} />
+                              预期输出<Input disabled value={this.state.output} />
+                            </>
+                        }
+                      </Space>
+                  }
                 </div> :
                 <Skeleton />}
             </Space>
           </TabPane>
-          <TabPane tab={"评论(" + this.state.replyCount + ")"} key="2">
+          <TabPane tab={"评论"} key="2">
             <div className={styles.tab}>
               <ReplyComment problemid={this.props.match.params.id} />
             </div>
           </TabPane>
-          <TabPane tab={"题解"} key="3">
+          <TabPane tab={`题解`} key="3">
             <div className={styles.tab}>
               <div className={styles.solutionHeader}>
                 <Select
@@ -254,28 +297,27 @@ class Problem extends React.Component<any, any>{
                   style={{ width: '85%' }}
                 >
                   <OptGroup label="语言">
-                    {this.state.solutionLabels.map((item: { value: any, label: string }) => {
-                      if (item.value < 10)
-                        return <Option key={item.value} value={item.value}>{LANGUAGE_MAP[item.value]}</Option>
-                    })}
+                    {this.state.solutionLabels.map((item: any) =>
+                      item.value < 10 ? <Option key={item.value} value={item.value}>{LANGUAGE_MAP[item.value]}</Option> : null
+                    )}
                   </OptGroup>
                   <OptGroup label="标签">
-                    {this.state.solutionLabels.map((item: { value: any, label: string }) => {
-                      if (item.value > 10)
-                        return <Option key={item.value} value={item.value}>{item.label}</Option>
-                    })}
+                    {this.state.solutionLabels.map((item: { value: any, label: string }) =>
+                      item.value > 10 ? <Option key={item.value} value={item.value}>{item.label}</Option> : null
+                    )}
                   </OptGroup>
                 </Select>
                 <Button onClick={() => this.handleSolutionLabelsSearch()} type="primary" size="small">搜索</Button>
                 <Button onClick={() => this.handleResetSolutionLabels()} size="small">重置</Button>
               </div>
               <Modal
-                title="增加题解"
+                title={<>写题解</>}
                 visible={this.state.isShowSolutionModal}
                 onCancel={() => this.handleChangeSolutionModalShow()}
                 cancelText="关闭"
                 okText="发布题解"
                 width={700}
+                onOk={this.saveSolution}
               >
                 <SolutionModal problemid={this.props.match.params.id} />
               </Modal>

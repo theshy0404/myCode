@@ -1,14 +1,9 @@
+body {
+  overflow-y: scroll;
+}
 .wrap {
-  width: 65%;
+  width: 60%;
   margin: 15px auto;
-  display: flex;
-}
-.wrap .center {
-  width: 74%;
-}
-.wrap .aside {
-  width: 25%;
-  margin-left: 15px;
 }
 .wrap .card {
   background: #fff;
@@ -18,7 +13,7 @@
   padding: 15px;
   font-size: 14px;
   border-radius: 8px;
-  margin-top: 15px;
+  margin: 10px;
   position: relative;
   transition: all 0.2s;
 }
@@ -134,6 +129,21 @@
 .wrap .card .footer .replyCount {
   margin-left: 100px;
 }
-:global .for-container {
-  height: auto !important;
+:global .ant-modal-body {
+  padding-top: 0px;
+}
+.import {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.import .importCard {
+  width: 400px;
+  background-color: #fafafa;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0px 1px 2px #f0f0f0;
+  border-radius: 4px;
+  padding: 15px 10px 1px 10px;
+  cursor: pointer;
 }

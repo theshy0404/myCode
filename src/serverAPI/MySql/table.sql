@@ -24,21 +24,16 @@ drop table if exists problems;
 create table problems(
 	problemid char(10) primary key,
     title varchar(20),
-    msg varchar(500),
-    input1 varchar(20),
-    input2 varchar(20),
-    output1 varchar(20),
-    output2 varchar(20),
+    msg varchar(5000),
+    input varchar(20) null,
+    output varchar(20) null,
     rankid int,
-    labelid int,
-    type int,
-    languageid int,
-    createtime char(10),
+    labels varchar(50),
+    typeid int,
+    createtime char(20),
     func varchar(30) null,
-    arguements varchar(30),
-    template varchar(30) null,
-    replyCount int,
-    solutionCount int
+    arguements varchar(20) null,
+    template varchar(300) null
 );
 
 -- 题解表
@@ -53,9 +48,11 @@ create table solutions(
     language int,
     createtime varchar(20),
     hasCode int,
+    isMarkDown int,
     content varchar(2000),
     code varchar(2000),
-    labels varchar(20)
+    labels varchar(20),
+    isPublic int
 );
 
 -- 题目回复表
@@ -87,8 +84,9 @@ create table submitItems(
 -- 类别表
 drop table if exists problemtypes;
 create table problemtypes(
-	typeid int primary key,
-    text varchar(10)
+	typeid char(2) primary key,
+    text varchar(10),
+    level int
 );
 
 -- 难度表 
@@ -101,7 +99,7 @@ create table problemranks(
 -- 标签表 
 drop table if exists problemlabels;
 create table problemlabels(
-	labelid int primary key,
+	labelid char(10) primary key,
     text varchar(10),
     typeid int 
 );
@@ -145,3 +143,63 @@ create table problemstatus(
     userid char(10),
     status int null
 );
+
+-- 圈子表
+drop table if exists circles;
+create table circles(
+	circleid char(10),
+	circlename varchar(20),
+	msg varchar(2000),
+	parentid char(10) null,
+	hasChildren int,
+    level int
+);
+
+-- 帖子表
+drop table if exists forums;
+create table forums(
+	circleid char(10),
+	forumid char(10) primary key,
+	good int,
+	star int,
+	userid char(10),
+	isofficial int,
+	isrecommend int,
+	istop int,
+	content varchar(2000),
+	title varchar(100),
+	labels varchar(100)
+);
+
+-- 帖子一级回复表
+drop table if exists forumcommentsone;
+create table forumcommentsone(
+	commentid char(10),
+	forumid char(10),
+	userid char(10),
+	content varchar(2000),
+	good int,
+	star int,
+	labels varchar(100)
+);
+
+-- 帖子二级回复表
+drop table if exists forumcommentstwo;
+create table forumcommentstwo(
+	commentid char(10),
+	rootid char(10),
+	userid char(10),
+	content varchar(2000),
+    isreply int,
+    replyuserid char(10),
+    replyusername varchar(20)
+);
+
+-- 文本标签表
+drop table if exists text_labels;
+create table text_labels(
+	circleid char(10),
+	labelid char(10) primary key,
+	text varchar(10)
+);
+

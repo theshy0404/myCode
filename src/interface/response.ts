@@ -3,3 +3,7 @@ export enum RESPONSE_STSTUS {
     'WRONG_PASSWORD' = '1403',
     'NETWORK_ERROR' = '1500',
 }
+
+export function doResponse(message: string) {
+    if (message === 'withoutAuth') window.location.hash = '#/login';
+}

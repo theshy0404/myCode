@@ -1,75 +1,92 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { AutoComplete, Button, Pagination, Space, Tree, Typography } from 'antd';
-import { FolderOpenTwoTone, FolderOutlined, FolderTwoTone, SmileOutlined } from "@ant-design/icons";
+import {  Button, Pagination, Select, Space, Tree, Typography } from 'antd';
+import doRequest from '../../interface/useRequests'
 import styles from './styles.module.css';
+import { BarsOutlined, FileOutlined,  } from "@ant-design/icons";
 
+const { Option } = Select;
 const { Title, Paragraph } = Typography;
 
-const mockVal = (str: string, repeat: number = 1) => ({
-    value: str.repeat(repeat),
-});
-const Complete: React.FC = () => {
-    const [value, setValue] = useState('');
-    const [options, setOptions] = useState<{ value: string }[]>([{ value: 'foo' }, { value: 'bar' }]);
-    const onSearch = (searchText: string) => {
-        setOptions([{ value: searchText }])
-    };
+const getColor = () => {
+    const colors = new Array(7).fill(0).map((item, index) => index);
+    return require(`../../shared/images/circle/${colors[Math.floor((Math.random() * colors.length))]}.svg`);
+}
+
+const Complete = (props: any) => {
+
+    const options = props.circles.map((item: any) => {
+        return {
+            value: item.circleid,
+            label: item.circlename,
+        }
+    });
+
     const onSelect = (data: string) => {
-        console.log('onSelect', data);
-    };
-    const onChange = (data: string) => {
-        setValue(data);
+        props.doSearch(data);
     };
     return (
         <>
-            <AutoComplete
-                options={options}
-                style={{ width: 200 }}
-                onSelect={onSelect}
-                onSearch={onSearch}
-                placeholder="搜索圈子"
-            />
+            <Select onChange={onSelect} style={{ width: 200 }}>
+                {options.map((item: any) => (
+                    <Option key={item.key} value={item.value}>{item.label}</Option>
+                ))}
+            </Select>
         </>
     );
 };
 
-const treeData = [
-    {
-        title: '前端',
-        key: '0-0',
-        icon: (props: any) => (props.expand ? <FolderOutlined style={{ fontSize: '18px' }} /> : <FolderTwoTone style={{ fontSize: '18px' }} />),
-        children: [
-            {
-                title: 'JavaScript',
-                key: '0-0-0',
-                icon: <SmileOutlined />,
-                children: [
-                    {
-                        title: 'ECMAScript标准',
-                        key: '0-0-0-0',
-                        icon: (props: any) => (props.selected ? <FolderOutlined style={{ fontSize: '18px' }} /> : <FolderTwoTone style={{ fontSize: '18px' }} />),
-                    },
-                    {
-                        title: 'React',
-                        key: '0-0-0-1',
-                        icon: <SmileOutlined />,
-                    },
-                    {
-                        title: 'TypeScript',
-                        key: '0-0-0-2',
-                        icon: <SmileOutlined />,
-                    },
-                ],
-            },
-        ],
-    },
-];
-
 const Circle = (props: any) => {
+    const [tree, setTree] = useState([]);
+    const [circles, setCircles] = useState([] as any[]);
+    const [leaf, setLeaf] = useState([] as any[]);
+    useEffect(() => {
+        let args = {
+            url: '/circle', type: 'GET'
+        }
+        doRequest(args)
+            .then(results => {
+                let { data } = results;
+                setLeaf(data.filter((item: any) => item.level === 2))
+                function toTreeNode(node: any, data: any) {
+                    return {
+                        key: node.circleid,
+                        level: node.level,
+                        msg: node.msg,
+                        title: node.circlename,
+                        parentid: node.parentid,
+                        icon: node.hasChildren === 1 ? <BarsOutlined /> : <FileOutlined />,
+                        children: node.hasChildren === 1 ? data.filter((item: any) => item.parentid === node.circleid).map((item: any) => toTreeNode(item, data)) : [],
+                    }
+                }
+                setCircles(data.filter((item: any) => item.level === 2));
+                data = data.filter((item: any) => item.level === 0).map((item: any) => toTreeNode(item, data));
+                setTree(data);
+            })
+    }, [])
+
     const onSelect = (selectedKeys: React.Key[], info: any) => {
-        console.log('selected', selectedKeys, info);
+        if (info.node.level === 2) return props.history.push(`/index/circle/${selectedKeys}`);
+        setCircles(findCircles(info.node))
     };
+
+    const findCircles = (node: any) => {
+        if (node.level === 0) {
+            const root: any = tree.find((item: any) => node.key === item.key);
+            if (!root) return [];
+            let results: any = [];
+            root.children.forEach((child: any) => {
+                child.children.forEach((item: any) => results.push(item))
+            });
+            return results;
+        }
+        const root: any = tree.find((item: any) => node.parentid === item.key);
+        return root.children.find((item: any) => item.key === node.key).children;
+    }
+
+    const doSearch = (value: any) => {
+        console.log("doSearch")
+    }
 
     return (
         <div className={styles.wrap}>
@@ -77,46 +94,41 @@ const Circle = (props: any) => {
                 <Tree
                     showIcon
                     onSelect={onSelect}
-                    treeData={treeData}
-                    defaultExpandedKeys={['0-0-0']}
+                    treeData={tree}
                     autoExpandParent
-                    defaultSelectedKeys={['0-0-0-0']}
                     style={{ fontSize: '14px' }}
                 />
             </div>
             <div className={styles.center}>
                 <div className={styles.header}>
                     <Space>
-                        <Complete />
+                        <Complete doSearch={doSearch} circles={leaf} />
                         <Button type="primary">
                             搜索
                         </Button>
                     </Space>
                     <Button type="link">找不到?点此创建</Button>
                 </div>
-                <div className={styles.content}>
-                    {new Array(8).fill(0).map((item, index) => (
-                        <div className={styles.card} onClick={()=>props.history.push(`/index/circle/${index}`)}>
-                            <div className={styles.cardHeader}>
-                                {/* <img className={styles.logo} src={require(`../../logo.svg`).default} /> */}
-                                <Title level={4}>React</Title>
+                {circles.length > 0 && <>
+                    <div className={styles.content}>
+                        {circles.map((item: any, index) => (
+                            <div key={item.circleid} className={styles.card} onClick={() => props.history.push(`/index/circle/${item.circleid}`)}>
+                                <div className={styles.cardHeader}>
+                                    <Title level={4}>{item.circlename || item.title}</Title>
+                                    <Paragraph ellipsis={{ rows: 1, }}>
+                                        {item.msg}
+                                    </Paragraph>
+                                </div>
+                                <div className={styles.cardContent}>
+                                    <img alt="" style={{ height: '100%' }} className={styles.logo} src={getColor().default} />
+                                </div>
                             </div>
-                            <div className={styles.cardContent}>
-                                <Paragraph ellipsis={{ rows: 4,}}>
-                                    Ant Design, a design language for background applications, is refined by Ant UED Team. Ant
-                                    Design, a design language for background applications, is refined by Ant UED Team. Ant
-                                    Design, a design language for background applications, is refined by Ant UED Team. Ant
-                                    Design, a design language for background applications, is refined by Ant UED Team. Ant
-                                    Design, a design language for background applications, is refined by Ant UED Team. Ant
-                                    Design, a design language for background applications, is refined by Ant UED Team.
-                                </Paragraph>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className={styles.footer}>
-                    <Pagination defaultCurrent={1} total={1} />
-                </div>
+                        ))}
+                    </div>
+                    <div className={styles.footer}>
+                        <Pagination defaultCurrent={1} total={1} />
+                    </div>
+                </>}
             </div>
         </div>
     );

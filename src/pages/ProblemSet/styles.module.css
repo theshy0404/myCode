@@ -38,20 +38,20 @@
   color: #fff;
   background-color: rgba(36, 41, 47, 0.9);
 }
-.wrap .content .labelList {
+.wrap .content .typeList {
   display: flex;
   align-items: center;
   font-size: 14px;
   flex-wrap: wrap;
 }
-.wrap .content .labelList .label {
+.wrap .content .typeList .label {
   cursor: pointer;
   margin-right: 20px;
 }
-.wrap .content .labelList .label:hover {
+.wrap .content .typeList .label:hover {
   color: #1890ff;
 }
-.wrap .content .labelList .label[data-active=true] {
+.wrap .content .typeList .label[data-active=true] {
   color: #1890ff;
 }
 .wrap .content :global .ant-table-thead > tr > th {

@@ -19,8 +19,10 @@
 .wrap .tab {
   background-color: #fff;
   padding: 20px;
+  padding-top: 0px;
   overflow: auto;
   height: calc(100vh - 54px - 50px);
+  width: 100%;
 }
 .wrap .notebook {
   width: 49%;

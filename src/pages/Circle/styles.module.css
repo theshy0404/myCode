@@ -9,20 +9,16 @@
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 2px 0 4px 0 hsla(0, 0%, 88%, 0.5);
-  margin-right: 20px;
+  margin-right: 10px;
+  padding-top: 20px;
 }
 .wrap .center {
-  width: 70%;
+  width: 82%;
   background-color: #fff;
   padding: 20px;
   border-radius: 4px;
   box-shadow: 2px 0 4px 0 hsla(0, 0%, 88%, 0.5);
   min-height: calc(100vh - 64px);
-}
-.wrap .center .header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
 }
 .wrap .center .content {
   display: flex;
@@ -33,31 +29,33 @@
   border: 1px solid #f0f0f0;
   border-radius: 2px;
   background-color: #fff;
-  width: 220px;
-  height: 220px;
+  width: 280px;
+  height: 270px;
   margin: 0px 20px 20px 0px;
   transition: all 0.2s;
   cursor: pointer;
+  position: relative;
 }
 .wrap .center .content .card:hover {
   box-shadow: 0 6px 16px -8px #00000014, 0 9px 28px #0000000d, 0 12px 48px 16px #00000008;
 }
 .wrap .center .content .card .cardHeader {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 16px;
-  padding: 10px 0px 0px 20px;
+  font-size: 14px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 0px 10px 0px 10px;
 }
 .wrap .center .content .card .cardHeader .logo {
   height: 44px;
-}
-.wrap .center .content .card .cardContent {
-  padding: 30px;
 }
 .wrap .center .footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  margin: 10px;
 }

@@ -1,11 +1,11 @@
 import { observable, action, makeObservable } from 'mobx';
 
 type userInfo = {
-    userid:string,
-    username:string,
-    rankno?:number,
-    isLogin:boolean,
-  }
+    userid: string,
+    username: string,
+    rankno?: number,
+    isLogin: boolean,
+}
 
 class AuthStore {
 
@@ -14,16 +14,16 @@ class AuthStore {
     @observable username: string = '';
     @observable rankno: number | undefined = undefined;
 
-    constructor(){
+    constructor() {
         makeObservable(this);
         this.isLogin = false;
     }
 
-    @action doLogin(user:userInfo):void {
+    @action doLogin(user: userInfo): void {
         this.isLogin = true;
         this.userid = user.userid;
         this.username = user.username;
-        this.rankno = user.rankno||undefined;
+        this.rankno = user.rankno || undefined;
     }
 
     @action exitLogin(): void {
@@ -33,7 +33,7 @@ class AuthStore {
         this.rankno = undefined;
     }
 
-    afterLogin(next:Function): void {
+    afterLogin(next: Function): void {
         next();
     }
 };

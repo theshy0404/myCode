@@ -5,9 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthStore from './store/AuthStore';
 import { Provider } from 'mobx-react';
+import SolutionStore from './store/SolutionStore';
 
 const stores = {
-  AuthStore
+  AuthStore, SolutionStore
 };
 ReactDOM.render(
   <Provider {...stores}>

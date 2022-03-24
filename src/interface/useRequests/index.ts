@@ -1,10 +1,12 @@
 import { message } from 'antd';
 import axios from 'axios';
 import AuthStore from '../../store/AuthStore';
+import {doResponse} from '../response'
 
 const request = async (args: any): Promise<any> => {
     if (args.needAuth && !AuthStore.isLogin) {
         message.warning('请先登录');
+        doResponse('withoutAuth');
         return Promise.reject('withoutAuth');
     };
     let { url, type, params } = args;
