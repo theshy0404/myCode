@@ -24,21 +24,16 @@ drop table if exists problems;
 create table problems(
 	problemid char(10) primary key,
     title varchar(20),
-    msg varchar(500),
-    input1 varchar(20),
-    input2 varchar(20),
-    output1 varchar(20),
-    output2 varchar(20),
+    msg varchar(5000),
+    input varchar(2000) null,
+    output varchar(2000) null,
     rankid int,
-    labelid int,
-    type int,
-    languageid int,
-    createtime char(10),
+    labels varchar(50),
+    typeid varchar(10),
+    createtime char(20),
     func varchar(30) null,
-    arguements varchar(30),
-    template varchar(30) null,
-    replyCount int,
-    solutionCount int
+    arguements varchar(20) null,
+    template varchar(300) null
 );
 
 -- 题解表
@@ -53,9 +48,11 @@ create table solutions(
     language int,
     createtime varchar(20),
     hasCode int,
+    isMarkDown int,
     content varchar(2000),
     code varchar(2000),
-    labels varchar(20)
+    labels varchar(20),
+    isPublic int
 );
 
 -- 题目回复表
@@ -77,18 +74,21 @@ create table replys(
 drop table if exists submitItems;
 create table submitItems(
 	problemid char(10),
-    submitid varchar(20) primary key,
+    submitid int primary key auto_increment,
     userid char(10),
     createtime varchar(20),
+    codes varchar(2000),
     language int,
-    status int
+    status int,
+    note varchar(200)
 );
 
 -- 类别表
 drop table if exists problemtypes;
 create table problemtypes(
-	typeid int primary key,
-    text varchar(10)
+	typeid char(2) primary key,
+    text varchar(10),
+    level int
 );
 
 -- 难度表 
@@ -101,9 +101,8 @@ create table problemranks(
 -- 标签表 
 drop table if exists problemlabels;
 create table problemlabels(
-	labelid int primary key,
-    text varchar(10),
-    typeid int 
+	labelid char(10) primary key,
+    text varchar(10)
 );
 
 -- 回复评论表
@@ -144,4 +143,107 @@ create table problemstatus(
 	problemid char(10),
     userid char(10),
     status int null
+);
+
+-- 圈子表
+drop table if exists circles;
+create table circles(
+	circleid char(10),
+	circlename varchar(20),
+	msg varchar(2000),
+	parentid char(10) null,
+	hasChildren int,
+    createtime varchar(20),
+    creater char(10),
+    fans int,
+    ispublic int
+);
+
+-- 喜欢圈子表
+drop table if exists user_circles;
+create table user_circles(
+	id int auto_increment primary key,
+    circleid char(10),
+    userid char(10),
+    point int,
+    jointime varchar(20)
+);
+
+-- 帖子表
+drop table if exists forums;
+create table forums(
+	circleid char(10),
+	forumid char(10) primary key,
+	good int,
+	star int,
+	userid char(10),
+	isofficial int,
+	isrecommend int,
+	istop int,
+	content varchar(2000),
+	title varchar(100),
+	labels varchar(100)
+);
+
+-- 帖子一级回复表
+drop table if exists forumcommentsone;
+create table forumcommentsone(
+	commentid char(10),
+	forumid char(10),
+	userid char(10),
+	content varchar(2000),
+	good int,
+	star int,
+	labels varchar(100)
+);
+
+-- 帖子二级回复表
+drop table if exists forumcommentstwo;
+create table forumcommentstwo(
+	commentid char(10),
+	rootid char(10),
+	userid char(10),
+	content varchar(2000),
+    isreply int,
+    replyuserid char(10),
+    replyusername varchar(20)
+);
+
+-- 文本标签表
+drop table if exists text_labels;
+create table text_labels(
+	circleid char(10),
+	labelid char(10) primary key,
+	text varchar(10)
+);
+
+-- 学习计划报表
+drop table if exists plans;
+create table plans(
+	planid char(10) primary key,
+	planname varchar(20),
+	msg varchar(2000),
+    labels varchar(200)
+);
+
+-- 学习计划题目表
+drop table if exists plan_problems;
+create table plan_problems(
+	id int auto_increment primary key,
+	planid char(10),
+    problemid char(10),
+    part int,
+    point int, 
+    needpoints int
+);
+
+-- 用户学习计划表 
+drop table if exists plan_users;
+create table plan_users(
+	id int auto_increment primary key,
+    planid char(10),
+    userid char(10),
+    points int,
+    isend int,
+    finishproblemid varchar(1000)
 );

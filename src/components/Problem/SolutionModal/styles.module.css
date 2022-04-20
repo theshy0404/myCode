@@ -58,6 +58,10 @@
   padding: 0px 0px 12px 0px;
   margin-bottom: 10px;
 }
+.wrap .footer {
+  height: 300px;
+  overflow: auto;
+}
 .wrap .footer .item {
   display: flex;
   align-items: center;

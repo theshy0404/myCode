@@ -11,17 +11,16 @@
 .wrap .content .setList {
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
 }
 .wrap .content .setList .set {
   background-color: #ffffff;
   margin-right: 20px;
   padding: 8px 16px;
   border-radius: 2px;
-  border: 1px solid #d9d9d9;
   box-shadow: 0px 2px 4px #f0f0f0;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.1s;
   color: rgba(36, 41, 47, 0.8);
   display: flex;
   align-items: center;
@@ -31,12 +30,28 @@
   margin-right: 10px;
 }
 .wrap .content .setList .set:hover {
-  border-color: rgba(36, 41, 47, 0.3);
   color: #24292f;
 }
 .wrap .content .setList .set[data-active=true] {
   color: #fff;
-  background-color: rgba(36, 41, 47, 0.9);
+  background-color: #1890ff;
+  border: none;
+}
+.wrap .content .typeList {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+.wrap .content .typeList .type {
+  cursor: pointer;
+  margin-right: 20px;
+}
+.wrap .content .typeList .type:hover {
+  color: #1890ff;
+}
+.wrap .content .typeList .type[data-active=true] {
+  color: #1890ff;
 }
 .wrap .content .labelList {
   display: flex;
@@ -45,14 +60,23 @@
   flex-wrap: wrap;
 }
 .wrap .content .labelList .label {
+  padding: 0px 8px;
+  font-size: 12px;
+  height: 24px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #007aff;
   cursor: pointer;
-  margin-right: 20px;
-}
-.wrap .content .labelList .label:hover {
-  color: #1890ff;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  background-color: rgba(0, 10, 32, 0.05);
+  border-radius: 12px;
+  margin: 2px 10px 2px 0px;
 }
 .wrap .content .labelList .label[data-active=true] {
-  color: #1890ff;
+  background-color: rgba(0, 122, 255, 0.9);
+  color: #fff;
 }
 .wrap .content :global .ant-table-thead > tr > th {
   background-color: #fff;
@@ -69,6 +93,23 @@
 }
 .wrap .aside {
   width: 25%;
+}
+.wrap .aside p {
+  margin: 15px;
+  color: rgba(0, 0, 0, 0.4);
+}
+.wrap .aside .uploadModal {
+  margin: 15px;
+  border: 1px solid #f5f5f5;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 10px 5px;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s;
+}
+.wrap .aside .uploadModal:hover {
+  transform: scale(1.02, 1.02);
 }
 .pointer {
   cursor: pointer;

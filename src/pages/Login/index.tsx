@@ -3,7 +3,7 @@ import styles from './styles.module.css';
 import '../../App.css';
 import { inject, observer } from 'mobx-react';
 import Logo from '../../shared/images/Login/code.svg';
-import LoginModal from '../../components/LoginForm';
+import LoginForm from '../../components/LoginForm';
 import RegisterModal from '../../components/RegisterForm';
 
 
@@ -42,7 +42,7 @@ class Login extends React.Component<any, TState>{
       <div className={styles.wrap}>
         <img className={styles.logo} alt="logo" src={Logo}></img>
         <h1 className={styles.title}>{title}</h1>
-        {modal === 'login' ? <LoginModal /> : <RegisterModal />}
+        {modal === 'login' ? <LoginForm /> : <RegisterModal />}
         <div className={styles.tip}>
           {tip}&nbsp;<span onClick={() => this.handleChangeMoal()} className={styles.href}>{href}</span>
         </div>

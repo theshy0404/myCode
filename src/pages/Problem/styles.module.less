@@ -1,8 +1,9 @@
 .wrap {
-    padding-top: 10px;
-    height: ~"calc(100vh - 54px)";
+    padding-top: 5px;
+    height: ~"calc(100vh - 54px - 5px)";
+    overflow: hidden;
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
 
     :global .ant-tabs-tab.ant-tabs-tab .ant-tabs-tab-btn {
         color: rgba(36, 41, 47, 0.7);
@@ -22,15 +23,17 @@
     .tab {
         background-color: #fff;
         padding: 20px;
+        padding-top: 10px;
         overflow: auto;
-        height: ~"calc(100vh - 54px - 50px)";
+        height: ~"calc(100vh - 54px - 30px)";
+        width: 100%;
     }
 
-    .notebook{
+    .notebook {
         width: 49%;
         position: relative;
 
-        .console{
+        .console {
             position: absolute;
             bottom: 50px;
             width: 98%;
@@ -38,9 +41,41 @@
 
     }
 
-    .solutionHeader{
+    .solutionHeader {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
+}
+
+.null {
+    color: rgba(60, 60, 67, 0.3);
+    cursor: pointer;
+}
+
+.note {
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100px;
+    display: inline-block;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+// :global .for-container {
+//     height: auto !important;
+//     overflow: hidden;
+// }
+
+// :global .for-container,:global .for-editor{
+//     height: auto !important;
+//     overflow: hidden;
+//     padding-bottom: 0px;
+// }
+
+:global .ant-table-thead>tr>th,
+:global .ant-table-tbody>tr>td,
+:global .ant-table tfoot>tr>th,
+:global .ant-table tfoot>tr>td {
+    padding: 8px;
 }

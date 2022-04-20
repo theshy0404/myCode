@@ -103,7 +103,7 @@ class ReplyComment extends React.Component<any, any>{
     }
 
     render() {
-        const { loading, replys, comments } = this.state;
+        const { loading, replys,} = this.state;
         if (loading) return <Skeleton avatar paragraph={{ rows: 4 }} />
         return (
             <>

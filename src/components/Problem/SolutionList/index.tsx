@@ -1,9 +1,8 @@
-import { AntDesignOutlined, LikeOutlined, MessageOutlined, StarOutlined } from "@ant-design/icons";
-import { Avatar, Divider, List, Skeleton, Space, Tag, Typography, } from "antd";
+import { AntDesignOutlined,  StarOutlined } from "@ant-design/icons";
+import { Avatar, List, Skeleton, Space, Tag, Typography, } from "antd";
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { LANGUAGE_MAP } from "../../../interface/Problem";
-import styles from './styles.module.css';
 
 const { Text } = Typography;
 
@@ -56,13 +55,13 @@ class SolutionList extends React.Component<any, any>{
                                 avatar={<Avatar style={{ backgroundColor: '#1890ff' }} icon={<AntDesignOutlined />} />}
                                 title={
                                     <Space>
-                                        <a style={{color: 'black'}}href={`${this.props.history.location}/index/solution/${item.solutionid}`}>{item.title}</a>
+                                        <a style={{ color: 'black' }} href={`${this.props.history.location}/index/solution/${item.solutionid}`}>{item.title}</a>
                                         {item.isofficial === 1 && <Tag style={{ fontSize: '14px' }} color="warning">官方</Tag>}
                                     </Space>}
                                 description={<div>
                                     <Tag color="success">{LANGUAGE_MAP[item.language]}</Tag>
-                                    {item.hasCode===1 && <Tag color="processing">附代码</Tag>}
-                                    {item.labels.split(',').map((label: any) => <Tag key={label}>{label}</Tag>)}
+                                    {item.hasCode === 1 && <Tag color="processing">附代码</Tag>}
+                                    {item.labels !== '' && item.labels.split(',').map((label: any) => <Tag key={label}>{label}</Tag>)}
                                 </div>}
                             />
                             <Text

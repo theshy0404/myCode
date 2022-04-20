@@ -26,7 +26,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-
+// const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
@@ -79,7 +79,7 @@ const hasJsxRuntime = (() => {
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-module.exports = function(webpackEnv) {
+module.exports = function (webpackEnv) {
     const isEnvDevelopment = webpackEnv === 'development';
     const isEnvProduction = webpackEnv === 'production';
 
@@ -161,8 +161,8 @@ module.exports = function(webpackEnv) {
         bail: isEnvProduction,
         devtool: isEnvProduction ?
             shouldUseSourceMap ?
-            'source-map' :
-            false :
+                'source-map' :
+                false :
             isEnvDevelopment && 'cheap-module-source-map',
         // These are the "entry points" to our application.
         // This means they will be the "root" imports that are included in JS bundle.
@@ -213,9 +213,9 @@ module.exports = function(webpackEnv) {
             // Point sourcemap entries to original disk location (format as URL on Windows)
             devtoolModuleFilenameTemplate: isEnvProduction ?
                 info =>
-                path
-                .relative(paths.appSrc, info.absoluteResourcePath)
-                .replace(/\\/g, '/') :
+                    path
+                        .relative(paths.appSrc, info.absoluteResourcePath)
+                        .replace(/\\/g, '/') :
                 isEnvDevelopment &&
                 (info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
             // Prevents conflicts when multiple webpack runtimes (from different apps)
@@ -498,11 +498,11 @@ module.exports = function(webpackEnv) {
                             test: sassRegex,
                             exclude: sassModuleRegex,
                             use: getStyleLoaders({
-                                    importLoaders: 3,
-                                    sourceMap: isEnvProduction ?
-                                        shouldUseSourceMap :
-                                        isEnvDevelopment,
-                                },
+                                importLoaders: 3,
+                                sourceMap: isEnvProduction ?
+                                    shouldUseSourceMap :
+                                    isEnvDevelopment,
+                            },
                                 'sass-loader'
                             ),
                             // Don't consider CSS imports dead code even if the
@@ -516,14 +516,14 @@ module.exports = function(webpackEnv) {
                         {
                             test: sassModuleRegex,
                             use: getStyleLoaders({
-                                    importLoaders: 3,
-                                    sourceMap: isEnvProduction ?
-                                        shouldUseSourceMap :
-                                        isEnvDevelopment,
-                                    modules: {
-                                        getLocalIdent: getCSSModuleLocalIdent,
-                                    },
+                                importLoaders: 3,
+                                sourceMap: isEnvProduction ?
+                                    shouldUseSourceMap :
+                                    isEnvDevelopment,
+                                modules: {
+                                    getLocalIdent: getCSSModuleLocalIdent,
                                 },
+                            },
                                 'sass-loader'
                             ),
                         },
@@ -551,27 +551,28 @@ module.exports = function(webpackEnv) {
         },
         plugins: [
             // Generates an `index.html` file with the <script> injected.
+            // new MonacoWebpackPlugin(['apex', 'azcli', 'bat', 'clojure', 'coffee', 'cpp', 'csharp', 'csp', 'css', 'dockerfile', 'fsharp', 'go', 'handlebars', 'html', 'ini', 'java', 'javascript', 'json', 'less', 'lua', 'markdown', 'msdax', 'mysql', 'objective', 'perl', 'pgsql', 'php', 'postiats', 'powerquery', 'powershell', 'pug', 'python', 'r', 'razor', 'redis', 'redshift', 'ruby', 'rust', 'sb', 'scheme', 'scss', 'shell', 'solidity', 'sql', 'st', 'swift', 'typescript', 'vb', 'xml', 'yaml']),
             new HtmlWebpackPlugin(
                 Object.assign({}, {
-                        inject: true,
-                        template: paths.appHtml,
-                    },
+                    inject: true,
+                    template: paths.appHtml,
+                },
                     isEnvProduction ?
-                    {
-                        minify: {
-                            removeComments: true,
-                            collapseWhitespace: true,
-                            removeRedundantAttributes: true,
-                            useShortDoctype: true,
-                            removeEmptyAttributes: true,
-                            removeStyleLinkTypeAttributes: true,
-                            keepClosingSlash: true,
-                            minifyJS: true,
-                            minifyCSS: true,
-                            minifyURLs: true,
-                        },
-                    } :
-                    undefined
+                        {
+                            minify: {
+                                removeComments: true,
+                                collapseWhitespace: true,
+                                removeRedundantAttributes: true,
+                                useShortDoctype: true,
+                                removeEmptyAttributes: true,
+                                removeStyleLinkTypeAttributes: true,
+                                keepClosingSlash: true,
+                                minifyJS: true,
+                                minifyCSS: true,
+                                minifyURLs: true,
+                            },
+                        } :
+                        undefined
                 )
             ),
             // Inlines the webpack runtime script. This script is too small to warrant

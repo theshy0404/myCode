@@ -1,73 +1,101 @@
-.wrap{
-    margin:5px 0px;
-    display:flex;
-    align-items:flex-start;
+.wrap {
+    margin-top: 5px;
+    display: flex;
+    align-items: flex-start;
 
-    .aside{
-        width:15%;
+    .aside {
+        flex: 0 0 300px;
         min-height: ~"calc(100vh - 64px)";
-        background-color:#fff;
-        border-radius: 4px;
-        box-shadow: 2px 0 4px 0 hsl(0deg 0% 88% / 50%);
-        margin-right: 20px;
+        background-color: #fff;
+        padding: 10px;
+        box-shadow: 0 0px 4px rgba(0, 0, 0, 0.08);
     }
 
-    .center{
-        width:70%;
-        background-color:#fff;
-        padding:20px;
-        border-radius: 4px;
-        box-shadow: 2px 0 4px 0 hsl(0deg 0% 88% / 50%);
-        min-height: ~"calc(100vh - 64px)";
+    .center {
+        flex: 1 1 auto;
+        height: ~"calc(100vh - 64px)";
+        overflow: auto;
 
-        .header{
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
+        .searchbox{
+            margin:10px 0px 0px 20px;
+            width: 250px;
         }
 
-        .content{
+        .circleList {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
+            position: relative;
 
-            .card{
-                border:1px solid #f0f0f0;
+            .circleCard {
+                background-color: #fff;
+                margin: 22px;
                 border-radius: 2px;
-                background-color:#fff;
-                width:220px;
-                height:220px;
-                margin: 0px 20px 20px 0px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+                width: 280px;
+                height: 140px;
                 transition: all 0.2s;
                 cursor: pointer;
-    
-                &:hover{
-                    box-shadow: 0 6px 16px -8px #00000014, 0 9px 28px #0000000d, 0 12px 48px 16px #00000008;
-                }
 
-                .cardHeader{
+                .header {
                     display: flex;
                     align-items: center;
-                    border-bottom:1px solid #f0f0f0;
-                    font-size: 16px;
-                    padding:10px 0px 0px 20px;
+                    justify-content: space-between;
+                    padding: 8px 10px;
 
-                    .logo{
-                        height:44px;
+                    .title {
+                        display: flex;
+                        width: 160px;
+                        align-items: center;
+
+                        h3{
+                            margin-left: 10px;
+                        }
+                    }
+
+                    .action {
+                        border-radius: 10px;
+                        border: 1px solid rgba(0, 0, 0, 0.3);
+                        display: flex;
+                        align-items: center;
+                        font-size: 12px;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+
+                        div {
+                            padding: 2px 5px;
+                        }
+
+                        .join {
+                            border-right: 1px solid rgba(0, 0, 0, 0.3);
+                        }
+
+                        &[data-active=true] {
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            color: rgba(0, 0, 0, 0.3);
+
+                            .join {
+                                border-right: 1px solid rgba(0, 0, 0, 0.1);
+                            }
+                        }
                     }
                 }
 
-                .cardContent{
-                    padding:30px;
+                .content{
+                    padding:10px;
+                }
+
+                &:hover {
+                    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
                 }
             }
         }
-
-        .footer{
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            margin-top: 20px;
-        }
     }
+}
+
+.button {
+    position: absolute;
+    right: 20px;
+    top: 28px;
 }

@@ -37,15 +37,13 @@ export const PROBLEM_RANK_MAP = {
 };
 
 export enum PROBLEM_STATUS {
-    ERROR = 3,
     PASS = 1,
     WRONG = 2,
     NONE = 0,
 }
 
 export const PROBLEM_STATUS_MAP = {
-    [PROBLEM_STATUS.ERROR]: '运行出错',
-    [PROBLEM_STATUS.PASS]: '已解答',
-    [PROBLEM_STATUS.WRONG]: '尝试过',
+    [PROBLEM_STATUS.PASS]: '通过',
+    [PROBLEM_STATUS.WRONG]: '出错',
     [PROBLEM_STATUS.NONE]: '未开始',
 };

@@ -1,0 +1,8 @@
+.footer {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+.editor {
+  color: red;
+}

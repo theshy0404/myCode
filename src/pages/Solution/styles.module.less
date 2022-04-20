@@ -21,6 +21,7 @@
         font-size: 14px;
         border-radius: 8px;
         margin-top: 15px;
+        position: relative;
         transition: all 0.2s;
 
         &:last-child{
@@ -81,6 +82,9 @@
         .description {
             padding: 10px 0px;
             display: flex;
+            background-color: #fff;
+            z-index: 1000;
+            position: relative;
             align-items: center;
 
             .languageTag {
@@ -156,4 +160,8 @@
             }
         }
     }
+}
+
+:global .for-container {
+    height: auto !important;
 }

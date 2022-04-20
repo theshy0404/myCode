@@ -1,14 +1,26 @@
-import { CheckOutlined, CloseOutlined, PlusSquareOutlined } from '@ant-design/icons';
-import { Divider, Input, message, Popover, Space } from 'antd';
+import { CheckOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import { Input, message, Popover, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import doRequest from '../../../interface/useRequests';
 import { LANGUAGE_MAP } from '../../../interface/Problem';
-import ReactDOM from 'react-dom';
-import MdEditor from 'react-markdown-editor-lite';
-import MarkdownIt from 'markdown-it';
+import Editor from 'for-editor';
+import { inject, observer } from 'mobx-react';
 
-const MOCK_DATA = "Hello.\n\n * This is markdown.\n * It is fun\n * Love it or leave it."
+const labelHashMap = {
+    '001': '动态规划',
+    '002': '深度优先遍历',
+    '003': '广度优先遍历',
+    '004': '回溯法',
+    '005': '双指针',
+    '006': '数组',
+    '007': '哈希表',
+    '008': '递归',
+    '009': '字符串',
+    '010': '滑动窗口',
+    '011': '数学',
+    '012': '正则',
+}
 
 const { Search } = Input;
 
@@ -32,12 +44,10 @@ const SelectLabels = (props: any) => {
             changeSelectSolutionLabels([...selectSolutionLabels, value])
         }
     }
-    useEffect(
-        () => {
-            console.log([...selectLanguageLabels, ...selectSolutionLabels])
-            props.changeSelectLabels([...selectLanguageLabels, ...selectSolutionLabels]);
-        },
-        [selectLanguageLabels, selectSolutionLabels])
+    useEffect(() => {
+        props.changeSelectLabels([...selectLanguageLabels, ...selectSolutionLabels]);
+    }, [selectLanguageLabels, selectSolutionLabels]);  // eslint-disable-line
+
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>
@@ -62,49 +72,45 @@ const SelectLabels = (props: any) => {
 }
 
 const SolutionModal = (props: any) => {
-    const mdParser = new MarkdownIt(/* Markdown-it options */)
     const [languageLabels, changeLanguageLabels] = useState([] as any[]);
     const [solutionLabels, changeSolutionLabels] = useState([] as any[]);
-    const [title, changeTitle] = useState('');
-    const [selectLabels, changeSelectLabels] = useState([] as any[]);
     useEffect(() => {
         let params = {
             url: '/solution/label', type: 'GET'
         }
         doRequest(params).then(result => {
-            changeLanguageLabels(result.data.filter((item: any) => item.value < 10))
-            changeSolutionLabels(result.data.filter((item: any) => item.value > 10))
+            changeLanguageLabels(result.data.filter((item: any) => item.value.length === 1))
+            changeSolutionLabels(result.data.filter((item: any) => item.value.length === 3))
         })
 
     }, [])
-    const handleEditorChange = (props: any) => {
-        console.log('handleEditorChange', props.html, props.text)
+    const handleEditorChange = (value: any) => {
+        props.SolutionStore.setContent(value);
+    }
+    const changeTitle = (value: string) => {
+        props.SolutionStore.setTitle(value);
     }
     return (
         <div className={styles.wrap}>
-            <Space direction="vertical">
-                <Input onChange={e => changeTitle(e.target.value)} value={title} style={{ fontSize: '20px' }} placeholder="请输入标题" bordered={false} />
+            <Space direction="vertical" style={{ width: '100%', }}>
+                <Input onChange={e => changeTitle(e.target.value)} value={props.SolutionStore.title} style={{ fontSize: '20px' }} placeholder="请输入标题" bordered={false} />
                 <div className={styles.tags}>
                     <Popover placement="bottomLeft"
-                        content={<SelectLabels languageLabels={languageLabels} solutionLabels={solutionLabels} changeSelectLabels={(labels: any[]) => changeSelectLabels(labels)} />}
+                        content={<SelectLabels languageLabels={languageLabels} solutionLabels={solutionLabels} changeSelectLabels={(labels: any[]) => props.SolutionStore.setLabels(labels)} />}
                         trigger="click">
                         <div className={styles.addTag}><PlusSquareOutlined className={styles.tagIcon} /> 获取标签</div>
                     </Popover>
-                    {selectLabels.length === 0 ? <div className={styles.tagMsg}>添加编程语言、方法、知识点等标签</div> :
+                    {props.SolutionStore.labels.length === 0 ? <div className={styles.tagMsg}>添加编程语言、方法、知识点等标签</div> :
                         <>
-                            {selectLabels.map((item, index) => (
-                                <div key={index} className={styles.tag}>{item.value < 10 ? LANGUAGE_MAP[item.value] : item.label}</div>
+                            {props.SolutionStore.labels.map((item: { value: string; label: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) => (
+                                <div key={index} className={styles.tag}>{item.value.length === 1 ? LANGUAGE_MAP[item.value] : labelHashMap[item.value]}</div>
                             ))}
                         </>}
                 </div>
-                <MdEditor
-                    value={MOCK_DATA}
-                    renderHTML={(text) => mdParser.render(text)}
-                    onChange={handleEditorChange}
-                />
+                <Editor style={{ border: 'none', boxShadow: 'none', width: '100%', height: '300px' }} value={props.SolutionStore.content} onChange={handleEditorChange} />
             </Space>
         </div>
     )
 }
 
-export default SolutionModal;
+export default inject('SolutionStore')(observer(SolutionModal));

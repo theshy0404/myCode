@@ -1,0 +1,66 @@
+.wrap {
+  margin: 10px auto;
+  width: 70%;
+  height: 100%;
+}
+.wrap .line {
+  margin-bottom: 10px;
+}
+.wrap .line h2 {
+  font-weight: 600;
+  font-size: 22px;
+}
+.wrap .line .listTitle {
+  margin: 10px 0px;
+  font-size: 16px;
+  color: rgba(38, 38, 38, 0.75);
+  display: flex;
+}
+.wrap .line .planList {
+  display: flex;
+  flex-wrap: wrap;
+}
+.wrap .line .planList > div {
+  flex: 0 0 160px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 60px;
+}
+.wrap .line .planList > div .planCard {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+.wrap .line .planList > div .planCard img {
+  border-radius: 4px;
+  width: 100%;
+}
+.wrap .line .planList > div .planCard .footer {
+  position: absolute;
+  bottom: 0;
+  font-size: 16px;
+  opacity: 0;
+  height: 30%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(217, 231, 253, 0.5);
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.wrap .line .planList > div .planCard:hover {
+  opacity: 0.7;
+  transform: scale(1.05, 1.05);
+}
+.wrap .line .planList > div .planCard:hover .footer {
+  opacity: 1;
+}
+.wrap .line .planList > div .title {
+  font-size: 16px;
+}

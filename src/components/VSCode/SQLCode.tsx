@@ -113,7 +113,7 @@ class VSCode extends React.Component<any, any>{
     render() {
         const lines = this.state.codeLines;
         const selectIndex = lines.findIndex((item: { isEditable: any; }) => item.isEditable);
-        const { positionTop, loading, positionLeft, word, words, selectTip } = this.state;
+        const {  loading,  } = this.state;
         const createMarkup = (code: string): { __html: string } => {
             let innerHTML = '';
             for (let i = 0; i < code.length; i++) {
@@ -138,7 +138,7 @@ class VSCode extends React.Component<any, any>{
                 </div>
                 <div className={styles.footer}>
                     <Space size="large">
-                        <Button type="primary" onClick={() => this.run()} loading={loading} ghost icon={<SendOutlined />}>执行代码</Button>
+                        <Button type="primary" onClick={() => this.props.dorun(lines,true)} loading={loading} ghost icon={<SendOutlined />}>执行代码</Button>
                         <Button type="primary" icon={<CheckOutlined />}>完成</Button>
                     </Space>
                 </div>

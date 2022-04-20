@@ -1,0 +1,149 @@
+body {
+  overflow-y: scroll;
+}
+.wrap {
+  width: 60%;
+  margin: 15px auto;
+}
+.wrap .card {
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1), 0px 2px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  padding: 15px;
+  font-size: 14px;
+  border-radius: 8px;
+  margin: 10px;
+  position: relative;
+  transition: all 0.2s;
+}
+.wrap .card:last-child {
+  margin-bottom: 15px;
+}
+.wrap .card .item {
+  display: flex;
+  align-items: center;
+  padding: 8px 4px;
+  margin: 2px 0px;
+}
+.wrap .card .item:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+.wrap .card .content {
+  margin: 10px 0px;
+}
+.wrap .card .header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.wrap .card .header .title {
+  font-size: 18px;
+  margin-left: 8px;
+}
+.wrap .card .header .modalTitle {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+.wrap .card .header .officalTag {
+  background-color: #ffecd1;
+  color: #ffa119;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+.wrap .card .header .commentUser {
+  color: rgba(36, 41, 47, 0.7);
+}
+.wrap .card .header .user {
+  display: flex;
+  align-items: center;
+}
+.wrap .card .description {
+  padding: 10px 0px;
+  display: flex;
+  background-color: #fff;
+  z-index: 1000;
+  position: relative;
+  align-items: center;
+}
+.wrap .card .description .languageTag {
+  border-radius: 4px;
+  padding: 2px 8px;
+  background: rgba(175, 180, 189, 0.2);
+  color: #24292f;
+}
+.wrap .card .description span {
+  color: #afb4bd;
+  font-size: 12px;
+  margin-right: 10px;
+}
+.wrap .card .code {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+}
+.wrap .card .code p {
+  line-height: 8px;
+}
+.wrap .card .footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(36, 41, 47, 0.7);
+}
+.wrap .card .footer .action {
+  display: flex;
+  align-items: center;
+}
+.wrap .card .footer .reply {
+  display: flex;
+  align-items: center;
+}
+.wrap .card .footer .reply .replyButton {
+  border-radius: 4px;
+  box-shadow: inset 0px 0px 0px 1px #0a84ff;
+  background-color: transparent;
+  color: #0a84ff;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px 12px;
+  transition: all 0.2s;
+}
+.wrap .card .footer .reply .replyButton:hover {
+  background-color: #0a84ff;
+  color: #fff;
+}
+.wrap .card .footer .iconText {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.wrap .card .footer .iconText:hover {
+  color: #24292f;
+}
+.wrap .card .footer .replyCount {
+  margin-left: 100px;
+}
+:global .ant-modal-body {
+  padding-top: 0px;
+}
+.import {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.import .importCard {
+  width: 400px;
+  background-color: #fafafa;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0px 1px 2px #f0f0f0;
+  border-radius: 4px;
+  padding: 15px 10px 1px 10px;
+  cursor: pointer;
+}

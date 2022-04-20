@@ -1,8 +1,7 @@
-import execjs
+loc='''
+def twoSum(nums, target):
+	return [0,1] 
+'''
 
-js = execjs.compile('''
-function sum(a,b){
-return a+b;
-}
-''')
-print(js.eval('sum(2,1)'))
+exec(loc)
+print(eval('twoSum(1,2)'))

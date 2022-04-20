@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="284px" height="184px" viewBox="0 0 284 184" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>编组 36</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="资源" transform="translate(-424.000000, -1085.000000)">
+            <g id="编组-36" transform="translate(424.000000, 1085.000000)">
+                <g id="编组-19备份-2" fill="#6548D8">
+                    <path d="M2,0 L282,0 C283.104569,-2.02906125e-16 284,0.8954305 284,2 L284,184 L284,184 L0,184 L0,2 C-1.3527075e-16,0.8954305 0.8954305,2.02906125e-16 2,0 Z" id="蒙版备份-8"></path>
+                </g>
+                <g id="编组-17备份" transform="translate(99.000000, 48.000000)">
+                    <rect id="矩形" x="0" y="0" width="86.4" height="86.4"></rect>
+                    <g id="编组-6" transform="translate(7.200000, 7.200000)">
+                        <polygon id="矩形" fill="#4628BC" points="29.0181818 50.4 44.1818182 50.4 48 73.2 25.2 73.2"></polygon>
+                        <rect id="矩形" fill="#C9B4FF" x="0" y="0" width="72" height="55.2" rx="2.4"></rect>
+                        <path d="M2.4,0 L69.6,0 C70.9254834,-2.4348735e-16 72,1.0745166 72,2.4 L72,45.6 L72,45.6 L0,45.6 L0,2.4 C-6.0641411e-16,1.0745166 1.0745166,-1.08878028e-15 2.4,0 Z" id="矩形" fill="#976BFF"></path>
+                        <circle id="椭圆形" fill="#FFFFFF" cx="36" cy="50.4" r="2.4"></circle>
+                        <path d="M26.2953317,68.2803565 L47.159798,68.2803565 L26.2953317,68.2803565 Z" id="路径-117" stroke="#FFFFFF" stroke-width="0.6"></path>
+                    </g>
+                </g>
+                <g id="编组-35" transform="translate(122.000000, 64.000000)">
+                    <rect id="矩形" fill="#C9B4FF" x="0" y="15" width="8" height="13"></rect>
+                    <rect id="矩形备份-39" fill="#C9B4FF" x="11" y="6" width="8" height="22"></rect>
+                    <rect id="矩形备份-42" fill="#C9B4FF" x="33" y="9" width="8" height="19"></rect>
+                    <rect id="矩形备份-41" fill="#7343F0" x="22" y="0" width="8" height="28"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

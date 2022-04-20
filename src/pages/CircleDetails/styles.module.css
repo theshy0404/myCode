@@ -48,6 +48,7 @@
   padding-right: 50px;
   overflow: hidden;
   transition: height 0.3s ease-out;
+  padding-right: 60px;
 }
 .wrap .center .labels .expandButton {
   position: absolute;
@@ -74,7 +75,7 @@
   background-color: #007AFF;
 }
 .wrap .aside {
-  width: 25%;
+  width: 28%;
 }
 .wrap .card {
   background: #fff;
@@ -144,6 +145,7 @@
   height: 20px;
   color: rgba(52, 61, 73, 0.3);
   margin-top: 2px;
+  width: 170px;
 }
 .wrap .card .rankno .item:hover {
   background-color: #f5f5f5;
