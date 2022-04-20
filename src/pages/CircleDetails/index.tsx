@@ -56,12 +56,12 @@ class CircleDetails extends React.Component<any, any> {
         }
         await doRequest(params).then((results) => {
             if (results.data.length === 0) return;
-            console.log(typeof results.data)
             let rankList = results.data.sort((a: any, b: any) => {
                 return a.star - b.star;
             })
             rankList = rankList.slice(0, 9);
-            this.setState({ forumList: results.data, rankList });
+            console.log(results)
+            this.setState({ forumList: results.data, rankList }, () => console.log(results.data));
         })
     }
 
@@ -70,6 +70,7 @@ class CircleDetails extends React.Component<any, any> {
     }
 
     saveForum() {
+        if (!AuthStore.userid) return message.error('请先登录');
         const args = {
             circleid: this.props.match.params.id,
             userid: AuthStore.userid,

@@ -1,14 +1,13 @@
 import React from 'react';
 import styles from './styles.module.css';
 import '../../App.css'
-import Logo from '../../shared/images/public/code.svg';
-import { Avatar, Badge, Popover, Spin, } from 'antd';
-import { BellOutlined, BookOutlined, ContactsOutlined, FileDoneOutlined, LoadingOutlined, LoginOutlined, SettingOutlined, SolutionOutlined, SoundOutlined, StarOutlined, TranslationOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Popover, Spin, } from 'antd';
+import { DownOutlined, LoadingOutlined, } from '@ant-design/icons';
 import { inject, observer } from 'mobx-react';
 import UserAvatar from '../../shared/images/public/user.png';
 import { Redirect, Route, HashRouter as Router, Switch, withRouter } from 'react-router-dom';
 
-type TAvtive = 'problemset' | 'test' | 'circle' | 'answer';
+type TAvtive = 'problemset' | 'learn' | 'circle' | 'answer';
 type TState = {
   showUserMenu: boolean,
   active: TAvtive,
@@ -20,7 +19,28 @@ const Circle = React.lazy(() => import('../Circle'));
 const Solution = React.lazy(() => import('../Solution'));
 const CircleDetails = React.lazy(() => import('../CircleDetails'));
 const CircleForums = React.lazy(() => import('../CircleForums'));
+const Learn = React.lazy(() => import('../Learn'));
+const PlanDetails = React.lazy(() => import('../PlanDetail'));
+const PlanProblem = React.lazy(() => import('../PlanProblem'));
 const Loading = () => <Spin indicator={antIcon} />
+
+const Menu = (props: any) => {
+  const menuItems = [
+    { id: 1, title: '个人资料' },
+    { id: 2, title: '做题记录' },
+    { id: 3, title: '我的发帖' },
+  ]
+  return (
+    <div className={styles.menu}>
+      {
+        menuItems.map((item: any) => (
+          <div key={item.id} className={styles.item}>{item.title}</div>
+        ))
+      }
+      <div onClick={() => props.toLogin()} key={4} className={styles.item}>{props.AuthStore.isLogin ? '退出登录' : '去登录'}</div>
+    </div>
+  )
+}
 
 @inject('AuthStore')
 @observer
@@ -56,68 +76,46 @@ class Main extends React.Component<any, TState> {
   render() {
     const navLists: Array<{ id: TAvtive, title: string }> = [
       { id: 'problemset', title: '题库' },
-      // { id: 'test', title: '测试' },
+      { id: 'learn', title: '学习' },
       { id: 'circle', title: '讨论' },
       // { id: 'answer', title: '问答' },
     ];
-    const { AuthStore, history } = this.props;
-    const userMenu = [
-      { id: 1, icon: <StarOutlined />, msg: '我的收藏夹' },
-      { id: 2, icon: <BookOutlined />, msg: '我的笔记' },
-      { id: 3, icon: <SolutionOutlined />, msg: '我的题解' },
-      { id: 4, icon: <FileDoneOutlined />, msg: '我的做题记录' },
-      { id: 5, icon: <SoundOutlined />, msg: '我的讨论' },
-      { id: 6, icon: <ContactsOutlined />, msg: '个人资料' },
-      { id: 7, icon: <LoginOutlined />, msg: '退出登录' },
-    ];
+    const { AuthStore } = this.props;
     return (
-      <div className={styles.wrap} onClick={this.handleChangeUserMenuShow}>
-        <header className={styles.header}>
-          <div className={styles.selection}>
-            <Popover placement="bottomLeft" title="MyCode" content="一起敲代码吧" trigger="hover">
-              <div className={styles.logo}><img src={Logo} alt="Logo" /><div>MyCode</div></div>
-            </Popover>
-            <div className={styles.nav}>
-              {navLists.map(item => <div onClick={() => this.handleChangeActive(item.id)} data-active={item.id === this.state.active} className={styles.navtion} key={item.id}>{item.title}</div>)}
-            </div>
+      <div className={styles.wrap} >
+        <div className={styles.header}>
+          <div className={styles.navList}>
+            <div className={styles.title}>MyCode🔥</div>
+            {
+              navLists.map((item: any) => (
+                <div onClick={() => this.handleChangeActive(item.id)} data-active={item.id === this.state.active} key={item.id} className={styles.nav}>{item.title}</div>
+              ))
+            }
           </div>
-          <div className={styles.user}>
-            <div> <TranslationOutlined className={styles.icon} /></div>
-            <div>
-              <Badge dot>
-                <BellOutlined className={styles.icon} />
-              </Badge>
-            </div>
-            <div onClick={() => { this.setState({ showUserMenu: true }) }} className={styles.user}>
-              {AuthStore.isLogin ? <Avatar size={28} src={UserAvatar} /> : <Avatar size={28} icon={<UserOutlined />} />}
-              {this.state.showUserMenu && <div className={styles.userModal}>
-                <div className={styles.userHeader}>
-                  <div className={styles.userName}><UserOutlined style={{ fontSize: '16px', marginRight: '5px' }} />{AuthStore.isLogin ? AuthStore.username : '未登录'}</div>
-                  {AuthStore.isLogin ? <SettingOutlined style={{ fontSize: '16px' }} /> :
-                    <div onClick={() => history.push('/login')} className={styles.loginButton}>立即登录</div>}
-                </div>
-                <div className={styles.userContent}>
-                  {userMenu.map((item, index) => (
-                    <div data-active={index === 0} key={item.id} className={styles.item}>{item.icon}{item.msg}</div>
-                  ))}
-                </div>
-              </div>}
-            </div>
+          <div className={styles.action}>
+            <Avatar size={36} src={UserAvatar}></Avatar>
+            <span className={styles.user}>
+              <Popover placement="bottomRight" content={() => <Menu toLogin={() => this.props.history.replace('/login')} AuthStore={this.props.AuthStore} />} trigger="hover">
+                <div className={styles.user}>{AuthStore.isLogin ? AuthStore.username : '未登录'}<DownOutlined style={{ fontSize: '10px' }} /></div>
+              </Popover>
+            </span>
           </div>
-        </header>
+        </div>
         <React.Suspense fallback={<Spin indicator={<Loading />} />}>
           <Router>
             <Switch>
               <Route exact path="/index/problemset"><ProblemSet /></Route>
               <Route exact path="/index/problem/:id"><Problem /></Route>
               <Route exact path="/index/solution/:id"><Solution /></Route>
-              <Route exact path="/index/test"><h1>敬请期待</h1></Route>
+              <Route exact path="/index/learn"><Learn /></Route>
+              <Route exact path="/index/plan/:id"><PlanDetails /></Route>
+              <Route exact path="/index/plan/problem/:planid/:problemid"><PlanProblem /></Route>
               <Route exact path="/index/circle"><Circle /></Route>
               <Route exact path="/index/circle/:id"><CircleDetails /></Route>
               <Route exact path="/index/forum/:id"><CircleForums /></Route>
               <Route exact path="/index/answer">问答</Route>
               <Route exact path="/index"><Redirect from="" to="/index/problemset" /></Route>
-              <Route path="/index*"><Redirect from="" to="/error" /></Route>
+              <Route path="/index*"><Redirect from="" to="/index/error" /></Route>
             </Switch>
           </Router>
         </React.Suspense>

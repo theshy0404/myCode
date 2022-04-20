@@ -15,8 +15,7 @@ class VSCode extends React.Component<any, any>{
     console.log(this.props);
     this.state = {
       codeLines: [
-        { code: ``, isEditable: false },
-        { code: '\t', isEditable: true },
+        { code: `function ${props.func} (${props.arguements}) {`, isEditable: false },
         { code: '}', isEditable: false },
       ],
       word: '',
@@ -25,11 +24,15 @@ class VSCode extends React.Component<any, any>{
     }
   }
 
-  componentWillReceiveProps(nextProps: any){
+  componentWillReceiveProps(nextProps: any) {
     this.setState({
       codeLines: [
-        { code: `function (${nextProps.arguements}) {`, isEditable: false },
-        { code: '\t', isEditable: true },
+        { code: `function ${nextProps.func} (${nextProps.arguements}) {`, isEditable: false },
+        {code: '	let map = new Map();', isEditable: false},
+        {code: '  for(let i = 0, len = nums.length; i < len; i++){',isEditable: false},
+        {code: '	if(map.has(target - nums[i])){ return [map.get(target - nums[i]), i]; }else{ map.set(nums[i], i); }', isEditable: false},
+        {code: '	};', isEditable: false},
+        {code: '	return [];', isEditable: false},
         { code: '}', isEditable: false },
       ],
       word: '',
@@ -142,16 +145,16 @@ class VSCode extends React.Component<any, any>{
     return (
       <div className={styles.wrap}>
         <div className={styles.codeTips} style={{ position: 'absolute', top: positionTop, left: positionLeft, display: word !== '' && this.include(word) ? 'block' : 'none' }}>
-          {words.map((item:any, index:number) =>
+          {words.map((item: any, index: number) =>
             <div data-select={selectTip === index} key={index} className={styles.tipWord}>{item}</div>
           )}
         </div>
         <div className={styles.codeWrap}>
           <div className={styles.codeIndex}>
-            {lines.map((item:any, index:number) => <div data-select={index === selectIndex} key={index} className={styles.index}>{index}</div>)}
+            {lines.map((item: any, index: number) => <div data-select={index === selectIndex} key={index} className={styles.index}>{index}</div>)}
           </div>
           <div className={styles.codeContent}>
-            {lines.map((item:any, index:number) => {
+            {lines.map((item: any, index: number) => {
               return item.isEditable ?
                 <input autoComplete="off" onChange={event => this.handleChangeLineValue(event, index)} onKeyUp={event => this.handleLineEnter(event, index)} id={'line' + index} key={index} className={styles.line} value={item.code}></input> :
                 <div onClick={() => this.handleChangeEditLine(index)} key={index} className={styles.line} dangerouslySetInnerHTML={createMarkup(item.code)}></div>
@@ -161,6 +164,7 @@ class VSCode extends React.Component<any, any>{
         <div className={styles.footer}>
           <Space size="large">
             <Button type="primary" onClick={() => this.props.doRun(lines)} ghost icon={<SendOutlined />}>执行代码</Button>
+            <Button type="primary" onClick={() => this.props.doSubmit(lines)}>提交</Button>
           </Space>
         </div>
       </div>

@@ -24,8 +24,8 @@ class VSCode extends React.Component<any, TState>{
         super(props);
         this.state = {
             codeLines: [
-                { code: 'def sum(a):', isEditable: false },
-                { code: '\t', isEditable: true },
+                { code: `function ${props.func} (${props.arguements}) {`, isEditable: false },
+                { code: '}', isEditable: false },
             ],
             input: [1, 2],
             output: '',

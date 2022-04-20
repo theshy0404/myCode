@@ -1,61 +1,84 @@
 .wrap {
-  margin: 5px 0px;
+  margin-top: 5px;
   display: flex;
   align-items: flex-start;
 }
 .wrap .aside {
-  width: 15%;
+  flex: 0 0 300px;
   min-height: calc(100vh - 64px);
   background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 2px 0 4px 0 hsla(0, 0%, 88%, 0.5);
-  margin-right: 10px;
-  padding-top: 20px;
+  padding: 10px;
+  box-shadow: 0 0px 4px rgba(0, 0, 0, 0.08);
 }
 .wrap .center {
-  width: 82%;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 2px 0 4px 0 hsla(0, 0%, 88%, 0.5);
-  min-height: calc(100vh - 64px);
+  flex: 1 1 auto;
+  height: calc(100vh - 64px);
+  overflow: auto;
 }
-.wrap .center .content {
+.wrap .center .searchbox {
+  margin: 10px 0px 0px 20px;
+  width: 250px;
+}
+.wrap .center .circleList {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-}
-.wrap .center .content .card {
-  border: 1px solid #f0f0f0;
-  border-radius: 2px;
-  background-color: #fff;
-  width: 280px;
-  height: 270px;
-  margin: 0px 20px 20px 0px;
-  transition: all 0.2s;
-  cursor: pointer;
   position: relative;
 }
-.wrap .center .content .card:hover {
-  box-shadow: 0 6px 16px -8px #00000014, 0 9px 28px #0000000d, 0 12px 48px 16px #00000008;
+.wrap .center .circleList .circleCard {
+  background-color: #fff;
+  margin: 22px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  width: 280px;
+  height: 140px;
+  transition: all 0.2s;
+  cursor: pointer;
 }
-.wrap .center .content .card .cardHeader {
-  font-size: 14px;
+.wrap .center .circleList .circleCard .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+}
+.wrap .center .circleList .circleCard .header .title {
+  display: flex;
+  width: 160px;
+  align-items: center;
+}
+.wrap .center .circleList .circleCard .header .title h3 {
+  margin-left: 10px;
+}
+.wrap .center .circleList .circleCard .header .action {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+.wrap .center .circleList .circleCard .header .action:hover {
+  cursor: pointer;
+}
+.wrap .center .circleList .circleCard .header .action div {
+  padding: 2px 5px;
+}
+.wrap .center .circleList .circleCard .header .action .join {
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+.wrap .center .circleList .circleCard .header .action[data-active=true] {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.3);
+}
+.wrap .center .circleList .circleCard .header .action[data-active=true] .join {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.wrap .center .circleList .circleCard .content {
+  padding: 10px;
+}
+.wrap .center .circleList .circleCard:hover {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.button {
   position: absolute;
-  bottom: 0px;
-  width: 100%;
-  padding: 0px 10px 0px 10px;
-}
-.wrap .center .content .card .cardHeader .logo {
-  height: 44px;
-}
-.wrap .center .footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.header {
-  display: flex;
-  align-items: center;
-  margin: 10px;
+  right: 20px;
+  top: 28px;
 }

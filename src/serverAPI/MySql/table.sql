@@ -25,11 +25,11 @@ create table problems(
 	problemid char(10) primary key,
     title varchar(20),
     msg varchar(5000),
-    input varchar(20) null,
-    output varchar(20) null,
+    input varchar(2000) null,
+    output varchar(2000) null,
     rankid int,
     labels varchar(50),
-    typeid int,
+    typeid varchar(10),
     createtime char(20),
     func varchar(30) null,
     arguements varchar(20) null,
@@ -74,11 +74,13 @@ create table replys(
 drop table if exists submitItems;
 create table submitItems(
 	problemid char(10),
-    submitid varchar(20) primary key,
+    submitid int primary key auto_increment,
     userid char(10),
     createtime varchar(20),
+    codes varchar(2000),
     language int,
-    status int
+    status int,
+    note varchar(200)
 );
 
 -- 类别表
@@ -100,8 +102,7 @@ create table problemranks(
 drop table if exists problemlabels;
 create table problemlabels(
 	labelid char(10) primary key,
-    text varchar(10),
-    typeid int 
+    text varchar(10)
 );
 
 -- 回复评论表
@@ -152,7 +153,20 @@ create table circles(
 	msg varchar(2000),
 	parentid char(10) null,
 	hasChildren int,
-    level int
+    createtime varchar(20),
+    creater char(10),
+    fans int,
+    ispublic int
+);
+
+-- 喜欢圈子表
+drop table if exists user_circles;
+create table user_circles(
+	id int auto_increment primary key,
+    circleid char(10),
+    userid char(10),
+    point int,
+    jointime varchar(20)
 );
 
 -- 帖子表
@@ -203,3 +217,33 @@ create table text_labels(
 	text varchar(10)
 );
 
+-- 学习计划报表
+drop table if exists plans;
+create table plans(
+	planid char(10) primary key,
+	planname varchar(20),
+	msg varchar(2000),
+    labels varchar(200)
+);
+
+-- 学习计划题目表
+drop table if exists plan_problems;
+create table plan_problems(
+	id int auto_increment primary key,
+	planid char(10),
+    problemid char(10),
+    part int,
+    point int, 
+    needpoints int
+);
+
+-- 用户学习计划表 
+drop table if exists plan_users;
+create table plan_users(
+	id int auto_increment primary key,
+    planid char(10),
+    userid char(10),
+    points int,
+    isend int,
+    finishproblemid varchar(1000)
+);

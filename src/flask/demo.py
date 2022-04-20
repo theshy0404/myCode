@@ -1,20 +1,7 @@
-# import types
-#
-# import execjs
-#
-# js = execjs.compile('''
-# function sum(a,b){
-# return a+b;
-# }
-# ''')
-# print(js.eval('sum(2,1)'))
-#
-# # print(type({"a":"s"})== types.DictType)
-# print(type('ss')==types.StringType)
+loc='''
+def twoSum(nums, target):
+	return [0,1] 
+'''
 
-# arr = ['a','b']
-# print(','.join(arr))
-
-a=1 + 'q'
-print(a)
-
+exec(loc)
+print(eval('twoSum(1,2)'))

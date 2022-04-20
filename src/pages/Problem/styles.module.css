@@ -1,6 +1,7 @@
 .wrap {
-  padding-top: 10px;
-  height: calc(100vh - 54px);
+  padding-top: 5px;
+  height: calc(100vh - 54px - 5px);
+  overflow: hidden;
   display: flex;
   justify-content: space-between;
 }
@@ -19,9 +20,9 @@
 .wrap .tab {
   background-color: #fff;
   padding: 20px;
-  padding-top: 0px;
+  padding-top: 10px;
   overflow: auto;
-  height: calc(100vh - 54px - 50px);
+  height: calc(100vh - 54px - 30px);
   width: 100%;
 }
 .wrap .notebook {
@@ -37,4 +38,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.null {
+  color: rgba(60, 60, 67, 0.3);
+  cursor: pointer;
+}
+.note {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100px;
+  display: inline-block;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+:global .ant-table-thead > tr > th,
+:global .ant-table-tbody > tr > td,
+:global .ant-table tfoot > tr > th,
+:global .ant-table tfoot > tr > td {
+  padding: 8px;
 }

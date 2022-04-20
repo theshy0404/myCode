@@ -1,0 +1,226 @@
+.wrap {
+  min-height: calc(100vh - 64px);
+  padding: 20px 25%;
+}
+.wrap .backTip {
+  color: #909399;
+  font-size: 15px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.wrap .backTip:hover {
+  color: #303133;
+}
+.wrap .header {
+  display: flex;
+  align-items: flex-start;
+}
+.wrap .header .roundModal {
+  padding: 0px;
+}
+.wrap .header .img {
+  flex: 0 0 120px;
+  margin-right: 20px;
+}
+.wrap .header .img img {
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.wrap .header .direction {
+  height: 100px;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.wrap .header .direction .title {
+  font-weight: 500;
+  font-size: 18px;
+}
+.wrap .header .direction .msg {
+  font-size: 14px;
+  color: #909399;
+}
+.wrap .header .direction .labels {
+  display: flex;
+  flex-wrap: wrap;
+}
+.wrap .header .direction .labels .label {
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 12px;
+  background-color: rgba(0, 10, 32, 0.08);
+  margin-right: 10px;
+  color: rgba(60, 60, 67, 0.8);
+}
+.wrap .countCard {
+  padding: 10px 60px 10px 30px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0px 1px 3px rgba(0, 0, 0, 0.04), 0px 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wrap .countCard .countModal {
+  display: flex;
+}
+.wrap .countCard .countModal .count {
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.wrap .countCard .countModal .count > div {
+  line-height: 16px;
+  font-size: 16px;
+  margin: 10px;
+  color: rgba(60, 60, 67, 0.3);
+}
+.wrap .countCard .countModal .count > div[data-title="true"] {
+  color: #303133;
+}
+.wrap .countCard .countModal .count .divider {
+  display: block;
+  margin: 0px 8px;
+  width: 30px;
+  height: 1px;
+  background-color: rgba(60, 60, 67, 0.2);
+}
+.wrap .countCard .countModal .count .title {
+  font-size: 18px;
+}
+.wrap .countCard .countModal .count .title[data-rank="1"] {
+  color: #00ab9b;
+}
+.wrap .countCard .countModal .count .title[data-rank="2"] {
+  color: #ffb800;
+}
+.wrap .countCard .countModal .count .title[data-rank="3"] {
+  color: #ff2d55;
+}
+.wrap .partTitle {
+  margin: 8px 0px;
+  color: #909399;
+}
+.wrap .problemList {
+  padding: 10px 60px 10px 30px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0px 1px 3px rgba(0, 0, 0, 0.04), 0px 2px 8px rgba(0, 0, 0, 0.08);
+}
+.wrap .problemList .problemItem {
+  display: flex;
+  border-bottom: 1px solid #f7e8e8;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  font-size: 14px;
+  height: 40px;
+  box-sizing: content-box;
+  padding-bottom: 15px;
+  margin: 10px;
+}
+.wrap .problemList .problemItem:first-child {
+  margin-top: 0px;
+}
+.wrap .problemList .problemItem:last-child {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  border: none;
+}
+.wrap .problemList .problemItem .left {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0%;
+}
+.wrap .problemList .problemItem .left .title {
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.wrap .problemList .problemItem .left .title:hover {
+  color: #409EFF;
+}
+.wrap .problemList .problemItem .rank {
+  font-size: 18px;
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 45%;
+}
+.wrap .problemList .problemItem .rank[data-rank="1"] {
+  color: #00ab9b;
+}
+.wrap .problemList .problemItem .rank[data-rank="2"] {
+  color: #ffb800;
+}
+.wrap .problemList .problemItem .rank[data-rank="3"] {
+  color: #ff2d55;
+}
+.wrap .problemList .problemItem .right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 85%;
+}
+.wrap .problemList .problemItem .rate {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 60%;
+  color: rgba(38, 38, 38, 0.6);
+}
+.wrap .problemList .problemItem .icon {
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 91%;
+  opacity: 0;
+  z-index: 100;
+  transition: all 0.2s;
+}
+.wrap .problemList .problemItem .icon img {
+  width: 100%;
+}
+.wrap .problemList .problemItem[data-disabled="true"] {
+  opacity: 0.5;
+  color: rgba(38, 38, 38, 0.4);
+}
+.wrap .problemList .problemItem[data-disabled="true"] .title:hover {
+  color: rgba(38, 38, 38, 0.4);
+}
+.wrap .problemList .problemItem[data-disabled="true"] .rank {
+  color: rgba(38, 38, 38, 0.4);
+}
+.wrap .problemList .problemItem[data-disabled="true"]:hover {
+  cursor: not-allowed;
+}
+.wrap .problemList .problemItem[data-disabled="true"]:hover .icon {
+  opacity: 1;
+}
+.card {
+  padding: 10px 60px 10px 30px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0px 1px 3px rgba(0, 0, 0, 0.04), 0px 2px 8px rgba(0, 0, 0, 0.08);
+}
+.rankno {
+  font-size: 18px;
+}
+.rankno[data-rank="1"] {
+  color: #00ab9b;
+}
+.rankno[data-rank="2"] {
+  color: #ffb800;
+}
+.rankno[data-rank="3"] {
+  color: #ff2d55;
+}

@@ -30,3 +30,4 @@ class App extends React.Component<any, any>{
 }
 
 export default App;
+

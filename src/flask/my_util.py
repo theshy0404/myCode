@@ -42,38 +42,68 @@ def result_to_json(cur):
     return simplejson.dumps(json_data, ensure_ascii=False)
 
 
-def do_js(func, code, input):
+def do_js(func, code, input, type):
     import execjs
     isError = False
     try:
-        # js = execjs.compile(f'''
-        # function run(list){{
-        #     {code}
-        #     return {func}(list);
-        # }}
-        # ''')
-        # print(f'''
-        # function run(list){{
-        #     {code}
-        #     return {func}(list);
-        # }}
-        # ''')
-        # print(f'({code})([-1,0,3,5,9,12],9)')
-        result = execjs.eval(f'({code})({input})')
+        if type == 'B8':
+            js = execjs.compile(f'''
+                        function ListNode(val) {{
+                            this.val = val;
+                            this.next = null;
+                        }}
+                        function insertList(nums){{
+                            let pre=new ListNode(nums[0]);
+                            const head=pre;
+                            for(let i=1;i<nums.length;i++){{
+                                const node = new ListNode();
+                                node.val=nums[i];
+                                pre.next=node;
+                                pre=node;
+                            }}
+                            return head;
+                        }}
+                        function toString(head){{
+                            const results=[];
+                            while(head!=null){{
+                                results.push(head.val);
+                                head=head.next;
+                            }}
+                            return '['+results.join(',')+']'
+                        }}
+                        {code}
+                        function run(nums,value){{
+                            const head = insertList(nums);
+                            let node = head;
+                            while(node!=null){{
+                                if(node.val===value) {func}(node);
+                                node=node.next;
+                            }}
+                            return toString(head);
+                        }}
+                    ''')
+            result = js.eval(f'run({input},5)')
+        else:
+            js = execjs.compile(f'''
+                {code}
+            ''')
+            result = str(js.eval(f"{func}({input})")).replace(' ', '')
     except Exception as e:
         result = e
         isError = True
     return result, isError
 
 
-def do_python(func, code, input):
+def do_py(func, code, input):
     isError = False
     LOC = f""" 
 {code} 
 """
     try:
         exec(LOC)
+        print(LOC)
         result = eval(f'{func}({input})')
+        result=str(result).replace(' ','')
     except Exception as e:
         result = e
         isError = True
@@ -92,7 +122,10 @@ def content_to_labels(title, content):
 
 
 def concat_label(circle_labels, content_labels):
+    if len(circle_labels) == 0:
+        return content_labels
     results = []
+    result = ''
     for content_label in content_labels:
         for circle_label in circle_labels:
             score = text.get_sim(circle_label.get('label'), content_label).get('score')
@@ -106,9 +139,6 @@ def concat_label(circle_labels, content_labels):
         results.append(result)
     return results
 
-results = content_to_labels('react fiber','Fiber是对React核心算法的重构，2年重构的产物就是Fiber reconciler\
-###forum/1318936142###')
-print(results)
 # words = ['解释器','编译器','js']
 #
 # for result in results:
@@ -116,3 +146,4 @@ print(results)
 #         score=text.get_sim(result,word).get('score')
 #         if score < 0.5:
 #             print(f'{score},{result},{word}')
+# print('1'+'1')

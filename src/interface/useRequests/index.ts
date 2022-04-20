@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import axios from 'axios';
 import AuthStore from '../../store/AuthStore';
-import {doResponse} from '../response'
+import { doResponse } from '../response'
 
 const request = async (args: any): Promise<any> => {
     if (args.needAuth && !AuthStore.isLogin) {
@@ -20,10 +20,10 @@ const request = async (args: any): Promise<any> => {
             result = response;
         }).catch(err => error = err);
     }
-    else{
+    else {
         await axios.get(url, {
             params: { ...params, userid: AuthStore.userid }
-        }).then(response => result = response).catch(err => error = err);
+        }).then(response => { result = response; console.log(result) }).catch(err => error = err);
     }
     if (error) return Promise.reject(error);
     return Promise.resolve(result);

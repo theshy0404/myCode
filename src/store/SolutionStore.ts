@@ -4,13 +4,12 @@ import { observable, action, makeObservable } from 'mobx';
 type TParams = {
     problemid: string,
     userid: string,
-    language: number,
 }
 
 class SolutionStore {
 
     @observable title: string = '';
-    @observable labels: Array<{ value: number, label: string }> = [];
+    @observable labels: Array<{ value: string, label: string }> = [];
     @observable content: string = '';
 
     constructor() {
@@ -21,7 +20,7 @@ class SolutionStore {
         this.title = value;
     }
 
-    @action setLabels(value: Array<{ value: number, label: string }>): void {
+    @action setLabels(value: Array<{ value: string, label: string }>): void {
         this.labels = value;
     }
 
@@ -34,7 +33,7 @@ class SolutionStore {
         let labels = '';
         let language;
         this.labels.forEach((item, index) => {
-            if (item.value < 10) language = item.value;
+            if (item.value.length ===1) language = item.value;
             else {
                 if (labels === '') labels += item.value;
                 else labels += (';' + item.value)
