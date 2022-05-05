@@ -9,11 +9,12 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height:10px;
+    width: 0px;
+    height: 0px;
     background-color: #f0f0f0;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, .12);
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: #bfbfbf;
-    border-radius:4px;
 }

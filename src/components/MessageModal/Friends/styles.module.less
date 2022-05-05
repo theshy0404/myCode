@@ -1,0 +1,53 @@
+.wrap {
+    display: flex;
+    height: 100%;
+
+    >div {
+        height: 100%;
+    }
+
+    .aside {
+        flex: 0 0 28%;
+        overflow: auto;
+        border-right: 1px solid #E4E7ED;
+        background: #fff;
+
+        .friendCard {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border: 1px solid #E4E7ED;
+            transition: all 0.1s;
+            background: rgba(242, 246, 252, .45);
+
+            &:hover {
+                cursor: pointer;
+                background: #fff;
+            }
+
+            .description {
+                flex: 0 0 72%;
+                margin-left: 10px;
+
+                .username {
+                    font-weight: 600;
+                    margin-bottom: 2px;
+                }
+
+                .msg {
+                    font-size: 12px;
+                    color: rgba(0, 0, 0, .5);
+                    white-space: nowrap;
+                    width: 150px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+    }
+
+    .center {
+        flex: 1 1 auto;
+        // background-color: black;
+    }
+}

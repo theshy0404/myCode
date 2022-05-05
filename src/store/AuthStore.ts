@@ -1,4 +1,5 @@
 import { observable, action, makeObservable } from 'mobx';
+import UserMessageStore from './UserMessageStore';
 
 type userInfo = {
     userid: string,
@@ -24,6 +25,7 @@ class AuthStore {
         this.userid = user.userid;
         this.username = user.username;
         this.rankno = user.rankno || undefined;
+        UserMessageStore.connectWs();
     }
 
     @action exitLogin(): void {

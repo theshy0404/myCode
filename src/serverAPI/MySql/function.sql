@@ -44,3 +44,13 @@ begin
     return @sum;
 end $$
 delimiter ;
+
+drop function if exists circle_type;
+delimiter $$
+CREATE FUNCTION circle_type($circle char(10)) RETURNS varchar(20)
+begin
+	select parentid into @sum from circles where circleid='1318936143';
+    select circlename into @s from circles where circleid = @sum;
+    return @s;
+end $$
+delimiter ;

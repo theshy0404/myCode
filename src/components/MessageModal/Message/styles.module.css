@@ -1,0 +1,180 @@
+.wrap {
+  height: 100%;
+  display: flex;
+}
+.wrap > div {
+  height: 100%;
+}
+.wrap .aside {
+  float: left;
+  width: 33%;
+  border-right: 1px solid #E4E7ED;
+  overflow: auto;
+}
+.wrap .aside .header {
+  border-bottom: 1px solid #E4E7ED;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+}
+.wrap .aside .userItem {
+  padding: 2px 5px 2px 12px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  cursor: pointer;
+  border-bottom: 1px solid #E4E7ED;
+}
+.wrap .aside .userItem:hover,
+.wrap .aside .userItem[data-active=true] {
+  background-color: #F2F6FC;
+}
+.wrap .aside .userItem .left {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  height: 60px;
+  margin-right: 5px;
+  flex: 0 0 30px;
+}
+.wrap .aside .userItem .right {
+  height: 60px;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.wrap .aside .userItem .right .top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 8px 8px;
+  padding-bottom: 0px;
+}
+.wrap .aside .userItem .right .top .username {
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: 600;
+}
+.wrap .aside .userItem .right .top .timeout {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+}
+.wrap .aside .userItem .right .bottom {
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wrap .aside .userItem .right .bottom .content {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  width: 72%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wrap .aside .userItem .right .bottom .status {
+  font-size: 12px;
+  margin-right: 2px;
+}
+.wrap .aside .userItem .right .bottom .status[data-status="1"] {
+  color: #67C23A;
+}
+.wrap .aside .userItem .right .bottom .status[data-status="0"] {
+  color: #409EFF;
+}
+.wrap .content {
+  overflow: hidden;
+  width: 100%;
+}
+.wrap .content .header {
+  border-bottom: 1px solid #E4E7ED;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+}
+.wrap .content .header .username {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.65);
+}
+.wrap .content .header .action {
+  border: 1px solid #EBEEF5;
+  padding: 5px 12px;
+  border-radius: 30px;
+  transition: all 0.2s;
+}
+.wrap .content .header .action:hover {
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.12), 0 0 4px rgba(0, 0, 0, 0.04);
+  background-color: rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+}
+.wrap .content .header .text {
+  padding: 5px 12px;
+}
+.wrap .content .content {
+  height: 370px;
+  overflow: auto;
+}
+.wrap .content .content .messageItem {
+  margin: 5px;
+  padding: 5px;
+}
+.wrap .content .content .messageItem .time {
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.4);
+}
+.wrap .content .content .messageItem .body {
+  display: flex;
+  align-items: flex-start;
+}
+.wrap .content .content .messageItem .body .icon {
+  padding: 5px;
+  margin-right: 5px;
+}
+.wrap .content .content .messageItem .body .message {
+  max-width: 80%;
+  background-color: #EEF0F1;
+  padding: 8px;
+  margin-top: 10px;
+  z-index: 11;
+  border-radius: 8px;
+  border-top-left-radius: 2px;
+}
+.wrap .content .content .messageItem[data-mine="true"] .body {
+  padding-right: 10px;
+  flex-direction: row-reverse;
+}
+.wrap .content .content .messageItem[data-mine="true"] .body .icon {
+  padding: 5px;
+  margin-right: 0px;
+  margin-left: 5px;
+}
+.wrap .content .content .messageItem[data-mine="true"] .body .message {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #DCDFE6;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.wrap .content .footer {
+  padding: 10px;
+  position: relative;
+}
+.wrap .content .footer .icon {
+  z-index: 11;
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  font-size: 26px;
+  color: rgba(0, 0, 0, 0.5);
+  transition: all 0.2s;
+}
+.wrap .content .footer .icon:hover {
+  color: #409EFF;
+  cursor: pointer;
+}

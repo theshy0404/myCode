@@ -102,7 +102,12 @@
   color: #ff2d55;
 }
 .wrap .partTitle {
-  margin: 8px 0px;
+  margin: 2px 0px;
+  color: #303133;
+  font-size: 16px;
+}
+.wrap .partMsg {
+  margin: 2px 0px;
   color: #909399;
 }
 .wrap .problemList {

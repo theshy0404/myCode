@@ -62,6 +62,62 @@ def product_info():
         return '暂不支持数据库查询以外的操作'
 
 
+@app.route('/user/message')
+def user_message_info():
+    if request.method == 'GET':
+        dosql = open_sql('mycode')
+        useridList = request.args.get('useridList').split(',')
+        myid = request.args.get('userid')
+        userMessage = []
+        for userid in useridList:
+            sql = f"call getUserMessageInfo('{userid}','{myid}');"
+            result = simplejson.loads(do_sql(dosql, sql))[0]
+            userMessage.append(result)
+        close_sql(dosql)
+        return simplejson.dumps(userMessage)
+
+
+@app.route('/user/message/detail')
+def user_message_detail():
+    if request.method == 'GET':
+        dosql = open_sql('mycode')
+        userid = request.args.get('userid')
+        id = request.args.get('id')
+        sql = f"call update_messages('{userid}','{id}');"
+        dosql = update_sql(dosql, sql)
+        sql = f"call get_before_messages('{userid}','{id}');"
+        messages = simplejson.loads(do_sql(dosql, sql))
+        messages = messages[::-1]
+        sql = f"call get_message_detail('{userid}','{id}');"
+        result = simplejson.loads(do_sql(dosql, sql))[0]
+        result["messages"] = messages
+        close_sql(dosql)
+        return simplejson.dumps([result])
+
+
+@app.route('/problem/type/admin', methods=['GET', 'POST'])
+def problem_type_admin():
+    dosql = open_sql('mycode')
+    if request.method == 'GET':
+        sql = 'call select_problemtypes_admin();'
+        results = do_sql(dosql, sql)
+        close_sql(dosql)
+        return results
+    elif request.method == 'POST':
+        params = request.json.get('params')
+        sql = 'call empty_problemtypes();'
+        dosql = update_sql(dosql, sql)
+        for node in params.get('data'):
+            parentid = node.get('parentid')
+            if parentid != None:
+                sql = f"insert into problemtypes(typeid,text,level,parentid)value('{node.get('typeid')}','{node.get('text')}',{node.get('level')},'{parentid}');"
+            else:
+                sql = f"insert into problemtypes(typeid,text,level,parentid)value('{node.get('typeid')}','{node.get('text')}',{node.get('level')},null);"
+            dosql = update_sql(dosql, sql)
+        close_sql(dosql)
+        return '暂不支持数据库查询以外的操作'
+
+
 @app.route('/problem/run', methods=['GET', 'POST'])
 def problem_run():
     res = make_response()
@@ -161,7 +217,6 @@ def problem_submit_note():
     if request.method == 'POST':
         params = request.json.get('params')
         sql = f"call problem_submit_note({params.get('submitid')},'{params.get('problemid')}','{params.get('userid')}','{params.get('note')}');"
-        print(sql)
         dosql = open_sql('mycode')
         dosql = update_sql(dosql, sql)
         close_sql(dosql)
@@ -296,44 +351,72 @@ def problem_submit():
         problem_info = simplejson.loads(do_sql(dosql, sql))[0]
         input = problem_info.get('input').split('\n')
         func = problem_info.get('func')
-        type = problem_info.get('type')
-        output = problem_info.get('output').split('\n')
-        code = params.get('code')
-        sum = len(input)
-        count = 0
-        wrong_output = ''
-        wrong_input = ''
-        except_output = ''
-        for index in range(0, len(input)):
-            if int(language) == 3:
-                result, isError = do_js(func, code, input[index], type)
-            elif int(language) == 2:
-                result, isError = do_py(func, code, input[index])
-                print(result)
-            if result == output[index]:
-                count += 1
+        type = problem_info.get('typeid')
+        if type != 'C':
+            output = problem_info.get('output').split('\n')
+            code = params.get('code')
+            sum = len(input)
+            count = 0
+            wrong_output = ''
+            wrong_input = ''
+            except_output = ''
+            for index in range(0, len(input)):
+                if int(language) == 3:
+                    result, isError = do_js(func, code, input[index], type)
+                elif int(language) == 2:
+                    result, isError = do_py(func, code, input[index])
+                    print(result)
+                if result == output[index]:
+                    count += 1
+                else:
+                    wrong_input = input[index]
+                    except_output = output[index]
+                    wrong_output = result
+                    break
+            if count == sum:
+                status = 1
             else:
-                wrong_input = input[index]
-                except_output = output[index]
-                wrong_output = result
-                break
-        if count == sum:
-            status = 1
+                status = 2
+            codes = params.get('code').replace('\'', '\\\'');
+            sql = f"call add_code_submit('{problemid}','{userid}','{codes}',{language},{status})"
+            dosql = update_sql(dosql, sql)
+            close_sql(dosql)
+            result = simplejson.loads(simplejson.dumps({}))
+            result["except"] = count
+            result["input"] = wrong_input
+            result["output"] = except_output
+            result["sum"] = sum
+            result["result"] = wrong_output
+            result["status"] = status
+            result = simplejson.dumps([result])
+            res.data = result
         else:
-            status = 2
-        codes = params.get('code').replace('\'', '\\\'');
-        sql = f"call add_code_submit('{problemid}','{userid}','{codes}',{language},{status})"
-        dosql = update_sql(dosql, sql)
-        close_sql(dosql)
-        result = simplejson.loads(simplejson.dumps({}))
-        result["except"] = count
-        result["input"] = wrong_input
-        result["output"] = except_output
-        result["sum"] = sum
-        result["result"] = wrong_output
-        result["status"] = status
-        result = simplejson.dumps([result])
-        res.data = result
+            template = problem_info.get('template')
+            problem_sql = open_sql('mysales')
+            result1 = simplejson.loads(do_sql(problem_sql, template))
+            try:
+                result2 = simplejson.loads(do_sql(problem_sql, params.get('code')))
+                is_equals = is_rs_eauals(result1, result2)
+            except Exception as e:
+                result2 = str(e).replace('mysales', 'fake_database')
+                is_equals = False
+            close_sql(problem_sql)
+            result = simplejson.loads(simplejson.dumps({}))
+            result["except"] = 1 if is_equals else 0
+            result["input"] = template
+            result["output"] = simplejson.dumps(result1)
+            result["sum"] = 1
+            try:
+                result["result"] = simplejson.dumps(result2)
+            except:
+                result["result"] = result2
+            result["status"] = 1 if is_equals else 2
+            result = simplejson.dumps([result])
+            res.data = result
+            sql = f"call add_code_submit('{problemid}','{userid}','{params.get('code')}',{language},{1 if is_equals else 2})"
+            dosql = update_sql(dosql, sql)
+            close_sql(dosql)
+            close_sql(dosql)
     return res
 
 
@@ -428,9 +511,14 @@ def get_learn_plan():
         planname = params.get('planname')
         msg = params.get('msg')
         labels = params.get('labels')
+        partList = params.get('partList')
         problemList = params.get('problemList')
         sql = f"call add_learn_plan('{planid}','{planname}','{msg}','{labels}');"
         dosql = update_sql(dosql, sql)
+        for part in partList:
+            sql = f"call add_plan_part('{planid}',{part.get('partid')},'{part.get('partname')}','{part.get('msg')}');"
+            print(sql)
+            dosql = update_sql(dosql, sql)
         for problem in problemList:
             sql = f"call add_plan_problem('{planid}','{problem.get('problemid')}',{problem.get('part')},{problem.get('points')},{problem.get('needpoints')});"
             dosql = update_sql(dosql, sql)
@@ -464,7 +552,7 @@ def get_plan_problems():
     res = make_response()
     dosql = open_sql('mycode')
     if request.method == 'GET':
-        sql = f"call get_plan_problems();"
+        sql = f"call get_plan_problems_admin();"
         results = do_sql(dosql, sql)
         close_sql(dosql)
         res.data = results
@@ -492,6 +580,8 @@ def get_plan_detail():
         results["detail"] = detail
         sql = f"call get_plan_problems('{planid}','{userid}');"
         results["problemList"] = simplejson.loads(do_sql(dosql, sql))
+        sql = f"call get_plan_parts('{planid}');"
+        results["partList"] = simplejson.loads(do_sql(dosql, sql))
         results = simplejson.dumps([results])
         res.data = results
     close_sql(dosql)
@@ -765,8 +855,8 @@ def problem_solution():
         return res
 
 
-@app.route('/circle/forum/', methods=['GET', 'POST'])
-def circle_forum():
+@app.route('/circle/forum', methods=['GET', 'POST'])
+def circle_forum_nopublic():
     res = make_response()
     dosql = open_sql('mycode')
     if request.method == 'POST':
@@ -774,9 +864,52 @@ def circle_forum():
         forumid = str(random.randint(1111111111, 9999999999))
         circleid = params.get('circleid')
         userid = params.get('userid')
-        isofficial = params.get('isofficial')
         content = params.get('content')
         title = params.get('title')
+        sql = f"call add_forum_nopublic('{circleid}','{forumid}','{userid}','{content}','{title}');"
+        dosql = update_sql(dosql, sql)
+        close_sql(dosql)
+    return res
+
+
+@app.route('/circle/forum/admin', methods=['GET', 'POST'])
+def circle_forum_admin():
+    res = make_response()
+    dosql = open_sql('mycode')
+    if request.method == 'GET':
+        sql = "call get_forum_nopublic();"
+        results = do_sql(dosql, sql)
+        res.data = results
+    close_sql(dosql)
+    return res
+
+
+@app.route('/forum/admin/unpass', methods=['GET', 'POST'])
+def circle_forum_admin_un():
+    res = make_response()
+    dosql = open_sql('mycode')
+    if request.method == 'POST':
+        id = request.json.get('params').get('forumid')
+        sql = f"delete from nopublicforums where forumid = '{id}';"
+        print(sql)
+        dosql = update_sql(dosql, sql)
+    close_sql(dosql)
+    return res
+
+
+@app.route('/circle/forum/public', methods=['GET', 'POST'])
+def circle_forum():
+    res = make_response()
+    dosql = open_sql('mycode')
+    if request.method == 'POST':
+        params = request.json.get('params')
+        forumid = params.get('id')
+        sql = f"select * from nopublicforums where forumid = '{forumid}';"
+        forum_detail = simplejson.loads(do_sql(dosql, sql))[0]
+        circleid = forum_detail.get('circleid')
+        userid = forum_detail.get('userid')
+        content = forum_detail.get('content')
+        title = forum_detail.get('title')
         labels = content_to_labels(title, content)
         circle_labels = simplejson.loads(do_sql(dosql, f"call get_circle_labels('{circleid}');"))
         labels = concat_label(circle_labels, labels)
@@ -788,9 +921,8 @@ def circle_forum():
                 result_labels.append(labelid)
             elif type(label) == dict:
                 result_labels.append(label.get('id'))
-        sql = f"call add_forum('{circleid}','{forumid}','{userid}',{isofficial},'{content}','{title}','{','.join(result_labels)}');"
-        results = do_sql(dosql, sql)
-        res.data = results
+        sql = f"call add_forum('{circleid}','{forumid}','{userid}','{content}','{title}','{','.join(result_labels)}');"
+        dosql = update_sql(dosql, sql)
     return res
 
 

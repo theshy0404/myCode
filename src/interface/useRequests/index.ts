@@ -23,7 +23,7 @@ const request = async (args: any): Promise<any> => {
     else {
         await axios.get(url, {
             params: { ...params, userid: AuthStore.userid }
-        }).then(response => { result = response; console.log(result) }).catch(err => error = err);
+        }).then(response => { result = response; }).catch(err => error = err);
     }
     if (error) return Promise.reject(error);
     return Promise.resolve(result);

@@ -1,11 +1,17 @@
 import React from 'react';
 import styles from './styles.module.css';
+import './styles.css';
 import '../../App.css'
-import { Avatar, Popover, Spin, } from 'antd';
+import { Avatar, Badge, Popover, Spin, } from 'antd';
 import { DownOutlined, LoadingOutlined, } from '@ant-design/icons';
 import { inject, observer } from 'mobx-react';
 import UserAvatar from '../../shared/images/public/user.png';
+import MessageLogo from '../../shared/images/public/message.svg';
 import { Redirect, Route, HashRouter as Router, Switch, withRouter } from 'react-router-dom';
+import MessageModal from '../../components/MessageModal';
+import { CSSTransition } from 'react-transition-group';
+import UserMessageStore from '../../store/UserMessageStore';
+import CAT_PNG from '../../shared/images/public/CAT.png';
 
 type TAvtive = 'problemset' | 'learn' | 'circle' | 'answer';
 type TState = {
@@ -48,7 +54,7 @@ class Main extends React.Component<any, TState> {
   constructor(props: any) {
     super(props);
     const pathname = this.props.history.location.pathname.replace('/index', '');
-    this.state = { showUserMenu: false, active: pathname === '' ? 'problemset' : pathname.replace('/', '') };
+    this.state = { showUserMenu: false, active: pathname === '' ? 'problemset' : pathname.replace('/', ''), };
     this.handleChangeUserMenuShow = this.handleChangeUserMenuShow.bind(this);
   }
 
@@ -78,11 +84,19 @@ class Main extends React.Component<any, TState> {
       { id: 'problemset', title: '题库' },
       { id: 'learn', title: '学习' },
       { id: 'circle', title: '讨论' },
-      // { id: 'answer', title: '问答' },
     ];
     const { AuthStore } = this.props;
     return (
       <div className={styles.wrap} >
+        {/* {showMessageModal && <MessageModal onClose={() => this.setState({ showMessageModal: false })} />} */}
+        <CSSTransition
+          in={UserMessageStore.isShowMessageModal}//为true进入显示组件（主要通过in属性来控制组件状态）
+          classNames="card"//设置类名的前缀
+          timeout={200}//设置过渡动画事件
+          unmountOnExit={true}//消失动画结束后 + display:none
+        >
+          <MessageModal onClose={() => UserMessageStore.changeShowMessageModal()} />
+        </CSSTransition>
         <div className={styles.header}>
           <div className={styles.navList}>
             <div className={styles.title}>MyCode🔥</div>
@@ -93,7 +107,10 @@ class Main extends React.Component<any, TState> {
             }
           </div>
           <div className={styles.action}>
-            <Avatar size={36} src={UserAvatar}></Avatar>
+            <Badge style={UserMessageStore.isShowNew ? {} : { display: 'none' }} dot>
+              <img alt="message" onClick={() => UserMessageStore.changeShowMessageModal()} style={{ width: '36px', cursor: 'pointer' }} src={MessageLogo} />
+            </Badge>
+            {AuthStore.isLogin && <Avatar style={{ marginLeft: '20px' }} size={36} src={AuthStore.userid === '1318936142' ? UserAvatar : CAT_PNG}></Avatar>}
             <span className={styles.user}>
               <Popover placement="bottomRight" content={() => <Menu toLogin={() => this.props.history.replace('/login')} AuthStore={this.props.AuthStore} />} trigger="hover">
                 <div className={styles.user}>{AuthStore.isLogin ? AuthStore.username : '未登录'}<DownOutlined style={{ fontSize: '10px' }} /></div>

@@ -451,15 +451,14 @@ create procedure add_forum(
 	$circleid char(10),
 	$forumid char(10),
 	$userid char(10),
-	$isofficial int,
 	$content varchar(2000),
 	$title varchar(100),
 	$labels varchar(100)
 )
 begin
 	insert into forums(circleid,forumid,good,star,userid,isofficial,isrecommend,istop,content,title,labels)values
-	($circleid,$forumid,0,0,$userid,$isofficial,0,0,$content,$title,$labels);
-	select * from forums where circleid = $circleid;
+	($circleid,$forumid,0,0,$userid,0,0,0,$content,$title,$labels);
+	delete from nopublicforums where forumid = $forumid;
 end $$
 delimiter ;
 
@@ -561,7 +560,7 @@ begin
 	select * from problems where problemid = $problemid;
 end $$
 delimiter ;
--- -- call get_problem_info('3799832425');
+-- -- call get_problem_info('3565146901');
 
 drop procedure if exists problem_submit_note;
 delimiter $$
@@ -616,9 +615,9 @@ begin
 end $$
 delimiter ;
 
-drop procedure if exists get_plan_problems;
+drop procedure if exists get_plan_problems_admin;
 delimiter $$
-create procedure get_plan_problems()
+create procedure get_plan_problems_admin()
 begin
 	select problemid,title as problemname,concat(b.text,'-',title) as problem,b.text as ranktext
     from problems a join problemranks b on a.rankid=b.rankid;
@@ -675,6 +674,20 @@ begin
 end $$
 delimiter ;
 
+drop procedure if exists add_plan_part;
+delimiter $$
+create procedure add_plan_part(
+	$planid char(10),
+	$partid int,
+    $partname varchar(20),
+    $msg varchar(200)
+)
+begin
+	insert into plan_parts(planid,partid,partname,msg)value
+    ($planid,$partid,$partname,$msg);
+end $$
+delimiter ;
+
 drop procedure if exists get_user_plan;
 delimiter $$
 create procedure get_user_plan(
@@ -713,6 +726,19 @@ end $$
 delimiter ;
 -- call get_problem_label('001');
 
+drop procedure if exists get_plan_parts;
+delimiter $$
+create procedure get_plan_parts(
+	$planid varchar(10)
+)
+begin
+	select *,msg as partmsg from plan_parts 
+    where planid = $planid
+    order by partid;
+end $$
+delimiter ;
+-- 
+
 drop procedure if exists get_plan_problems;
 delimiter $$
 create procedure get_plan_problems(
@@ -749,4 +775,117 @@ begin
     end if;
 end $$
 delimiter ;
--- call get_plan_problems('4579326183','1318936142');
+
+drop procedure if exists add_forum_nopublic;
+delimiter $$
+create procedure add_forum_nopublic(
+	$circleid char(10),
+    $forumid char(10),
+    $userid char(10),
+    $content varchar(2000),
+    $title varchar(200)
+)
+begin
+	insert into nopublicforums(circleid,forumid,userid,content,title)value
+    ($circleid,$forumid,$userid,$content,$title);
+end $$
+delimiter ;
+
+drop procedure if exists get_forum_nopublic;
+delimiter $$
+create procedure get_forum_nopublic()
+begin
+	select *,b.circlename,c.username,circle_type(a.circleid) as circletype
+    from nopublicforums a
+    join circles b on a.circleid = b.circleid
+    join users c on a.userid = c.userid;
+end $$
+delimiter ;
+
+drop procedure if exists select_problemtypes_admin;
+delimiter $$
+create procedure select_problemtypes_admin()
+begin
+	select * from problemtypes;
+end $$
+delimiter ;
+
+drop procedure if exists empty_problemtypes;
+delimiter $$
+create procedure empty_problemtypes()
+begin
+	-- 类别表
+	drop table if exists problemtypes;
+	create table problemtypes(
+		typeid char(2) primary key,
+		text varchar(10),
+		level int,
+		parentid char(2) null
+	);
+end $$
+delimiter ;
+
+drop procedure if exists getUserMessageInfo;
+delimiter $$
+create procedure getUserMessageInfo($userid char(10),$myid char(10))
+begin
+	declare $username varchar(200);
+	declare $count int;
+	declare $content varchar(2000);
+	declare $time varchar(50);
+	set $username = (select username from users where userid = $userid);
+    set $count = (select count(*) from users_messages where receiveid = $myid and userid = $userid and status = 0);
+    set $content = ( select message from users_messages where receiveid = $myid and userid = $userid order by id desc limit 1);
+    set $time = ( select time from users_messages where receiveid = $myid and userid = $userid order by id desc limit 1);
+    select $userid as userid,$username as username,$count as count,$content as content,$time as time;
+end $$
+delimiter ;
+
+drop procedure if exists update_messages;
+delimiter $$
+create procedure update_messages($userid char(10),$myid char(10))
+begin
+	SET SQL_SAFE_UPDATES = 0;
+	update users_messages set status = 1 where receiveid = $userid and userid = $myid;
+end $$
+delimiter ;
+
+drop procedure if exists get_before_messages;
+delimiter $$
+create procedure get_before_messages($userid char(10),$id char(10))
+begin
+	select * from users_messages 
+    where (userid = $userid or userid = $id) and (receiveid = $userid or receiveid = $id) 
+    order by id desc limit 5;
+end $$
+delimiter ;
+
+drop procedure if exists get_message_detail;
+delimiter $$
+create procedure get_message_detail($userid char(10),$id char(10))
+begin
+	declare $n int;
+	set $n = 
+		(select count(id) from users_friends 
+			where 
+				(userid = $userid and friendid=$id) or (userid = $id and friendid=$userid)
+		);
+	select username,if($n=1,1,0) as isfriend from users where userid = $id;
+end $$
+delimiter ;
+
+drop procedure if exists sendMessage;
+delimiter $$
+create procedure sendMessage(
+	$userid char(10),
+	$receiveid char(10),
+	$message varchar(2000),
+	$status int,
+	$isreceive int,
+	$receivemessageid int
+)
+begin
+	insert into users_messages(userid,receiveid,message,time,status,isreceive,receivemessageid)values
+    ($userid,$receiveid,$message,now(),$status,$isreceive,$receivemessageid);
+end $$
+delimiter ;
