@@ -2,7 +2,7 @@ import { CaretLeftOutlined, DoubleRightOutlined, } from '@ant-design/icons';
 import { Button, Progress, Space, Spin, Typography } from 'antd';
 import styles from './styles.module.css';
 import planCover from '../../shared/images/public/learn0.png';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DISABLED_LOGO from '../../shared/images/public/disabled.png'
 import { withRouter } from 'react-router-dom';
 import doRequest from '../../interface/useRequests';
@@ -15,6 +15,7 @@ const PlanDetail = (props: any) => {
     const [planDetail, setPlanDetail] = useState(null as any);
     const [problemList, setProblemList] = useState([] as []);
     const [loading, setLoading] = useState(true);
+    const [partList, setPartList] = useState([] as any[]);
 
     useEffect(() => {
         _init();// eslint-disable-next-line
@@ -28,6 +29,7 @@ const PlanDetail = (props: any) => {
             .then(res => {
                 setPlanDetail(res.data[0].detail);
                 setProblemList(res.data[0].problemList);
+                setPartList(res.data[0].partList);
                 setLoading(false);
             });
     }
@@ -68,72 +70,37 @@ const PlanDetail = (props: any) => {
                     <Paragraph style={{ fontSize: '16px' }} ellipsis={ellipsis ? { rows: 1, expandable: true, symbol: '展开' } : false}>
                         {planDetail.msg}
                     </Paragraph>
-                    <div className={styles.partTitle}>第一部分</div>
-                    <div className={styles.problemList}>
-                        {
-                            problemList.filter((item: any) => item.part === 1).map((item: any, index: number) => (
-                                <div data-disabled={item.isdisabled === 1} className={styles.problemItem} key={item.problemid}>
-                                    <div className={styles.left}>
-                                        <div onClick={() => props.history.push(`/index/plan/problem/${props.match.params.id}/${item.problemid}`)} className={styles.title}>{index + 1}.  {item.problemname}</div>
-                                    </div>
-                                    {item.isdisabled === 1 && <div className={styles.icon}><img src={DISABLED_LOGO} alt="disabled" /></div>}
-                                    <div data-rank={item.rankid} className={styles.rank}>{PROBLEM_RANK_MAP[item.rankid]}</div>
-                                    <div className={styles.rate}>通过率:{item.problemrate}</div>
-                                    <div className={styles.right}>
+                    {
+                        partList.map((part: any, index: number) => {
+                            return (
+                                <React.Fragment key={part.partid}>
+                                    <div className={styles.partTitle}>第{part.partid}部分  {part.partname}</div>
+                                    <div className={styles.partMsg}>{part.partmsg}</div>
+                                    <div className={styles.problemList}>
                                         {
-                                            item.isdisabled
-                                                ? <Button disabled icon={<DoubleRightOutlined />}>去做题</Button>
-                                                : <Button icon={<DoubleRightOutlined />}>去做题</Button>
+                                            problemList.filter((item: any) => item.part === part.partid).map((item: any, index: number) => (
+                                                <div data-disabled={item.isdisabled === 1} className={styles.problemItem} key={item.problemid}>
+                                                    <div className={styles.left}>
+                                                        <div onClick={() => props.history.push(`/index/plan/problem/${props.match.params.id}/${item.problemid}`)} className={styles.title}>{item.problemid}. {item.problemname}</div>
+                                                    </div>
+                                                    {item.isdisabled === 1 && <div className={styles.icon}><img src={DISABLED_LOGO} alt="disabled" /></div>}
+                                                    <div data-rank={item.rankid} className={styles.rank}>{PROBLEM_RANK_MAP[item.rankid]}</div>
+                                                    <div className={styles.rate}>通过率:{item.problemrate}</div>
+                                                    <div className={styles.right}>
+                                                        {
+                                                            item.isdisabled
+                                                                ? <Button disabled icon={<DoubleRightOutlined />}>去做题</Button>
+                                                                : <Button icon={<DoubleRightOutlined />}>去做题</Button>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            ))
                                         }
                                     </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                    <div className={styles.partTitle}>第二部分</div>
-                    <div className={styles.problemList}>
-                        {
-                            problemList.filter((item: any) => item.part === 2).map((item: any, index: number) => (
-                                <div data-disabled={item.isdisabled === 1} className={styles.problemItem} key={item.problemid}>
-                                    <div className={styles.left}>
-                                        <div className={styles.title}>{index + 4}.  {item.problemname}</div>
-                                    </div>
-                                    {item.isdisabled === 1 && <div className={styles.icon}><img src={DISABLED_LOGO} alt="disabled" /></div>}
-                                    <div data-rank={item.rankid} className={styles.rank}>{PROBLEM_RANK_MAP[item.rankid]}</div>
-                                    <div className={styles.rate}>通过率:{item.problemrate}</div>
-                                    <div className={styles.right}>
-                                        {
-                                            item.isdisabled
-                                                ? <Button disabled icon={<DoubleRightOutlined />}>去做题</Button>
-                                                : <Button icon={<DoubleRightOutlined />}>去做题</Button>
-                                        }
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                    <div className={styles.partTitle}>第三部分</div>
-                    <div className={styles.problemList}>
-                        {
-                            problemList.filter((item: any) => item.part === 3).map((item: any, index: number) => (
-                                <div data-disabled={item.isdisabled === 1} className={styles.problemItem} key={item.problemid}>
-                                    <div className={styles.left}>
-                                        <div className={styles.title}>{index + 7}.  {item.problemname}</div>
-                                    </div>
-                                    {item.isdisabled === 1 && <div className={styles.icon}><img src={DISABLED_LOGO} alt="disabled" /></div>}
-                                    <div data-rank={item.rankid} className={styles.rank}>{PROBLEM_RANK_MAP[item.rankid]}</div>
-                                    <div className={styles.rate}>通过率:{item.problemrate}</div>
-                                    <div className={styles.right}>
-                                        {
-                                            item.isdisabled
-                                                ? <Button disabled icon={<DoubleRightOutlined />}>去做题</Button>
-                                                : <Button icon={<DoubleRightOutlined />}>去做题</Button>
-                                        }
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                                </React.Fragment>
+                            )
+                        })
+                    }
                 </Space >}
         </div >
     )

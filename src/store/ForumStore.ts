@@ -28,7 +28,6 @@ class ForumStore {
         const params = new URLSearchParams();
         params.append('title', title);
         params.append('content', content);
-        params.append('isofficial', '0');
         for (let key in args) {
             params.append(key, args[key]);
         }

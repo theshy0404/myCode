@@ -8,29 +8,29 @@ const SubmitCard = (props: any) => {
             <Skeleton active paragraph={{ rows: 2 }} />
         </div>
     )
-    if (props.details.status === PROBLEM_STATUS.WRONG){
+    if (props.details.status === PROBLEM_STATUS.WRONG) {
         return (
             <div className={styles.submitInfo}>
-            <div className={styles.text}>
-                执行结果:<Tag icon={<CloseCircleOutlined />} color="error" style={{ marginLeft: '5px' }}>{PROBLEM_STATUS_MAP[props.details.status]}</Tag>
+                <div className={styles.text}>
+                    执行结果:<Tag icon={<CloseCircleOutlined />} color="error" style={{ marginLeft: '5px' }}>{PROBLEM_STATUS_MAP[props.details.status]}</Tag>
+                </div>
+                <div className={styles.text}>
+                    通过测试用例:<span className={styles.keyWord}>{props.details.except} / {props.details.sum}</span>
+                    <span className={styles.keyWord}></span>
+                </div>
+                <div className={styles.text}>
+                    出错用例:
+                    <Input disabled value={props.details.input} />
+                </div>
+                <div className={styles.text}>
+                    应当输出:
+                    <Input disabled value={props.details.output} />
+                </div>
+                <div className={styles.text}>
+                    您的输出:
+                    <Input.TextArea autoSize style={{ color: 'red' }} disabled value={props.details.result} />
+                </div>
             </div>
-            <div className={styles.text}>
-                通过测试用例:<span className={styles.keyWord}>{props.details.except} / {props.details.sum}</span>
-                <span className={styles.keyWord}></span>
-            </div>
-            <div className={styles.text}>
-                出错用例:
-                <Input disabled value={props.details.input} />
-            </div>
-            <div className={styles.text}>
-                应当输出:
-                <Input disabled value={props.details.output} />
-            </div>
-            <div className={styles.text}>
-                您的输出:
-                <Input style={{color:'red'}} disabled value={props.details.result} />
-            </div>
-        </div>
         )
     }
     return (

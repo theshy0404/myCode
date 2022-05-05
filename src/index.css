@@ -11,7 +11,7 @@ code {
 
 ::-webkit-scrollbar {
     /* display: none; */
-    width: 10px;
+    width: 5px;
     height: 10px;
     background-color: #f0f0f0;
 }

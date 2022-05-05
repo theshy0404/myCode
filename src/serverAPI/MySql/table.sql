@@ -88,7 +88,8 @@ drop table if exists problemtypes;
 create table problemtypes(
 	typeid char(2) primary key,
     text varchar(10),
-    level int
+    level int,
+    parentid char(2) null
 );
 
 -- 难度表 
@@ -169,6 +170,16 @@ create table user_circles(
     jointime varchar(20)
 );
 
+-- 审核不通过记录表
+drop table if exists no_forums;
+create table no_forums(
+	id int auto_increment primary key,
+    forumid char(10),
+    reason varchar(200),
+    userid char(10),
+    adminid char(10)
+);
+
 -- 帖子表
 drop table if exists forums;
 create table forums(
@@ -183,6 +194,17 @@ create table forums(
 	content varchar(2000),
 	title varchar(100),
 	labels varchar(100)
+);
+
+-- 审核帖子表
+drop table if exists nopublicforums;
+create table nopublicforums(
+	circleid char(10),
+	forumid char(10) primary key,
+	userid char(10),
+	content varchar(2000),
+	title varchar(100),
+    ispublic int
 );
 
 -- 帖子一级回复表
@@ -226,6 +248,16 @@ create table plans(
     labels varchar(200)
 );
 
+-- 学习计划部分表
+drop table if exists plan_parts;
+create table plan_parts(
+	id int auto_increment primary key,
+	planid char(10),
+    partid int,
+    partname varchar(20),
+    msg varchar(2000)
+);
+
 -- 学习计划题目表
 drop table if exists plan_problems;
 create table plan_problems(
@@ -246,4 +278,31 @@ create table plan_users(
     points int,
     isend int,
     finishproblemid varchar(1000)
+);
+
+drop table if exists users_messages;
+create table users_messages(
+	id int primary key auto_increment,
+    userid char(10),
+    receiveid char(10),
+    message varchar(2000),
+    time varchar(30),
+    status int, -- 1表示已读,2表示未读 
+    isreceive int,
+    receivemessageid int null
+);
+
+drop table if exists users_friends;
+create table users_friends(
+	id int primary key auto_increment,
+    userid char(10),
+    friendid char(10)
+);
+
+drop table if exists users_shared;
+create table users_shared(
+	id int primary key auto_increment,
+    userid char(10),
+    content varchar(2000),
+    time varchar(30)
 );

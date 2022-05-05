@@ -224,7 +224,7 @@ class Problem extends React.Component<any, any>{
     if (note !== '') {
       return this.setState({ isShowNoteTip: !this.state.isShowNoteTip, editnote: note, selectid: id })
     }
-    this.setState({ isShowNoteTip: !this.state.isShowNoteTip })
+    this.setState({ isShowNoteTip: !this.state.isShowNoteTip, selectid: id })
   }
 
   saveNote() {
@@ -254,9 +254,9 @@ class Problem extends React.Component<any, any>{
   render() {
     const menu = (
       <Menu onClick={e => this.handleChangeLanguage(e)}>
-        <Menu.Item key={1} disabled>
+        {/* <Menu.Item key={1} disabled>
           C
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key={2} disabled={this.state.typeid === 'C'}>
           Python3
         </Menu.Item>

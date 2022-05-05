@@ -250,16 +250,16 @@ class Problem extends React.Component<any, any>{
   render() {
     const menu = (
       <Menu onClick={e => this.handleChangeLanguage(e)}>
-        <Menu.Item key={1} disabled>
+        {/* <Menu.Item key={1} disabled>
           C
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key={2} disabled>
           Python3
         </Menu.Item>
         <Menu.Item key={3}>
           JavaScript
         </Menu.Item>
-        <Menu.Item key={4} disabled>
+        <Menu.Item key={4}>
           MySQL
         </Menu.Item>
       </Menu>

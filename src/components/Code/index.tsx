@@ -20,9 +20,9 @@ class Code extends React.Component<any, any>{
         this.onChange = this.onChange.bind(this);
     }
     componentWillReceiveProps(nextProps: any) {
-        if (nextProps.language == '3') this.setState({ code: 'function ' + nextProps.func + '(' + nextProps.arguements + '){\n\t//write your code...\n}' });
-        else if (nextProps.language == '2') this.setState({ code: 'def ' + nextProps.func + '(' + nextProps.arguements + '):\n\t# write your code...' });
-        else if (nextProps.language == '4') this.setState({ code: '/* write your code... */' });
+        if (nextProps.language == 3) this.setState({ code: 'function ' + nextProps.func + '(' + nextProps.arguements + '){\n\t//write your code...\n}' });  // eslint-disable-line
+        else if (nextProps.language == 2) this.setState({ code: 'def ' + nextProps.func + '(' + nextProps.arguements + '):\n\t# write your code...' });  // eslint-disable-line
+        else if (nextProps.language == 4) this.setState({ code: '/* write your code... */' });  // eslint-disable-line
     }
     editorDidMount(editor: any, monaco: any) {
         editor.focus();

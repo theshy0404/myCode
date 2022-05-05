@@ -1,0 +1,44 @@
+.wrap {
+  display: flex;
+  height: 100%;
+}
+.wrap > div {
+  height: 100%;
+}
+.wrap .aside {
+  flex: 0 0 28%;
+  overflow: auto;
+  border-right: 1px solid #E4E7ED;
+  background: #fff;
+}
+.wrap .aside .friendCard {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  border: 1px solid #E4E7ED;
+  transition: all 0.1s;
+  background: rgba(242, 246, 252, 0.45);
+}
+.wrap .aside .friendCard:hover {
+  cursor: pointer;
+  background: #fff;
+}
+.wrap .aside .friendCard .description {
+  flex: 0 0 72%;
+  margin-left: 10px;
+}
+.wrap .aside .friendCard .description .username {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.wrap .aside .friendCard .description .msg {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wrap .center {
+  flex: 1 1 auto;
+}

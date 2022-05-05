@@ -1,0 +1,104 @@
+.wrap {
+    width: 70%;
+    height: 600px;
+    background: #1C273D;
+    position: fixed;
+    top: 65px;
+    left: 50%;
+    z-index: 100;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+
+    .aside {
+        width: 60px;
+        height: 100%;
+        float: left;
+        text-align: center;
+
+        .roundWrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+
+            .round {
+                border-radius: 50%;
+                width: 9px;
+                height: 9px;
+                border: 1px solid rgba(255, 255, 255, .1);
+            }
+        }
+
+        .menuItem {
+            margin: 5px 10px;
+            padding: 6px 0px;
+            border-radius: 3px;
+            transition: all 0.2s;
+            cursor: pointer;
+
+            &:hover {
+
+                svg {
+                    color: #fff;
+                }
+            }
+
+            &[data-active=true] {
+                background-color: #5B66F4;
+
+                svg {
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    .main {
+        overflow: auto;
+        background: #fff;
+        height: 100%;
+
+        .header {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            border-bottom: 1px solid #E4E7ED;
+
+            .title {
+                font-size: 18px;
+                font-weight: 700;
+                color: rgba(0, 0, 0, .75);
+            }
+        }
+
+        .content {
+            height: ~"calc(100% - 50px)";
+            display: flex;
+
+            >div {
+                height: 100%;
+            }
+
+            .aside {
+                flex: 0 0 28%;
+                padding: 15px;
+                border-right: 1px solid #E4E7ED;
+                overflow: auto;
+            }
+
+            .center {
+                flex: 1 1 auto;
+                padding: 12px;
+            }
+        }
+    }
+}
+
+// @media screen and (min-width:768px) {
+//     .wrap {
+//         width: 500px;
+//     }
+// }
