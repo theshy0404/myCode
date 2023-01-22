@@ -94,12 +94,40 @@
 .wrap .aside {
   width: 25%;
 }
+.wrap .aside .roundWrap {
+  background-color: #fff;
+  border: 1px solid #f5f5f5;
+  border-radius: 6px;
+  padding: 10px 15px;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.wrap .aside .roundWrap:hover {
+  transform: scale(1.02, 1.02);
+}
+.wrap .aside .roundWrap .left {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.wrap .aside .roundWrap .left img {
+  height: 100%;
+  margin-right: 10px;
+}
+.wrap .aside .roundWrap .left text {
+  font-size: 18px;
+}
 .wrap .aside p {
   margin: 15px;
   color: rgba(0, 0, 0, 0.4);
 }
 .wrap .aside .uploadModal {
-  margin: 15px;
   border: 1px solid #f5f5f5;
   border-radius: 4px;
   background-color: #fff;

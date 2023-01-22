@@ -4,11 +4,12 @@ import '../../App.css'
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 import { Button, Cascader, Dropdown, Form, Input, Menu, message, Modal, Pagination, Select, Space, Table, Tag, } from 'antd';
-import { CheckCircleOutlined, DownOutlined, MinusCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, DownOutlined, MinusCircleOutlined, RightOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
 import doRequest from '../../interface/useRequests';
 import { PROBLEM_RANK, PROBLEM_RANK_MAP, PROBLEM_STATUS, PROBLEM_STATUS_MAP, } from '../../interface/Problem';
 import UPLOAD_PROBLEM from '../../shared/images/public/uploadProblem.png';
 import Editor from 'for-editor';
+import ROUND_PNG from '../../shared/images/public/ROUND.svg';
 
 const { Option } = Select;
 
@@ -184,7 +185,7 @@ class ProblemSet extends React.Component<any, TState>{
         render: (name: string, item: any) => <Button onClick={() => this.props.history.push(`/index/problem/${item.problemid}`)} type="link">{name}</Button>,
       },
       {
-        title: '答题准确率',
+        title: '通过率',
         dataIndex: 'rate',
         key: 'rate',
         render: (type: string) => <span className={styles.text}>{type}</span>,
@@ -322,7 +323,14 @@ class ProblemSet extends React.Component<any, TState>{
           </Space>
         </div>
         <div className={styles.aside}>
-          <p>有好题目要和大家分享才行哦</p>
+          <div onClick={() => this.props.history.push('analysis')} className={styles.roundWrap}>
+            <div className={styles.left}>
+              <img alt="好嘛好嘛" src={ROUND_PNG} />
+              <div className={styles.text}>学习情况分析</div>
+            </div>
+            <RightOutlined />
+          </div>
+          <p>分享我的好题目</p>
           <div onClick={() => this.onReadlyUpload()} className={styles.uploadModal}>
             <img alt="uploadModal" src={UPLOAD_PROBLEM} />
           </div>

@@ -1,6 +1,7 @@
 .wrap {
   height: 100%;
   display: flex;
+  overflow: auto;
 }
 .wrap > div {
   height: 100%;
@@ -100,18 +101,27 @@
   font-weight: 600;
   color: rgba(0, 0, 0, 0.65);
 }
-.wrap .content .header .action {
+.wrap .content .header .left {
+  display: flex;
+  align-items: center;
+}
+.wrap .content .header .left .list {
+  margin-left: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.wrap .content .header .left .action {
   border: 1px solid #EBEEF5;
   padding: 5px 12px;
   border-radius: 30px;
   transition: all 0.2s;
 }
-.wrap .content .header .action:hover {
+.wrap .content .header .left .action:hover {
   box-shadow: 0 0px 2px rgba(0, 0, 0, 0.12), 0 0 4px rgba(0, 0, 0, 0.04);
   background-color: rgba(0, 0, 0, 0.03);
   cursor: pointer;
 }
-.wrap .content .header .text {
+.wrap .content .header .left .text {
   padding: 5px 12px;
 }
 .wrap .content .content {

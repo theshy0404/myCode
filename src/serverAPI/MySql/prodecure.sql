@@ -889,3 +889,92 @@ begin
     ($userid,$receiveid,$message,now(),$status,$isreceive,$receivemessageid);
 end $$
 delimiter ;
+
+drop procedure if exists get_user_new_message_liste;
+delimiter $$
+create procedure get_user_new_message_list(
+	$userid char(10)
+)
+begin
+	select distinct userid from users_messages where status = 0 and receiveid = $userid;
+end $$
+delimiter ;
+
+drop procedure if exists get_history_messages_total;
+delimiter $$
+create procedure get_history_messages_total(
+	$userid char(10),
+	$id char(10)
+)
+begin
+	select count(id) into @n from users_messages 
+    where 
+    (userid = $userid or userid = $id) and (receiveid = $userid or receiveid = $id);
+    select @n as total;
+end $$
+delimiter ;
+
+drop procedure if exists get_history_messages;
+delimiter $$
+create procedure get_history_messages(
+	$userid char(10),
+	$id char(10),
+    $before int
+)
+begin
+	select a.id,concat(b.username,'  ',a.time) as title,a.message,a.userid from users_messages a 
+    join users b on a.userid=b.userid
+    where 
+    (a.userid = $userid or a.userid = $id) and (a.receiveid = $userid or a.receiveid = $id)
+    order by id limit $before,10;
+end $$
+delimiter ;
+
+/*
+drop procedure if exists get_user_problem_submit_info_total;
+delimiter $$
+create procedure get_user_problem_submit_info_total(
+	$userid char(10)
+)
+begin
+	declare $count int;
+	set $total = (select count(submitid) from submitItems where userid = $userid and status = 1);
+    select count(a.submitid) as count,c.typeid,c.text as typename 
+    from submititems a 
+    join problems b on a.problemid=b.problemid
+    join 
+end $$
+delimiter ;
+call get_user_problem_submit_info_total('1318936142');
+*/
+
+drop procedure if exists get_select_tree_types;
+delimiter $$
+create procedure get_select_tree_types()
+begin
+	select 'all' as value,'全部' as title,'' as parentid
+	union all
+	select typeid as value,text as title,parentid from problemtypes;
+end $$
+delimiter ;
+call get_select_tree_types();
+
+drop procedure if exists get_analysis_problem;
+delimiter $$
+create procedure get_analysis_problem($userid char(10),$type varchar(20))
+begin
+	if $type = 'all' then
+    set $type='';
+    end if;
+	select 
+    get_last_submit_time(a.problemid,$userid) as time,
+    a.title as problemname,
+    a.rankid as rankid,
+    get_submit_count(a.problemid,$userid) as count,
+    if(get_problem_status(a.problemid,$userid) = 1 or get_problem_status(a.problemid,$userid) = 2,get_problem_status(a.problemid,$userid),0) as status
+    from problems a 
+    join problemranks b on a.rankid=b.rankid
+    where a.typeid like concat('%',$type,'%');
+end $$
+delimiter ;
+-- call get_analysis_problem('1318936142','A1');

@@ -30,7 +30,9 @@
 #             '[{"ProductID": 1, "ProductName": "王老吉凉茶", "EnglishName": "WangLaoJie Herbal Tea", "QuantityPerunit": "330ml*6罐", "Unit": "箱", "Unitprice": 19.80, "SupplierID": "wlj", "CategoryID": "A", "SubcategoryID": "A101", "Photopath": null, "Discontinued": null, "Notes": null}, {"ProductID": 2, "ProductName": "青岛啤酒", "EnglishName": "Tsintao Beer", "QuantityPerunit": "330ml*6罐", "Unit": "箱", "Unitprice": 26.00, "SupplierID": "qtpj", "CategoryID": "A", "SubcategoryID": "A201", "Photopath": null, "Discontinued": null, "Notes": null}, {"ProductID": 3, "ProductName": "华味亨冰糖杨梅干", "EnglishName": "Hua wei hang Dried Arbutus with Rock Sugar", "QuantityPerunit": "180g", "Unit": "罐", "Unitprice": 12.90, "SupplierID": "hwhsp", "CategoryID": "C", "SubcategoryID": "C4", "Photopath": null, "Discontinued": null, "Notes": null}, {"ProductID": 4, "ProductName": "17.5°NFC鲜榨橙汁", "EnglishName": "17.5° Not From Concentrate Fresh Orange Juice", "QuantityPerunit": "330ml*6瓶", "Unit": "箱", "Unitprice": 90.00, "SupplierID": "nfsq", "CategoryID": "A", "SubcategoryID": "A102", "Photopath": null, "Discontinued": null, "Notes": null}, {"ProductID": 5, "ProductName": "哈奇咖喱粉", "EnglishName": "Hachi curry powder", "QuantityPerunit": "40g", "Unit": "瓶", "Unitprice": 32.50, "SupplierID": "whmsp", "CategoryID": "B", "SubcategoryID": "B4", "Photopath": null, "Discontinued": null, "Notes": null}]'),
 #     )
 # )
-a=[1,2,3]
-print(a)
-a=a[::-1]
-print(a)
+import simplejson
+
+# print(simplejson.loads(('{}')))
+# print('1'-1)
+
+print((1,2)[1])

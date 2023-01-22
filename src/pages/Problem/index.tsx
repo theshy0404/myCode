@@ -120,7 +120,7 @@ class Problem extends React.Component<any, any>{
       }
     };
     doRequest(params)
-      .then(res => this.setState({ submitInfo: res.data[0] }, () => console.log(res)))
+      .then(res => this.setState({ submitInfo: res.data[0] }))
       .catch(err => console.log(err));
   }
 
@@ -173,8 +173,10 @@ class Problem extends React.Component<any, any>{
   handleSolutionLabelsSearch() {
     const language = this.state.selectSolutionLabels.filter((value: number) => value < 10)[0];
     let labels = '';
-    this.state.selectSolutionLabels.filter((value: number) => value > 10)
-      .forEach((value: number) => labels += (',' + value));
+    console.log(this.state.selectSolutionLabels)
+    this.state.selectSolutionLabels.filter((value: string) => value.length > 1)
+      .forEach((value: string) => labels += (',' + value));
+    console.log(labels)
     doRequest({
       url: '/label/solution',
       type: 'GET',

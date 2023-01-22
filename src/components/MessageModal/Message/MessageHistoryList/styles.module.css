@@ -1,0 +1,28 @@
+.wrap {
+  width: 100%;
+  height: 100%;
+}
+.wrap .content {
+  height: 92%;
+  overflow: hidden;
+}
+.wrap .content .messageItem {
+  margin-bottom: 15px;
+}
+.wrap .content .messageItem .title {
+  color: #909399;
+  font-size: 12px;
+}
+.wrap .content .messageItem .message {
+  color: #606266;
+  font-size: 14px;
+}
+.wrap .footer {
+  height: 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:global .ant-drawer-body {
+  padding: 12px;
+}

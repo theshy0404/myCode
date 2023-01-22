@@ -25,7 +25,7 @@ class AuthStore {
         this.userid = user.userid;
         this.username = user.username;
         this.rankno = user.rankno || undefined;
-        UserMessageStore.connectWs();
+        UserMessageStore._init();
     }
 
     @action exitLogin(): void {

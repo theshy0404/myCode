@@ -24,19 +24,19 @@ def user_message_socket(ws):
         action = dataList[0]
         if action == 'login':
             usersid = dataList[1]
-            print(usersid)
             usersWs[usersid] = ws
             ws.send('login success/myws/{"code":200}')
         elif action == 'message':
             message = dataList[1]
-            params=simplejson.loads(message)
+            params = simplejson.loads(message)
             dosql = open_sql('mycode')
             sql = f"call sendMessage('{params.get('user')}','{params.get('to')}','{params.get('message')}',0,0,null);"
             dosql = update_sql(dosql, sql)
             close_sql(dosql)
             for userid in usersWs.keys():
                 try:
-                    usersWs[userid].send('message' + '/myws/' + message)
+                    if (userid == params.get('to')):
+                        usersWs[userid].send('message' + '/myws/' + message)
                 except:
                     usersWs.pop(usersid)
 

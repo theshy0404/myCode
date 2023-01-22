@@ -43,7 +43,7 @@ export enum PROBLEM_STATUS {
 }
 
 export const PROBLEM_STATUS_MAP = {
-    [PROBLEM_STATUS.PASS]: '通过',
-    [PROBLEM_STATUS.WRONG]: '出错',
+    [PROBLEM_STATUS.PASS]: '已通过',
+    [PROBLEM_STATUS.WRONG]: '未通过',
     [PROBLEM_STATUS.NONE]: '未开始',
 };

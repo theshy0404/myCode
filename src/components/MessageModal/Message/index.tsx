@@ -1,5 +1,5 @@
-import { SearchOutlined, SendOutlined, TeamOutlined, UsergroupAddOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Input, message as antdMessage } from 'antd';
+import { CommentOutlined, SearchOutlined, SendOutlined, TeamOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { Avatar, Badge, Drawer, Input, message as antdMessage, } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { WaterMark } from '@ant-design/pro-layout';
@@ -10,11 +10,14 @@ import AuthStore from '../../../store/AuthStore';
 import doRequest from '../../../interface/useRequests';
 import LOADING_GIF from '../../../shared/images/public/LOADING_GIF.gif';
 import CAT_PNG from '../../../shared/images/public/CAT.png';
+import MessageHistoryList from './MessageHistoryList';
+import './antd.css';
 
 const MessageContent = observer((props: any) => {
     const [loading, setLoading] = useState(true);
     const [detail, setDetail] = useState(null as any);
     const [message, changeMessage] = useState('');
+    const [isMessageHistoryListShow, changeShow] = useState(false);
 
     const messageRef = useRef(null as any);
 
@@ -81,6 +84,13 @@ const MessageContent = observer((props: any) => {
         changeMessage('');
     }
 
+    const onMessageDrawerClose = () => {
+        changeShow(false);
+    }
+    const onMessageDrawerOpen = () => {
+        changeShow(true);
+    }
+
     return (
         <div className={styles.content}>
             {
@@ -93,25 +103,42 @@ const MessageContent = observer((props: any) => {
                     <>
                         <div className={styles.header}>
                             <div className={styles.username}>{detail.username}</div>
-                            {
-                                detail.isfriend === 1
-                                    ? <div className={styles.text}>
-                                        <TeamOutlined />好友
-                                    </div>
-                                    : <div className={styles.action}>
-                                        <UsergroupAddOutlined />加为好友
-                                    </div>
-                            }
+                            <div className={styles.left}>
+                                {
+                                    detail.isfriend === 1
+                                        ? <div className={styles.text}>
+                                            <TeamOutlined />好友
+                                        </div>
+                                        : <div className={styles.action}>
+                                            <UsergroupAddOutlined />加为好友
+                                        </div>
+                                }
+                                <div onClick={onMessageDrawerOpen} className={styles.list}><CommentOutlined /></div>
+                            </div>
                         </div>
                         <WaterMark gapY={120} content={AuthStore.username}>
                             <div className={styles.content} ref={messageRef}>
                                 {
                                     UserMessageStore.messageList.map((item: any) => renderMessage(item))
                                 }
+                                <Drawer
+                                    title="聊天记录"
+                                    placement="right"
+                                    closable={false}
+                                    onClose={onMessageDrawerClose}
+                                    visible={isMessageHistoryListShow}
+                                    getContainer={false}
+                                    style={{ position: 'absolute' }}
+                                    width={640}
+                                >
+                                    <MessageHistoryList />
+                                </Drawer>
                             </div>
                             <div className={styles.footer}>
-                                <Input.TextArea value={message} onChange={e => changeMessage(e.target.value)} rows={4} style={{ zIndex: 10 }} />
-                                <div onClick={onSendMessage} className={styles.icon}><SendOutlined /></div>
+                                <Input.TextArea onKeyDown={e => { if (e.keyCode === 13) { e.preventDefault(); onSendMessage(); } }} value={message} onChange={e => changeMessage(e.target.value)} rows={4} style={{ zIndex: 10 }} />
+                                <div onClick={onSendMessage} className={styles.icon}>
+                                    <SendOutlined />
+                                </div>
                             </div>
                         </WaterMark>
                     </>

@@ -62,6 +62,26 @@ def product_info():
         return '暂不支持数据库查询以外的操作'
 
 
+@app.route('/user/message/new')
+def user_message_new():
+    dosql = open_sql('mycode')
+    if request.method == 'GET':
+        userid = request.args.get('userid')
+        sql = f"call get_user_new_message_list('{userid}');"
+        results = simplejson.loads('{}')
+        result = simplejson.loads(do_sql(dosql, sql))
+        print(result)
+        if len(result) == 0:
+            results["hasNew"] = 0
+        else:
+            results["hasNew"] = 1
+            results["userList"] = [item.get('userid') for item in result]
+        close_sql(dosql)
+        print(results)
+        results = simplejson.dumps([results])
+        return results
+
+
 @app.route('/user/message')
 def user_message_info():
     if request.method == 'GET':
@@ -92,6 +112,24 @@ def user_message_detail():
         result = simplejson.loads(do_sql(dosql, sql))[0]
         result["messages"] = messages
         close_sql(dosql)
+        return simplejson.dumps([result])
+
+
+@app.route('/user/message/history')
+def user_message_history():
+    if request.method == 'GET':
+        dosql = open_sql('mycode')
+        result = simplejson.loads('{}')
+        userid = request.args.get('userid')
+        id = request.args.get('id')
+        page = int(request.args.get('page'))
+        sql = f"call get_history_messages_total('{userid}','{id}');"
+        total = simplejson.loads(do_sql(dosql, sql))[0].get('total')
+        result["total"] = total
+        sql = f"call get_history_messages('{userid}','{id}',{(page - 1) * 10});"
+        result["messageList"] = simplejson.loads(do_sql(dosql, sql))
+        close_sql(dosql)
+        print(result)
         return simplejson.dumps([result])
 
 
@@ -319,11 +357,14 @@ def get_problem():
         output = params.get('output')
         if output != None:
             output = output.replace("\'", "\\\'")
+        msg = params.get('msg')
+        if msg != None:
+            msg = msg.replace("\'", "\\\'")
         if params.get('problemid') == None:
             params["problemid"] = str(random.randint(1111111111, 9999999999))
-            sql = f"call add_problem('{params.get('problemid')}','{params.get('title')}','{params.get('msg')}','{input}','{output}',{params.get('rankid')},'{params.get('labels')}','{params.get('typeid')}','{params.get('func')}','{params.get('arguements')}','{params.get('template')}');"
+            sql = f"call add_problem('{params.get('problemid')}','{params.get('title')}','{msg}','{input}','{output}',{params.get('rankid')},'{params.get('labels')}','{params.get('typeid')}','{params.get('func')}','{params.get('arguements')}','{params.get('template')}');"
         else:
-            sql = f"call edit_problem('{params.get('problemid')}','{params.get('title')}','{params.get('msg')}','{input}','{output}',{params.get('rankid')},'{params.get('labels')}','{params.get('typeid')}','{params.get('func')}','{params.get('arguements')}','{params.get('template')}');"
+            sql = f"call edit_problem('{params.get('problemid')}','{params.get('title')}','{msg}','{input}','{output}',{params.get('rankid')},'{params.get('labels')}','{params.get('typeid')}','{params.get('func')}','{params.get('arguements')}','{params.get('template')}');"
         print(sql)
         dosql = update_sql(dosql, sql)
         close_sql(dosql)
@@ -1014,6 +1055,98 @@ def label_solution():
             res.data = new_results
         close_sql(dosql)
     return res
+
+
+# @app.route('/problem/analysis/main', methods=['GET', 'POST'])
+# def problem_analysis_main():
+#     dosql = open_sql('mycode')
+#     if request.method == 'GET':
+#         res = make_response()
+#         userid = request.args.get('userid')
+#         results = simplejson.loads('{}')
+#         type_counts=[]
+#         main_types = simplejson.loads(do_sql(dosql,'select'))
+#         close_sql(dosql)
+#         res.data = results
+#     return res
+
+
+@app.route('/problem/analysis/type', methods=['GET', 'POST'])
+def problem_analysis_type():
+    dosql = open_sql('mycode')
+    if request.method == 'GET':
+        res = make_response()
+        results = simplejson.loads('{}')
+        results["treeData"] = do_sql(dosql, "call get_select_tree_types();")
+        close_sql(dosql)
+        res.data = simplejson.dumps(results)
+    return res
+
+
+@app.route('/problem/analysis/problems', methods=['GET', 'POST'])
+def problem_analysis_problems():
+    dosql = open_sql('mycode')
+    if request.method == 'GET':
+        res = make_response()
+        userid = request.args.get('userid')
+        type = request.args.get('type')
+        results = simplejson.loads('{}')
+        results["problemList"] = do_sql(dosql, f"call get_analysis_problem('{userid}','{type}');")
+        close_sql(dosql)
+        res.data = simplejson.dumps(results)
+    return res
+
+
+@app.route('/problem/analysis/round', methods=['GET', 'POST'])
+def problem_analysis_round():
+    dosql = open_sql('mycode')
+    if request.method == 'GET':
+        res = make_response()
+        userid = request.args.get('userid')
+        type = request.args.get('type')
+        rankid_list = [1, 2, 3]
+        status_list = [0, 1, 2]
+        count_list = []
+        for rankid in rankid_list:
+            for status in status_list:
+                sql = f"select get_user_problem_count('{userid}',{status},{rankid},'{type}') as count;"
+                count_list.append(simplejson.loads(do_sql(dosql, sql))[0].get('count'))
+                print(rankid,status,simplejson.loads(do_sql(dosql, sql))[0])
+        results = simplejson.loads('{}')
+        results["countList"] = count_list
+        close_sql(dosql)
+        res.data = simplejson.dumps(results)
+        print(results)
+    return res
+
+
+@app.route('/problem/analysis/avg', methods=['GET', 'POST'])
+def problem_analysis_avg():
+    dosql = open_sql('mycode')
+    if request.method == 'GET':
+        res = make_response()
+        userid = request.args.get('userid')
+        type = request.args.get('type')
+        mine_list = []
+        other_list = []
+        rank_list = [1, 2, 3]
+        for rank in rank_list:
+            sql = f"select get_user_problem_submit_rate('{userid}',{rank},'{type}') as rate;"
+            rate = simplejson.loads(do_sql(dosql, sql))[0].get('rate')
+            if rate == None:
+                rate = 0
+            mine_list.append(round(rate,2))
+            sql = f"select get_all_problem_submit_rate({rank},'{type}') as rate;"
+            rate = simplejson.loads(do_sql(dosql, sql))[0].get('rate')
+            if rate == None:
+                rate = 0
+            other_list.append(round(rate,2))
+        results = simplejson.loads('{}')
+        results["rateList"] = [mine_list, other_list]
+        close_sql(dosql)
+        res.data = simplejson.dumps(results)
+    return res
+
 
 
 if __name__ == '__main__':

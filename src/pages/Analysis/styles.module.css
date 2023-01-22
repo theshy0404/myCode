@@ -1,0 +1,37 @@
+.wrap {
+  height: calc(100vh - 90px);
+  display: flex;
+  align-items: flex-start;
+  padding: 0px 120px;
+  justify-content: space-between;
+}
+.wrap .panel {
+  background-color: #fff;
+  height: 100%;
+  overflow: auto;
+  margin: 15px;
+  flex: 0 0 60%;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  padding: 15px;
+}
+.wrap .panel .button {
+  color: #ffffff;
+  font-weight: 400;
+  background-color: #ffa116;
+  border-radius: 4px;
+  padding: 8px 20px;
+  cursor: pointer;
+}
+.wrap .aside {
+  flex: 1 1 auto;
+  height: 100%;
+  margin: 15px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.title {
+  cursor: pointer;
+  color: #40a9ff;
+}

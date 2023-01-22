@@ -3,12 +3,12 @@
   height: 600px;
   background: #1C273D;
   position: fixed;
-  top: 65px;
+  top: 55px;
   left: 50%;
   z-index: 100;
   transform: translateX(-50%);
   border-radius: 2px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .wrap .aside {
   width: 60px;
@@ -48,6 +48,8 @@
   overflow: auto;
   background: #fff;
   height: 100%;
+  border: 1px solid #E4E7ED;
+  overflow: hidden;
 }
 .wrap .main .header {
   height: 50px;

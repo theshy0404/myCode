@@ -35,9 +35,9 @@ class Login extends React.Component<any, TState>{
 
   render() {
     const { modal } = this.state;
-    const title = modal === 'login' ? 'Sign in to MyCode' : 'Register in to MyCode';
-    const tip = modal === 'login' ? 'New to MyCode? ' : 'Have a MyCode account? ';
-    const href = modal === 'login' ? 'Create an account. ' : 'To login.';
+    const title = modal === 'login' ? '登录 MyCode' : '注册 MyCode';
+    const tip = modal === 'login' ? '第一次来MyCode? ' : '已有账号? ';
+    const href = modal === 'login' ? '创建账号 ' : '去登录';
     return (
       <div className={styles.wrap}>
         <img className={styles.logo} alt="logo" src={Logo}></img>

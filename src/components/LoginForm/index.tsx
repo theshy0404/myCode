@@ -33,7 +33,7 @@ class Login extends React.Component<any, TState>{
   }
 
   componentDidMount() {
-    this.passwordInput.current&&this.passwordInput.current.focus();
+    this.passwordInput.current && this.passwordInput.current.focus();
   }
 
   handleChangeLoginValue(event: any, key: string): void {
@@ -86,7 +86,7 @@ class Login extends React.Component<any, TState>{
         <div className={styles.form}>
           <div className={styles.formItem}>
             <div className={styles.label}>
-              Username or email address
+              用户名/用户账号
             </div>
             <div className={styles.input}>
               <input autoComplete="off" onChange={e => this.handleChangeLoginValue(e, 'username')} value={loginInfo.username} placeholder="like theshy0404..." type="text"></input>
@@ -94,9 +94,9 @@ class Login extends React.Component<any, TState>{
           </div>
           <div className={styles.formItem}>
             <div className={styles.label}>
-              Password
+              密码
               <div className={styles.passwordHref}>
-                Forgot password?
+                忘记密码?
               </div>
             </div>
             <div className={styles.input}>

@@ -12,6 +12,7 @@ import MessageModal from '../../components/MessageModal';
 import { CSSTransition } from 'react-transition-group';
 import UserMessageStore from '../../store/UserMessageStore';
 import CAT_PNG from '../../shared/images/public/CAT.png';
+import AuthStore from '../../store/AuthStore';
 
 type TAvtive = 'problemset' | 'learn' | 'circle' | 'answer';
 type TState = {
@@ -28,6 +29,7 @@ const CircleForums = React.lazy(() => import('../CircleForums'));
 const Learn = React.lazy(() => import('../Learn'));
 const PlanDetails = React.lazy(() => import('../PlanDetail'));
 const PlanProblem = React.lazy(() => import('../PlanProblem'));
+const Analysis = React.lazy(() => import('../Analysis'));
 const Loading = () => <Spin indicator={antIcon} />
 
 const Menu = (props: any) => {
@@ -35,6 +37,7 @@ const Menu = (props: any) => {
     { id: 1, title: '个人资料' },
     { id: 2, title: '做题记录' },
     { id: 3, title: '我的发帖' },
+    { id: 4, title: '做题分析' },
   ]
   return (
     <div className={styles.menu}>
@@ -79,6 +82,11 @@ class Main extends React.Component<any, TState> {
     })
   }
 
+  toLogin() {
+    AuthStore.exitLogin();
+    this.props.history.replace('/login');
+  }
+
   render() {
     const navLists: Array<{ id: TAvtive, title: string }> = [
       { id: 'problemset', title: '题库' },
@@ -112,7 +120,7 @@ class Main extends React.Component<any, TState> {
             </Badge>
             {AuthStore.isLogin && <Avatar style={{ marginLeft: '20px' }} size={36} src={AuthStore.userid === '1318936142' ? UserAvatar : CAT_PNG}></Avatar>}
             <span className={styles.user}>
-              <Popover placement="bottomRight" content={() => <Menu toLogin={() => this.props.history.replace('/login')} AuthStore={this.props.AuthStore} />} trigger="hover">
+              <Popover placement="bottomRight" content={() => <Menu toLogin={() => this.toLogin()} AuthStore={this.props.AuthStore} />} trigger="hover">
                 <div className={styles.user}>{AuthStore.isLogin ? AuthStore.username : '未登录'}<DownOutlined style={{ fontSize: '10px' }} /></div>
               </Popover>
             </span>
@@ -131,6 +139,7 @@ class Main extends React.Component<any, TState> {
               <Route exact path="/index/circle/:id"><CircleDetails /></Route>
               <Route exact path="/index/forum/:id"><CircleForums /></Route>
               <Route exact path="/index/answer">问答</Route>
+              <Route exact path="/index/analysis"><Analysis /></Route>
               <Route exact path="/index"><Redirect from="" to="/index/problemset" /></Route>
               <Route path="/index*"><Redirect from="" to="/index/error" /></Route>
             </Switch>

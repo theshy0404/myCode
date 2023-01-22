@@ -26,6 +26,7 @@ class UserMessageStore {
     @observable activeUser: string;
     @observable isShowMessageModal: boolean;
     @observable isShowNew: boolean;
+    @observable newUserList: Array<string>;
 
     constructor() {
         makeObservable(this);
@@ -34,11 +35,23 @@ class UserMessageStore {
         this.activeUser = '';
         this.isShowMessageModal = false;
         this.isShowNew = false;
+        this.newUserList = [];
+        this.getUserMessage = this.getUserMessage.bind(this);
     }
 
     @action
-    connectWs() {
+    _init() {
         WebSocketStore.connectMessageWebSocket();
+        let params = {
+            url: '/user/message/new', type: 'GET', needAuth: true,
+        }
+        doRequest(params).then(res => {
+            const result = res.data[0];
+            if (result.hasNew === 1) {
+                this.isShowNew = true;
+                this.newUserList = result.userList;
+            }
+        });
     }
 
     @action
@@ -58,6 +71,7 @@ class UserMessageStore {
 
     @action
     getUserMessage(useridList: Array<string>, userid: string) {
+        console.log(useridList);
         const params = {
             url: '/user/message', type: 'GET', needAuth: true,
             params: { useridList: useridList.join(','), userid },
@@ -93,27 +107,20 @@ class UserMessageStore {
             return;
         }
         if (AuthStore.userid === message.to) {
-            if (this.activeUser === message.user) {
-                this.messageList.push({
-                    id: new Date().getTime(),
-                    time: new Date().toString().substring(16, 21),
-                    content: message.message,
-                    isowned: false,
-                });
-                const params = {
-                    url: '/user/message/detail', type: 'GET', needAuth: true, params: {
-                        id: message.to,
-                    }
-                }
-                doRequest(params);
-            }
-            else {
-                if (!this.isShowMessageModal) {
-                    this.isShowNew = true;
-                    notification.open({
-                        message: '您有新的消息',
-                        description: "点击左上角查看: " + message.message.substring(0, 10) + '...',
+            if (this.isShowMessageModal) {
+                if (this.activeUser === message.user) {
+                    this.messageList.push({
+                        id: new Date().getTime(),
+                        time: new Date().toString().substring(16, 21),
+                        content: message.message,
+                        isowned: false,
                     });
+                    const params = {
+                        url: '/user/message/detail', type: 'GET', needAuth: true, params: {
+                            id: message.to,
+                        }
+                    }
+                    doRequest(params);
                 }
                 else {
                     const userIndex = this.userMessageList.findIndex(item => item.userid === message.user);
@@ -127,6 +134,47 @@ class UserMessageStore {
                     }
                 }
             }
+            else {
+                this.isShowNew = true;
+                notification.open({
+                    message: '您有新的消息',
+                    description: "点击左上角查看: " + message.message.substring(0, 10) + '...',
+                });
+            }
+            // if (this.activeUser === message.user) {
+            //     this.messageList.push({
+            //         id: new Date().getTime(),
+            //         time: new Date().toString().substring(16, 21),
+            //         content: message.message,
+            //         isowned: false,
+            //     });
+            //     const params = {
+            //         url: '/user/message/detail', type: 'GET', needAuth: true, params: {
+            //             id: message.to,
+            //         }
+            //     }
+            //     doRequest(params);
+            // }
+            // else {
+            //     if (!this.isShowMessageModal) {
+            //         this.isShowNew = true;
+            //         notification.open({
+            //             message: '您有新的消息',
+            //             description: "点击左上角查看: " + message.message.substring(0, 10) + '...',
+            //         });
+            //     }
+            //     else {
+            //         const userIndex = this.userMessageList.findIndex(item => item.userid === message.user);
+            //         if (userIndex !== -1) {
+            //             this.userMessageList = this.userMessageList.map((item, index) => {
+            //                 if (index === userIndex) {
+            //                     return { ...item, content: message.message, count: item.count + 1, time: 'Just now' };
+            //                 }
+            //                 return { ...item };
+            //             })
+            //         }
+            //     }
+            // }
             return;
         }
     }

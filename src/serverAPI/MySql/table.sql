@@ -86,11 +86,12 @@ create table submitItems(
 -- 类别表
 drop table if exists problemtypes;
 create table problemtypes(
-	typeid char(2) primary key,
+	typeid char(20) primary key,
     text varchar(10),
     level int,
     parentid char(2) null
 );
+select * from problemtypes;
 
 -- 难度表 
 drop table if exists problemranks;
